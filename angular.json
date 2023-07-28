@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "babylon": {
+        "babylon-ng": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -75,14 +75,14 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "babylon:build"
+                        "browserTarget": "babylon-ng:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "babylon:build:production"
+                            "browserTarget": "babylon-ng:build:production"
                         },
                         "development": {
-                            "browserTarget": "babylon:build:development"
+                            "browserTarget": "babylon-ng:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "babylon:build"
+                        "browserTarget": "babylon-ng:build"
                     }
                 },
                 "test": {
@@ -130,7 +130,7 @@
             }
         }
     },
-    "defaultProject": "babylon",
+    "defaultProject": "babylon-ng",
     "cli": {
       "analytics": false
     }
