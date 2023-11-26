@@ -1,1 +1,10 @@
-<p>import-data works!</p>
+<p-fileUpload (uploadHandler)="uploadFiles()" (onClear)="clearFiles()" (onSelect)="onLoad($event)"
+              [showCancelButton]="true"
+              [customUpload]="true" [multiple]="false" accept=".csv">
+    <ng-template let-file pTemplate="file">
+        <div *ngFor="let file of uploadedFiles; index as i">
+            {{i}} | {{file.name}} | {{file.size * 1000 | number}} kb |
+            <a (click)="onDelete(i)"><i class="pi pi-ban"></i></a>
+        </div>
+    </ng-template>
+</p-fileUpload>

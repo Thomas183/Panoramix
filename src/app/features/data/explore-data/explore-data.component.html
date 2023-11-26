@@ -1,1 +1,22 @@
-<p>explore-data works!</p>
+<div #tableWrapper>
+    <p-table [paginator]="true" [rows]="rowsPerPage" [value]="data" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nom du fichier</th>
+                <th>Taille</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td>{{ data.name }}</td>
+                <td>{{ data.size * 1000 | number }} KB</td>
+                <td>
+                    <a (click)="test()">Visualiser</a>
+                    |
+                    <a>Supprimer</a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
