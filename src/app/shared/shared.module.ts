@@ -11,5 +11,6 @@ import {DataService} from "./services/data.service";
   imports: [
     CommonModule
   ]
+
 })
 export class SharedModule { }

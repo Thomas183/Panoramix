@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -171,6 +171,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
         ProgressBarModule,
         RadioButtonModule,
         RatingModule,
+        ReactiveFormsModule,
         RippleModule,
         ScrollPanelModule,
         ScrollTopModule,
@@ -197,6 +198,9 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
         TreeTableModule,
         VirtualScrollerModule,
     ],
+  exports: [
+    ReactiveFormsModule,
+  ],
     declarations: [
         AppComponent,
         AppMainComponent,

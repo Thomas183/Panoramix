@@ -8,6 +8,7 @@ import {CreateUserComponent} from "./create-user/create-user.component";
 import {ManageUsersComponent} from "./manage-users/manage-users.component";
 import {DropdownModule} from "primeng/dropdown";
 import {AuthRoutingModule} from "./auth-routing.module";
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {AuthRoutingModule} from "./auth-routing.module";
         LoginComponent,
         CreateUserComponent,
         ManageUsersComponent,
+    
     ],
     imports: [
         CommonModule,
@@ -23,7 +25,12 @@ import {AuthRoutingModule} from "./auth-routing.module";
         RippleModule,
         DropdownModule,
         AuthRoutingModule,
+        ReactiveFormsModule
+    ],
+    exports: [
+        ReactiveFormsModule
     ]
+
 })
 export class AuthModule {
 }
