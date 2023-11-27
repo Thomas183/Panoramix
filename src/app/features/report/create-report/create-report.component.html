@@ -1,5 +1,41 @@
 <h1>Nouveau rapport</h1>
 
+    <div class="container">   
+        <form [formGroup]="registerForm" (ngSubmit)="createReport()">
+
+            <div class="column">
+                <div class="my-3">
+                    <span class="p-float-label">
+                        <input id="name" type="text" formControlName="name"  pInputText [(ngModel)]="value">
+                        <label htmlFor="Nom du rapport">Nom du rapport</label>
+                    </span>
+                
+                </div>
+                
+                <div class="my-3">
+                    <textarea id="description" formControlName="description" placeholder="Description ..." rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="my-3">
+                    <h3>Fichiers</h3>
+                </div>
+                <div class="my-3">
+                    <h3>le tableau</h3>
+                </div>
+                <div class="my-3">
+                    <button class="btn" routerLink="" value="Retour">Retour</button>
+                    <!-- Gérer le retour vers la page "rapport" -->
+                    <input class="btn" type="submit" routerLink="/report/myReports" value="Continuer">
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+<!-- 
 <div>
     <h2>Détails</h2>
     <div>
@@ -24,11 +60,10 @@
                 </div>
                 <div id="divbtn">
                     <button class="btn" value="Retour">Retour</button>
-                    <!-- Gérer le retour vers la page "rapport" -->
                     <input class="btn" type="submit" value="Continuer">
                 </div>
             </div>
 
         </form>
     </div>
-</div>
+</div> -->

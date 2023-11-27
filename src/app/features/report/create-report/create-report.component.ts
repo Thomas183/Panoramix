@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { report } from 'src/app/shared/models/report';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-create-report',
@@ -9,6 +10,7 @@ import { report } from 'src/app/shared/models/report';
 })
 export class CreateReportComponent {
 
+  value : string;
   report: report[] = [];
 
   //formulaire
