@@ -6,34 +6,35 @@ import { ParseResult } from 'papaparse';
 @Injectable({
     providedIn: 'root'
 })
-export class DataService {
+export class DataParserService {
 
     constructor() {
     }
 
-    parseCsvFile(event: any) : StructuredCsv | null {
-        const file = event.target.files[0];
-
-        Papa.parse(file, {
-            complete: (result) => {
-                const title = this.getFileInfo(event).file.name
-                return this.structurePapaparseResult(event, title)
-            }
-        })
-        return null
+    parseCsvFile(file: string, title: string): Promise<StructuredCsv> {
+        return new Promise((resolve, reject) => {
+            Papa.parse(file, {
+                complete: (result) => {
+                    resolve(this.structurePapaparseResult(result, title));
+                },
+                header: true,
+                error: (error) => {
+                    console.error('Error parsing CSV:', error);
+                    reject(error);
+                }
+            });
+        });
     }
 
-    getFileInfo(event: any) {
-        return event.files[0];
-    }
-
-    structurePapaparseResult(papaResult: ParseResult<any>, title: string) : StructuredCsv {
+    private structurePapaparseResult(papaResult: ParseResult<any>, title: string) : StructuredCsv {
         const customObject: StructuredCsv = {
             table: title,
             fact: false,
             headers: [],
             data: papaResult.data
         };
+
+
 
         const firstRow = papaResult.data[0]
         for (const header of papaResult.meta.fields!) {
@@ -55,8 +56,8 @@ export class DataService {
                 pk: false,
                 fk: null,
             })
-        }
 
+        }
         return customObject
     }
 

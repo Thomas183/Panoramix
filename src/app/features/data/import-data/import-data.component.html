@@ -1,8 +1,8 @@
-<p-fileUpload (uploadHandler)="uploadFiles()" (onClear)="clearFiles()" (onSelect)="onLoad($event)"
+<p-fileUpload (uploadHandler)="uploadFiles()" (onClear)="clearFiles()" (onSelect)="onSelect($event)"
               [showCancelButton]="true"
               [customUpload]="true" [multiple]="false" accept=".csv">
     <ng-template let-file pTemplate="file">
-        <div *ngFor="let file of uploadedFiles; index as i">
+        <div *ngFor="let file of fileInfoList; index as i">
             {{i}} | {{file.name}} | {{file.size * 1000 | number}} kb |
             <a (click)="onDelete(i)"><i class="pi pi-ban"></i></a>
         </div>

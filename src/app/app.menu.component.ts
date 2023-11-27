@@ -18,7 +18,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Acceuil', icon: 'pi pi-fw pi-home',
                 items: [
-                    {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/']}
+                    {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/']},
                 ]
             },
             {
@@ -35,6 +35,7 @@ export class AppMenuComponent implements OnInit {
                     {label: 'Créer un nouveau rapport', icon: 'pi pi-fw pi-plus', routerLink: ['report/createReport']},
                     {label: 'Mes Rapports', icon: 'pi pi-fw pi-eye', routerLink: ['report/myReports']},
                     {label: 'Explorer les rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['report/exploreReports']},
+                    {label: 'EditReport (Testing)', icon: 'pi pi-fw pi-ban', routerLink: ['report/editReport']},
                 ]
             },
             {
