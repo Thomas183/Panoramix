@@ -1,60 +1,59 @@
 <div class="card">
-    <div class="card-header text-black bg-primary">Créer un compte</div>
-<div class="card-body">
+    <div class="card-header text-black bg-primary">CREER UN COMPTE</div>
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="createUser()">
+            <div>
+                <div>
+                    <label>Nom</label><br>
+                    <textarea rows="1" cols="30" pInputTextarea formControlName="lastname"></textarea>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('lastname')?.touched && registerForm.get('lastname')?.errors?.['required']">Champs
+                        requis</span>
+                    
+                </div>
+                <div>
+                    <label>Prénom</label><br>
+                    <textarea rows="1" cols="30" pInputTextarea formControlName="firstname"></textarea>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('firstname')?.touched && registerForm.get('firstname')?.errors?.['required']">Champs
+                        requis</span>
+                </div>
+                <div>
+                    <label>Email</label><br>
+                    <textarea rows="1" cols="30" pInputTextarea formControlName="email"></textarea>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']">Champs
+                        requis</span>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['pattern']">format
+                        email incorrect</span>
+                    
+                </div>
+                <div>
+                    <label>Date de naissance</label><br>
+                    <textarea rows="1" cols="30" pInputTextarea formControlName="dateOfBirth" placeholder="jj/mm/aaaa"></textarea>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['required']">Champs
+                        requis</span>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['pattern']">format
+                        de date incorrect</span>
+                    
+                </div>
 
-
-    
-    
-    
-
-
-
-
-
-    <form [formGroup]="registerForm" (ngSubmit)="createUser()">
-        <!-- c'est dans l'input ici quelque part que je mets le choix du role dans une liste (utilisateur / administrateur) -->
-        <div>
-            <label>Nom</label><br>
-            <input type="text" placeholder="nom" formControlName="lastname">
-            <span
-                *ngIf="registerForm.get('lastname')?.touched && registerForm.get('lastname')?.errors?.['required']">Champs
-                requis</span>
-                <br>
-        </div>
-        <div>
-            <label>Prénom</label><br>
-            <input type="text" placeholder="prénom" formControlName="firstname">
-            <span
-                *ngIf="registerForm.get('firstname')?.touched && registerForm.get('firstname')?.errors?.['required']">Champs
-                requis</span>
-            <br>
-        </div>
-        <div>
-            <label>email</label><br>
-            <input type="text" placeholder="aaa@bbb.ccc" formControlName="email">
-            <span *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']">Champs requis</span>
-            <span *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['pattern']">format email incorrect</span>
-            <br>
-        </div>
-        <div>
-            <label>date de naissance</label><br>
-            <input type="text" placeholder="jj/mm/aaaa" formControlName="dateOfBirth">
-            <span *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['required']">Champs requis</span>
-            <span *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['pattern']">format de date incorrect</span>
-            <br>
-        </div>
-
-        <div>
-            <label for="role">Rôle</label><br>
-            <select name="role" id="role" formControlName="role">
-                <option value="utilisateur">Utilisateur</option>
-                <option value="administrateur">Administrateur</option>
-            </select>
-              <span *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.errors?.['required']">Champs requis</span>
-        </div>
-        <div>
-            <input type="submit" value="Ajouter">
-        </div>
-    </form>
-        </div>
-        </div>
+                <div>
+                    <label for="role" class="form-control">Rôle</label><br>
+                    <select name="role" id="role" formControlName="role">
+                        <option value="utilisateur">Utilisateur</option>
+                        <option value="administrateur">Administrateur</option>
+                    </select>
+                    <span class="text-primary"
+                        *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.errors?.['required']">Choisissez un rôle</span>
+                </div>
+                <div>
+                    <p-button label="Envoyer" type="submit"></p-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
@@ -19,6 +20,7 @@ constructor(private _fb : FormBuilder) {
     role : [null,[Validators.required]]
   })
 }
+  
 
 createUser() : void {
 
