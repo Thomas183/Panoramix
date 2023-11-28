@@ -19,14 +19,29 @@
 
             <div class="column">
                 <div class="my-3">
-                    <h3>Fichiers</h3>
+                    <h5>Sélection des fichiers</h5>
                 </div>
                 <div class="my-3">
-                    <h3>le tableau</h3>
+
+                    <div class="card flex justify-content-center">
+                        <p-listbox
+                            [options]="items"
+                            optionLabel="name"
+                            [style]="{ width: '25rem' }"
+                            [filter]="true"
+                            [multiple]="true"
+                            [checkbox]="true"
+                            [showToggleAll]="false"
+                            [metaKeySelection]="false"
+                            (onSelectAllChange)="onSelectAllChange($event)"
+                            (onChange)="onChange($event)"
+                            [listStyle]="{ 'max-height': '220px' }"
+                        ></p-listbox>
+                    </div>
                 </div>
                 <div class="my-3">
                     <button class="btn" routerLink="" value="Retour">Retour</button>
-                    <!-- Gérer le retour vers la page "rapport" -->
+                    <!-- Gérer le retour vers la page "rapport" voir en fonction de si les info sont correctes ou pas -->
                     <input class="btn" type="submit" routerLink="/report/myReports" value="Continuer">
                 </div>
             </div>
