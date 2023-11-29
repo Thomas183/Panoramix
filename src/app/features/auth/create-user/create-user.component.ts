@@ -11,8 +11,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class CreateUserComponent {
 
   dropdownItems: Array<{ name: string }> = [
-    { name: 'Utilisateur' },
-    { name: 'Admin' }
+    { name: 'utilisateur' },
+    { name: 'administrateur' }
   ];
 
   registerForm: FormGroup;
@@ -23,8 +23,9 @@ constructor(private _fb : FormBuilder,
     firstname : [null,[Validators.required],],
     lastname : [null,[Validators.required],],
     email : [null,[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],],
+    password : [null,[Validators.required,Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).{5,}$/)],],
     dateOfBirth : [null,[Validators.required,Validators.pattern(/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/)],],
-    role : [null,[Validators.required]]
+    role : ['utilisateur']
   })
 }
   
@@ -37,7 +38,6 @@ createUser() : void {
   }
   else {
     console.log('formulaire valide', JSON.stringify(this.registerForm.value));
-    // ajouter le lien au service auth
     this._authService.create(this.registerForm.value)
   }
 

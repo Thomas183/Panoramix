@@ -5,6 +5,6 @@ export interface User {
     email : string;
     role : string;
     dateOfBirth: Date;
-    emailVerified: boolean;
+    // emailVerified: boolean;
 }
 

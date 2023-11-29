@@ -4,14 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { Register } from '../models/register';
+import { UserLogin } from '../models/userLogin';
+import { UserReceived } from '../models/userReceived';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  urlRegister : string = 'http://localhost:3000/user'
-  urlLogin : string = 'à definir'
+  urlRegister : string = 'http://localhost:3000/register'
+  urlLogin : string = 'http://localhost:3000/login'
 
   user : User | undefined;
   private _$connectedUser : BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
@@ -35,6 +37,18 @@ export class AuthService {
           console.log ('register fail', register, error)
         }
       })
+    }
+
+    login(user : UserLogin):void {
+      this._http.post<UserReceived>(this.urlLogin, user).subscribe({
+        next : (res : UserReceived) => {
+          localStorage.setItem('apiToken', res.token);
+          this._$connectedUser.next(res.member)
+          console.log(res)
+          // this._router.navigate(['page de l'utilisateur']);
+        }
+      })
+      
     }
 }
 

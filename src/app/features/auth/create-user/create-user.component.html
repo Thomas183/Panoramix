@@ -2,7 +2,7 @@
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
         <div class="text-center mb-5">
             <img src="../../../../assets/demo/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">CREER UN COMPTE</div>
+            <div class="text-900 text-3xl font-medium mb-3">Créer un compte</div>
         </div>
         <div>
             <form [formGroup]="registerForm" (ngSubmit)="createUser()">
@@ -15,7 +15,7 @@
                 </div>
 
                 <div>
-                    <label for="firstname" class="block text-900 font-medium mb-2">Prénom</label><br>
+                    <label for="firstname" class="block text-900 font-medium mb-2">Prénom</label>
                     <span class="text-primary"
                         *ngIf="registerForm.get('firstname')?.touched && registerForm.get('firstname')?.errors?.['required']">Champs
                         requis</span>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div>
-                    <label for="email" class="block text-900 font-medium mb-2">Email</label><br>
+                    <label for="email" class="block text-900 font-medium mb-2">Email</label>
                     <span class="text-primary" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']">Champs requis</span>
                     <span class="text-primary" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['pattern']">format email incorrect</span>
                     <input id="email" type="text" pInputText class="w-full mb-3" formControlName="email">
@@ -31,32 +31,30 @@
                 </div>
 
                 <div>
-                    <label for="dateOfBirth" class="block text-900 font-medium mb-2">Date de naissance</label><br>
+                    <label for="password" class="block text-900 font-medium mb-2">Password</label>
+                    <span class="text-primary" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']">Champs requis</span>
+                    <span class="text-primary" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['pattern']">mot de passe pas assez complexe</span>
+                    <input id="password" type="password" pInputText class="w-full mb-3" formControlName="password">
+
+                </div>
+
+                <div>
+                    <label for="dateOfBirth" class="block text-900 font-medium mb-2">Date de naissance</label>
                     <span class="text-primary"
                         *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['required']">Champs
                         requis</span>
                     <span class="text-primary"
                         *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.errors?.['pattern']">format
                         de date incorrect</span>
-                        <input id="email" type="text" pInputText class="w-full mb-3" formControlName="dateOfBirth">
+                        <input id="dateOfBirth" type="text" pInputText class="w-full mb-3" formControlName="dateOfBirth">
                 </div>
 
                 <div>
-                    <label for="role" class="block text-900 font-medium mb-2">Rôle</label><br>
-                    <p-dropdown [options]="dropdownItems" class="w-full" optionLabel="name" formControlName="role"></p-dropdown>
-
-
-
-                    <!-- <select name="role" id="role" formControlName="role">
-                        <option value="utilisateur">Utilisateur</option>
-                        <option value="administrateur">Administrateur</option>
-                    </select> -->
-                    <span class="text-primary"
-                        *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.errors?.['required']">Choisissez
-                        un rôle</span>
+                    <label for="role" class="block text-900 font-medium mb-2">Rôle</label>
+                    <p-dropdown [options]="dropdownItems" class="w-full" optionLabel="name" optionValue="name" formControlName="role"></p-dropdown>
                 </div>
                 <div>
-                    <p-button label="Envoyer" type="submit"></p-button>
+                    <button pButton pRipple label="Inscription" icon="pi pi-user" class="w-full"></button>
                 </div>
             </form>
         </div>
