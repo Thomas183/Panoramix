@@ -9,7 +9,7 @@ import {ManageUsersComponent} from "./manage-users/manage-users.component";
 import {DropdownModule} from "primeng/dropdown";
 import {AuthRoutingModule} from "./auth-routing.module";
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { TableModule } from 'primeng/table';
 
 @NgModule({
     declarations: [
@@ -25,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         RippleModule,
         DropdownModule,
         AuthRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TableModule
     ],
     exports: [
         ReactiveFormsModule
