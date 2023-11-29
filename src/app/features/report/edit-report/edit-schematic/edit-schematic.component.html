@@ -1,12 +1,38 @@
-<p-table *ngFor="let table of data" class="p-datatable-sm p-4">
-    <ng-template pTemplate="header">
-        <tr>
-            <th *ngFor="let header of table.headers">{{header.name}}</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-table.data let-table.headers="columns">
-        <tr>
-            <td *ngFor="let cell of table.data">{{cell[]}}</td>
-        </tr>
-    </ng-template>
-</p-table>
+<button (click)="deleteAllLines()">test</button>
+
+<table>
+    <tr *ngFor="let line of lines">
+        <td><button (click)="deleteLine(line)">{{line.link.from}} > {{line.link.to}}</button></td>
+    </tr>
+</table>
+
+<div class="draggableArea">
+    <div id="tableContainer" *ngFor="let table of data; index as i" cdkDrag (cdkDragMoved)="recalculateLine(i)">
+        <div class="dot"><a (click)="drawNewLine(i)">+</a></div>
+        <p-table
+            #tableRef
+            [id]="table.table"
+            class="p-datatable-sm p-4"
+
+            [scrollable]="true"
+            scrollHeight="300px"
+            [columns]="table.headers" [value]="table.data"
+            autoLayout="true"
+        >
+
+            <ng-template pTemplate="header">
+
+                <tr class="tableHeader">
+                    <th *ngFor="let header of table.headers">{{header.name}}</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    <td *ngFor="let header of table.headers">{{rowData[header.name]}}</td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </div>
+</div>

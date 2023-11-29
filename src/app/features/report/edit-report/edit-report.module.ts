@@ -8,6 +8,9 @@ import { EditReportComponent } from './edit-report.component';
 import { TabMenuModule } from "primeng/tabmenu";
 import { EditInfoComponent } from './edit-info/edit-info.component';
 import {TableModule} from "primeng/table";
+import {CdkDrag} from "@angular/cdk/drag-drop";
+import {ButtonModule} from "primeng/button";
+import {NgxLeaderLineModule} from "ngx-leader-line";
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import {TableModule} from "primeng/table";
         CommonModule,
         EditReportRoutingModule,
         TabMenuModule,
-        TableModule
+        TableModule,
+        CdkDrag,
+        ButtonModule,
+        NgxLeaderLineModule
     ]
 })
 export class EditReportModule { }

@@ -1,3 +1,5 @@
+import {TableLink} from "./table-link";
+
 export interface StructuredCsv {
     table: string;
     fact: boolean;
@@ -8,4 +10,5 @@ export interface StructuredCsv {
         fk: { table: string; field: string } | null;
     }>;
     data: { [key: string]: any }[];
+    links?: TableLink[];
 }

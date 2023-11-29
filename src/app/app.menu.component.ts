@@ -26,7 +26,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {label: 'Créer un utilisateur', icon: 'pi pi-fw pi-id-card', routerLink: ['auth/createUser']},
                     {label: 'Gérer les utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['auth/manageUsers']},
-                    {label: '(Login Page) <- Lien temporaire pour tests', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login']},
+                    {label: 'Login Page (Testing)', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login']},
                 ]
             },
             {
