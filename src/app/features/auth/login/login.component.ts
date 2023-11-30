@@ -16,6 +16,7 @@ export class LoginComponent {
   ]
 
   loginForm: FormGroup;
+  notLogged :boolean = false
 
   constructor(private _fb: FormBuilder,
     private _httpClient: HttpClient,
@@ -30,9 +31,11 @@ export class LoginComponent {
   connect(): void {
     if (!this.loginForm.valid) {
       console.log('pas valide')
+
     } else {
 
       this._authService.login(this.loginForm.value);
+      
     }
   }
 

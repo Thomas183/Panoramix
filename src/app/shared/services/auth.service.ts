@@ -51,6 +51,9 @@ export class AuthService {
           this._$connectedUser.next(res.member)
           console.log(res)
           // this._router.navigate(['page de l'utilisateur']);
+        },
+        error:(err) => {
+          console.log('erreur de login, gerer l erreur de email pw')
         }
       })
     }
