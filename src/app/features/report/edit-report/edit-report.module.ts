@@ -11,6 +11,11 @@ import {TableModule} from "primeng/table";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {ButtonModule} from "primeng/button";
 import {NgxLeaderLineModule} from "ngx-leader-line";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {ChartModule} from "primeng/chart";
+import {FormsModule} from "@angular/forms";
+import {CheckboxModule} from "primeng/checkbox";
 
 
 @NgModule({
@@ -27,7 +32,12 @@ import {NgxLeaderLineModule} from "ngx-leader-line";
         TableModule,
         CdkDrag,
         ButtonModule,
-        NgxLeaderLineModule
+        NgxLeaderLineModule,
+        DropdownModule,
+        InputTextModule,
+        ChartModule,
+        FormsModule,
+        CheckboxModule
     ]
 })
 export class EditReportModule { }

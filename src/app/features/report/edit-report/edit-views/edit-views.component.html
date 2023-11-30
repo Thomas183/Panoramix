@@ -1,1 +1,11 @@
-<p>edit-views works!</p>
+<div id="chartForm">
+    <input type="text" pInputText>
+    <p-dropdown [options]="chartTypes" [(ngModel)]="selectedType"></p-dropdown>
+    <p-button (onClick)="createChart(selectedType)">Créer</p-button>
+</div>
+<div *ngFor="let chart of chartList">
+    <div>
+        <p-checkbox *ngFor="let header of chart.data.labels"></p-checkbox>
+        <p-chart [type]="chart.type" [data]="chart.data"></p-chart>
+    </div>
+</div>

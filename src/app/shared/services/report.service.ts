@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {SchematicResponse} from "../../models/schematic-response";
+import {SchematicResponse} from "../models/schematic-response";
 
 @Injectable({
     providedIn: 'root'

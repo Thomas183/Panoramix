@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { FileInfo } from "../../../shared/models/file-info";
-import { DataParserService } from "../../../shared/services/dataParser.service";
-import { StructuredCsv } from "../../../shared/models/strctured-csv";
+import {Component} from '@angular/core';
+import {FileInfo} from "../../../shared/models/file-info";
+import {DataParserService} from "../../../shared/services/dataParser.service";
+import {StructuredCsv} from "../../../shared/models/strctured-csv";
+import {DataService} from "../../../shared/services/data.service";
+import {Table} from "../../../shared/models/table";
 
 @Component({
     selector: 'app-import-data',
@@ -9,10 +11,11 @@ import { StructuredCsv } from "../../../shared/models/strctured-csv";
     styleUrls: ['./import-data.component.scss']
 })
 export class ImportDataComponent {
-    constructor(private parser: DataParserService) {}
+    constructor(private parser: DataParserService, private _data: DataService) {
+    }
 
-    fileInfoList : Array<FileInfo> = [];
-    dataToUpload : Array<StructuredCsv> = [];
+    fileInfoList: Array<FileInfo> = [];
+    dataToUpload: Array<StructuredCsv> = [];
 
     // Fonction au chargement d'un fichier, au secours
     onSelect(event: any): void {
@@ -24,7 +27,6 @@ export class ImportDataComponent {
             this.parser.parseCsvFile(text, file.name).then(parsedData => {
                 if (parsedData) {
                     this.dataToUpload.push(parsedData);
-                    console.log('Data to Upload:', this.dataToUpload);
                 }
             }).catch(error => {
                 console.error('Error during file processing', error);
@@ -43,15 +45,27 @@ export class ImportDataComponent {
         });
     }
 
-    clearFiles(){
+    clearFiles() {
         this.fileInfoList = [];
     }
 
-    onDelete(index : number){
+    onDelete(index: number) {
         this.fileInfoList.splice(index, 1);
         this.dataToUpload.splice(index, 1);
-        console.log(this.dataToUpload);
     }
 
-    uploadFiles(){}
+    uploadFiles() {
+        this.dataToUpload.forEach((table: StructuredCsv) => {
+
+            let headers: Array<{ name: string, type: string }> = [];
+            for (let header of table.headers) {
+                headers.push({name: header.name, type: header.type})
+            }
+
+            this._data.tables.push({
+                table: table.table,
+                headers: headers,
+            });
+        })
+    }
 }

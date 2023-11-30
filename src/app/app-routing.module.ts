@@ -4,6 +4,9 @@ import {AppMainComponent} from './app.main.component';
 
 
 import {SettingsComponent} from "./features/settings/settings.component";
+import {AppNotfoundComponent} from "./pages/app.notfound.component";
+import {AppErrorComponent} from "./pages/app.error.component";
+import {AppAccessdeniedComponent} from "./pages/app.accessdenied.component";
 
 
 
@@ -30,6 +33,18 @@ import {SettingsComponent} from "./features/settings/settings.component";
                         path: 'settings',
                         component: SettingsComponent,
                     },
+                    {
+                        path: 'notfound',
+                        component: AppNotfoundComponent,
+                    },
+                    {
+                        path: 'error',
+                        component: AppErrorComponent
+                    },
+                    {
+                        path: 'accessDenied',
+                        component: AppAccessdeniedComponent,
+                    }
                 ]
             },
             {path: '**', redirectTo: '/notfound'},

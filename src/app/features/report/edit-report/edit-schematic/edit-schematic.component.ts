@@ -1,17 +1,15 @@
 import {
     AfterViewInit,
     Component,
-    ElementRef, OnDestroy,
-    OnInit,
+    OnDestroy,
     QueryList,
-    Renderer2,
-    ViewChild,
     ViewChildren
 } from '@angular/core';
-import {StructuredCsv} from "../../../../shared/models/strctured-csv";
 import {Table} from "primeng/table";
+import {Table as apiTable} from '../../../../shared/models/table'
 import {TableLink} from "../../../../shared/models/table-link";
-import { DataService } from "../../../../shared/services/data.service";
+import {DataService} from "../../../../shared/services/data.service";
+import {ApiSchematicResponse, Header} from "../../../../shared/models/api-schematic-response";
 
 
 declare var LeaderLine: any;
@@ -22,15 +20,18 @@ declare var LeaderLine: any;
     styleUrls: ['./edit-schematic.component.scss']
 })
 
-export class EditSchematicComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditSchematicComponent implements AfterViewInit, OnDestroy {
     @ViewChildren('tableRef') tableRefs: QueryList<Table>;
     tablesArray: Array<Table>;
-    tableClicked: number | undefined;
-
+    firstTableClicked: number | undefined;
     lines: Array<{ link: TableLink, line: LeaderLine }> = [];
+    tables: Array<apiTable>;
+    schematics: Array<ApiSchematicResponse>;
 
-    constructor(dataService : DataService) {
-        this.data = dataService.fakeData;
+    constructor(private dataService: DataService) {
+        this.tables = this.dataService.tables;
+        this.schematics = this.initializeSchematics(this.tables);
+        this.loadLinks();
     }
 
     ngAfterViewInit() {
@@ -41,45 +42,107 @@ export class EditSchematicComponent implements OnInit, AfterViewInit, OnDestroy 
         this.deleteAllLines();
     }
 
-
-    drawNewLine(tableIndex: number) {
-        console.log(tableIndex)
-        // Premier click
-        if (this.tableClicked === undefined) {
-            this.tableClicked = tableIndex;
-            return;
-        } else if (tableIndex === this.tableClicked) { //Deux fois le même cliqué
-            this.tableClicked = undefined;
-            return;
-        } else { // Liaison de deux tableaux
-            const line: LeaderLine = new LeaderLine(
-                this.tablesArray[this.tableClicked].el.nativeElement,
-                this.tablesArray[tableIndex].el.nativeElement,
-                {
-                    path: 'straight',
-                    startPlug: 'behind',
-                    endPlug: 'behind',
-                    color: '#2196F3',
+    initializeSchematics(tables: Array<apiTable>): Array<ApiSchematicResponse> {
+        const schematics: Array<ApiSchematicResponse> = []
+        tables.forEach((table) => {
+            const headers: Array<Header> = [];
+            for (let header of table.headers) {
+                headers.push({
+                    fk : null,
+                    pk: false,
+                    ...header})
+            }
+            schematics.push({
+                id: Math.random().toString(),
+                log: {
+                    "createdAt": "2019-08-24T14:15:22.000Z",
+                    "createdBy": "user@example.com",
+                    "updatedAt": "2019-08-24T14:15:22.000Z",
+                    "updatedBy": "user@example.com"
                 },
-            )
+                fact: false,
+                coord: {
+                    x: 0,
+                    y: 0,
+                },
+                table: table.table,
+                headers: headers,
+            })
+        })
+        return schematics;
+    }
 
-            this.lines.push(
-                {
-                    link: {
-                        from: this.tablesArray[this.tableClicked].el.nativeElement.id,
-                        to: this.tablesArray[tableIndex].el.nativeElement.id,
-                    },
-                    line: line,
-                }
-            )
-            this.tableClicked = undefined;
+    getLinkedHeaders(){
+
+    }
+
+    loadLinks() {
+        this.schematics.forEach((schematic: ApiSchematicResponse, i: number) => {
+            console.log(schematic);
+            console.log(schematic.fact, schematic.headers[0].fk);
+            if (!schematic.fact && schematic.headers[0].fk) {
+                this.drawNewLine(i, this.getSchematicIdByName(schematic.headers[0].fk.table));
+            }
+        })
+    }
+
+    test() {
+        this.schematics[0].headers[0].fk = {
+            field: '',
+            table: 'DimGeo.csv',
+        };
+        console.log(this.schematics[0].headers[0].fk.table)
+        this.loadLinks();
+    }
+
+    getSchematicIdByName(name: string): number {
+        return this.schematics.findIndex((schematic) => schematic.table === name);
+    }
+
+    handleTableClick(tableClickedIndex: number) {
+        if (this.firstTableClicked === undefined) {
+            this.firstTableClicked = tableClickedIndex
+        } else if (tableClickedIndex === this.firstTableClicked) {
+            this.firstTableClicked = undefined;
+        } else {
+            this.drawNewLine(tableClickedIndex)
+            this.firstTableClicked = undefined;
         }
+    }
+
+    drawNewLine(tableIndex: number, firstTableIndex?: number) {
+        let sourceTable: number;
+        if (firstTableIndex) {
+            sourceTable = firstTableIndex
+        } else {
+            sourceTable = this.firstTableClicked;
+        }
+
+        const line: LeaderLine = new LeaderLine(
+            this.tablesArray[sourceTable].el.nativeElement,
+            this.tablesArray[tableIndex].el.nativeElement,
+            {
+                path: 'straight',
+                startPlug: 'behind',
+                endPlug: 'behind',
+                color: '#2196F3',
+            },
+        )
+        this.lines.push(
+            {
+                link: {
+                    from: this.tablesArray[sourceTable].el.nativeElement.id,
+                    to: this.tablesArray[tableIndex].el.nativeElement.id,
+                },
+                line: line,
+            }
+        )
     }
 
     deleteLine(line: { link: TableLink, line: LeaderLine }) {
         line.line.remove();
         this.lines = this.lines.filter((link) =>
-              link.link.from !== line.link.from || link.link.to !== line.link.to
+            link.link.from !== line.link.from || link.link.to !== line.link.to
         );
     }
 
@@ -95,8 +158,4 @@ export class EditSchematicComponent implements OnInit, AfterViewInit, OnDestroy 
         })
     }
 
-    ngOnInit() {
-    }
-
-    data: Array<StructuredCsv>
 }

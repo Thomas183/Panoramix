@@ -1,6 +1,8 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FileInfo} from "../../../shared/models/file-info";
 import {AfterViewInit} from "@angular/core";
+import {Table} from "../../../shared/models/table";
+import {DataService} from "../../../shared/services/data.service";
 
 
 @Component({
@@ -13,36 +15,16 @@ export class ExploreDataComponent  implements AfterViewInit{
 
     //TODO Ca marche pas
 
-    data : FileInfo[] = [
-    ];
-    rowsPerPage: number;
+    tables : Array<Table>;
 
-    constructor(private elRef: ElementRef) {
+    constructor(private _data: DataService) {
+        this.tables = this._data.tables;
     }
 
     ngAfterViewInit(){
-        setTimeout(() => this.updateRowsPerPage(), 0)
-        window.addEventListener('resize', () => this.updateRowsPerPage());
-    }
 
-    updateRowsPerPage() {
-        // If tableWrapperRef is not available, fall back to the component's native element
-        const parentElement = this.tableWrapperRef ? this.tableWrapperRef.nativeElement : this.elRef.nativeElement.parentElement;
-
-        const availableHeight = parentElement.clientHeight;
-        const rowHeight = 47
-        this.rowsPerPage = Math.floor(availableHeight / rowHeight);
     }
 
     ngOnInit(){
-        console.log('allo')
-        for (let i = 0; i < 500; i++){
-            this.data.push({name : 'csv'+i, size : Math.floor(Math.random() * 10)});
-        }
-
-    }
-
-    test(){
-        console.log('test')
     }
 }

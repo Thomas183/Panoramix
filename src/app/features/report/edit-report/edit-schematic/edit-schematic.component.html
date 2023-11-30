@@ -1,4 +1,4 @@
-<button (click)="deleteAllLines()">test</button>
+<p-button (onClick)="test()">Test</p-button>
 
 <table>
     <tr *ngFor="let line of lines">
@@ -7,32 +7,37 @@
 </table>
 
 <div class="draggableArea">
-    <div id="tableContainer" *ngFor="let table of data; index as i" cdkDrag (cdkDragMoved)="recalculateLine(i)">
-        <div class="dot"><a (click)="drawNewLine(i)">+</a></div>
+    <div id="tableContainer" *ngFor="let schematic of schematics; index as i" cdkDrag (cdkDragMoved)="recalculateLine(i)">
+        <div class="dot"><a (click)="handleTableClick(i)">+</a></div>
         <p-table
             #tableRef
-            [id]="table.table"
+            [id]="schematic.table"
             class="p-datatable-sm p-4"
-
             [scrollable]="true"
             scrollHeight="300px"
-            [columns]="table.headers" [value]="table.data"
+            [columns]="schematic.headers" [value]="schematic.headers"
             autoLayout="true"
         >
 
             <ng-template pTemplate="header">
-
                 <tr class="tableHeader">
-                    <th *ngFor="let header of table.headers">{{header.name}}</th>
+                    <th
+                        *ngFor="let header of schematic.headers">{{header.name}}
+                        <p-dropdown *ngIf="schematic.fact"></p-dropdown>
+                    </th>
                 </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-rowData>
+            <ng-template pTemplate="body">
                 <tr>
-                    <td *ngFor="let header of table.headers">{{rowData[header.name]}}</td>
+                    <td *ngFor="let header of schematic.headers">{{header.type}}</td>
                 </tr>
             </ng-template>
-
+            <ng-template pTemplate="summary">
+                <p-checkbox [binary]="true" [(ngModel)]="schematic.fact" label="Fait ?"></p-checkbox>
+            </ng-template>
         </p-table>
     </div>
 </div>
+
+<p-button id="saveButton">Enregistrer le schéma</p-button>

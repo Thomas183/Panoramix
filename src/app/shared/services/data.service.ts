@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {StructuredCsv} from "../models/strctured-csv";
+import {ApiSchematicResponse} from "../models/api-schematic-response";
+import {Table} from "../models/table";
+import {ApiDataResponse} from "../models/api-data-response";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ export class DataService {
     public fakeData: Array<StructuredCsv> = [
         {
             "table": "DimDate.csv",
-            "fact": false,
+            "fact": true,
             "headers": [
                 {
                     "name": "Annee",
@@ -5349,6 +5352,41 @@ export class DataService {
             ]
         }
     ]; //TODO Supprimer quand les données viennent du back;
+
+    tables: Array<Table> = [];
+    tableData: Array<ApiDataResponse> = [];
+
+    schematicArray: Array<ApiSchematicResponse> = [
+        {
+            id : "1",
+            log: {
+                createdAt: "2019-08-24T14:15:22.000Z",
+                createdBy: "user@example.com",
+                updatedAt: "2019-08-24T14:15:22.000Z",
+                updatedBy: "user@example.com"
+            },
+            fact: true,
+            coord :{
+                x: 1,
+                y: 1,
+            },
+            table : "DimNace",
+            headers: [
+                {
+                    name: "Annee",
+                    type: "INT",
+                    pk: false,
+                    fk: null
+                },
+                {
+                    name: "SKDate",
+                    type: "INT",
+                    pk: false,
+                    fk: null
+                }
+            ],
+        },
+    ]
 
     getTable(){
 
