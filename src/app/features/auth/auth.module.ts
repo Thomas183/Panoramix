@@ -10,12 +10,14 @@ import {DropdownModule} from "primeng/dropdown";
 import {AuthRoutingModule} from "./auth-routing.module";
 import { ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         CreateUserComponent,
         ManageUsersComponent,
+        UpdateUserComponent,
     
     ],
     imports: [

@@ -12,9 +12,10 @@ import { UserReceived } from '../models/userReceived';
 })
 export class AuthService {
 
-  urlRegister : string = 'http://localhost:3000/register'
-  urlLogin : string = 'http://localhost:3000/login'
-  userUrl : string ="http://localhost:3000/users";
+  private _urlRegister : string = 'http://localhost:3000/register'
+  private _urlLogin : string = 'http://localhost:3000/login'
+  private _userUrl : string ="http://localhost:3000/users/";
+  
 
   user : User | undefined;
   private _$users : BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
@@ -31,7 +32,7 @@ export class AuthService {
     private _router:Router ) {  }
 
     create(register:Register):void {
-      this._http.post(this.urlRegister,register)
+      this._http.post(this._urlRegister,register)
       .subscribe({
         next : response => {
           alert('Utilisateur enregistré')
@@ -44,7 +45,7 @@ export class AuthService {
     }
 
     login(user : UserLogin):void {
-      this._http.post<UserReceived>(this.urlLogin, user).subscribe({
+      this._http.post<UserReceived>(this._urlLogin, user).subscribe({
         next : (res : UserReceived) => {
           localStorage.setItem('apiToken', res.token);
           this._$connectedUser.next(res.member)
@@ -55,8 +56,7 @@ export class AuthService {
     }
 
     getAll() : void {
-      this._http.get<User[]>(this.userUrl).subscribe({
-        // next : (value) => { this.users = value },
+      this._http.get<User[]>(this._userUrl).subscribe({
         next : (value) => { this._$users.next(value) },
         error : (error) => { 
           console.log(error);         
@@ -64,8 +64,18 @@ export class AuthService {
       })
     }
 
-    getById(id : number) {
-
+    getById(id : number) : Observable<User> {
+      return this._http.get<User>(this._userUrl+id);
     }
+
+    update(id : number, user : User) : Observable<User> {
+      console.log(this._userUrl+id, user)
+      return this._http.patch<User>(this._userUrl+id, user);
+    }
+  
+    delete(id : number) : Observable<User> {
+      return this._http.delete<User>(this._userUrl+id);
+    }
+  
 }
 

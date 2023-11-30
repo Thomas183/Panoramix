@@ -11,11 +11,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./manage-users.component.scss']
 })
 
-
 export class ManageUsersComponent {
-
-
-
 
   errorUser: string = '';
   userUrl: string = "http://localhost:3000/users";
@@ -29,4 +25,14 @@ export class ManageUsersComponent {
     this.$users = this._auth.$users
     this._auth.getAll();
   }
-}
+
+  delete(id: number) {
+    this._auth.delete(id).subscribe({
+      complete: () => {
+        this.$users = this._auth.$users
+        this._auth.getAll();
+          },
+        });
+      }
+  }
+
