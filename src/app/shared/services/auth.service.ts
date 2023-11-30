@@ -14,8 +14,12 @@ export class AuthService {
 
   urlRegister : string = 'http://localhost:3000/register'
   urlLogin : string = 'http://localhost:3000/login'
+  userUrl : string ="http://localhost:3000/users";
 
   user : User | undefined;
+  private _$users : BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  $users : Observable<User[]> = this._$users.asObservable();
+
   private _$connectedUser : BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
   $connectedUser : Observable<User | undefined> = this._$connectedUser.asObservable();
 
@@ -48,7 +52,20 @@ export class AuthService {
           // this._router.navigate(['page de l'utilisateur']);
         }
       })
-      
+    }
+
+    getAll() : void {
+      this._http.get<User[]>(this.userUrl).subscribe({
+        // next : (value) => { this.users = value },
+        next : (value) => { this._$users.next(value) },
+        error : (error) => { 
+          console.log(error);         
+         }
+      })
+    }
+
+    getById(id : number) {
+
     }
 }
 
