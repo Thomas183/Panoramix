@@ -39,7 +39,7 @@ export class AuthService {
           // this._router.navigate(['la page admin avec la liste des users getAll']);
         },
         error:error => {
-          console.log ('register fail', register, error)
+          console.log ('une erreur s\' est produite')
         }
       })
     }
@@ -47,13 +47,12 @@ export class AuthService {
     login(user : UserLogin):void {
       this._http.post<UserReceived>(this._urlLogin, user).subscribe({
         next : (res : UserReceived) => {
-          localStorage.setItem('apiToken', res.token);
-          this._$connectedUser.next(res.member)
-          console.log(res)
-          // this._router.navigate(['page de l'utilisateur']);
+          localStorage.setItem('apiToken', res.accessToken);
+          this._$connectedUser.next(res.user)
+          this._router.navigate(['/auth/manageUsers']);
         },
         error:(err) => {
-          console.log('erreur de login, gerer l erreur de email pw')
+          console.log('erreur de login, gerer l erreur de "email pw"')
         }
       })
     }

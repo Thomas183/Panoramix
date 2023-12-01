@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   notLogged :boolean = false
+  connectedUser : User | undefined;
 
   constructor(private _fb: FormBuilder,
     private _httpClient: HttpClient,

@@ -199,9 +199,6 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
         TreeTableModule,
         VirtualScrollerModule,
     ],
-  exports: [
-    ReactiveFormsModule,
-  ],
     declarations: [
         AppComponent,
         AppMainComponent,

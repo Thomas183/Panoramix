@@ -14,6 +14,7 @@ import {SettingsComponent} from "./features/settings/settings.component";
 import {LoginComponent} from "./features/auth/login/login.component";
 import { connectedGuard } from './core/guards/connected.guard';
 import { adminGuard } from './core/guards/admin.guard';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -38,6 +39,10 @@ import { adminGuard } from './core/guards/admin.guard';
                     {
                         path: 'settings',
                         component: SettingsComponent, canActivate : [connectedGuard, adminGuard]
+                    },
+                    {
+                        path: 'dashboard',
+                        component: DashboardComponent, canActivate : [connectedGuard, adminGuard]
                     },
                 ]
             },

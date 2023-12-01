@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/shared/models/user';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+connectedUser : User | undefined;
+constructor(private _auth : AuthService) {}
+
+ngOnInit() :void {
+  this._auth.$connectedUser.subscribe({
+    next : (value) => {
+      this.connectedUser = value;
+    },
+    
+  })
+}
+
 
 }
