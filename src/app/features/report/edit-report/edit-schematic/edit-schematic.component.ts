@@ -36,6 +36,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this.tablesArray = this.tableRefs.toArray();
+        console.log(this.tablesArray[0])
     }
 
     ngOnDestroy() {
@@ -48,9 +49,10 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
             const headers: Array<Header> = [];
             for (let header of table.headers) {
                 headers.push({
-                    fk : null,
+                    fk: null,
                     pk: false,
-                    ...header})
+                    ...header
+                })
             }
             schematics.push({
                 id: Math.random().toString(),
@@ -72,13 +74,16 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
         return schematics;
     }
 
-    getLinkedHeaders(){
+    getLinkedHeaders() {
 
+    }
+
+    doesLinkExist(link: TableLink): boolean {
+        return this.lines.some((line) => line.link === link);
     }
 
     loadLinks() {
         this.schematics.forEach((schematic: ApiSchematicResponse, i: number) => {
-            console.log(schematic);
             console.log(schematic.fact, schematic.headers[0].fk);
             if (!schematic.fact && schematic.headers[0].fk) {
                 this.drawNewLine(i, this.getSchematicIdByName(schematic.headers[0].fk.table));
@@ -100,7 +105,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
     }
 
     handleTableClick(tableClickedIndex: number) {
-        if (this.firstTableClicked === undefined) {
+        if (this.firstTableClicked === undefined && this.schematics[tableClickedIndex].fact) {
             this.firstTableClicked = tableClickedIndex
         } else if (tableClickedIndex === this.firstTableClicked) {
             this.firstTableClicked = undefined;
