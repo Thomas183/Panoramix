@@ -16,6 +16,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {ChartModule} from "primeng/chart";
 import {FormsModule} from "@angular/forms";
 import {CheckboxModule} from "primeng/checkbox";
+import {MessagesModule} from "primeng/messages";
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {CheckboxModule} from "primeng/checkbox";
         InputTextModule,
         ChartModule,
         FormsModule,
-        CheckboxModule
+        CheckboxModule,
+        MessagesModule
     ]
 })
 export class EditReportModule { }

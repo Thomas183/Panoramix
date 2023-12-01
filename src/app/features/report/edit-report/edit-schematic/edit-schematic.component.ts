@@ -10,6 +10,8 @@ import {Table as apiTable} from '../../../../shared/models/table'
 import {TableLink} from "../../../../shared/models/table-link";
 import {DataService} from "../../../../shared/services/data.service";
 import {ApiSchematicResponse, Header} from "../../../../shared/models/api-schematic-response";
+import {Messages} from "primeng/messages";
+import {Message, MessageService} from "primeng/api";
 
 
 declare var LeaderLine: any;
@@ -17,7 +19,8 @@ declare var LeaderLine: any;
 @Component({
     selector: 'app-edit-schematic',
     templateUrl: './edit-schematic.component.html',
-    styleUrls: ['./edit-schematic.component.scss']
+    styleUrls: ['./edit-schematic.component.scss'],
+    providers: [MessageService],
 })
 
 export class EditSchematicComponent implements AfterViewInit, OnDestroy {
@@ -28,18 +31,27 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
     tables: Array<apiTable>;
     schematics: Array<ApiSchematicResponse>;
 
-    constructor(private dataService: DataService) {
+    warningMessages: Message[];
+    warningMessagesToDisplay: Message[] = [];
+
+    constructor(private dataService: DataService, private messageService: MessageService) {
         this.tables = this.dataService.tables;
         this.schematics = this.initializeSchematics(this.tables);
         this.loadLinks();
+
+        this.warningMessages = [
+            {severity: 'warn', summary: 'Attention', detail: 'Le lien existe déjà'}, // 0
+            {severity: 'warn', summary: 'Attention', detail: 'Impossible de lier un tableau à lui même'}, // 1
+            {severity: 'warn', summary: 'Attention', detail: 'Un lien doit toujours démarrer d\'une table de fait'}, // 2
+        ]
+
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.tablesArray = this.tableRefs.toArray();
-        console.log(this.tablesArray[0])
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.deleteAllLines();
     }
 
@@ -74,15 +86,25 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
         return schematics;
     }
 
-    getLinkedHeaders() {
+    displayWarningMessage(id: number) {
+        this.messageService.add(this.warningMessages[id]);
+        setTimeout(() => {
+            this.messageService.clear();
+        }, 3500);
+    }
+
+    getLinkedHeaders(): void {
 
     }
 
-    doesLinkExist(link: TableLink): boolean {
-        return this.lines.some((line) => line.link === link);
+    doesLinkExist(inputLink: TableLink): boolean {
+        return this.lines.some(link =>
+            (link.link.from === inputLink.from && link.link.to === inputLink.to) ||
+            (link.link.from === inputLink.to && link.link.to === inputLink.from)
+        );
     }
 
-    loadLinks() {
+    loadLinks(): void {
         this.schematics.forEach((schematic: ApiSchematicResponse, i: number) => {
             console.log(schematic.fact, schematic.headers[0].fk);
             if (!schematic.fact && schematic.headers[0].fk) {
@@ -91,13 +113,8 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
         })
     }
 
-    test() {
-        this.schematics[0].headers[0].fk = {
-            field: '',
-            table: 'DimGeo.csv',
-        };
-        console.log(this.schematics[0].headers[0].fk.table)
-        this.loadLinks();
+    test(): void {
+        this.displayWarningMessage(1)
     }
 
     getSchematicIdByName(name: string): number {
@@ -105,14 +122,32 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
     }
 
     handleTableClick(tableClickedIndex: number) {
-        if (this.firstTableClicked === undefined && this.schematics[tableClickedIndex].fact) {
-            this.firstTableClicked = tableClickedIndex
-        } else if (tableClickedIndex === this.firstTableClicked) {
-            this.firstTableClicked = undefined;
-        } else {
-            this.drawNewLine(tableClickedIndex)
-            this.firstTableClicked = undefined;
+
+        // Premier clic
+        if (this.firstTableClicked === undefined) {
+            if (this.schematics[tableClickedIndex].fact) {
+                this.firstTableClicked = tableClickedIndex;
+                return
+            }
+            if (!this.schematics[tableClickedIndex].fact) {
+                this.displayWarningMessage(2);
+                return;
+            }
         }
+
+        // Deuxième click
+        if (this.firstTableClicked !== undefined) {
+            if (tableClickedIndex === this.firstTableClicked) {
+                this.firstTableClicked = undefined;
+                this.displayWarningMessage(1);
+                return;
+            }
+        }
+
+        // Pas d'erreur -> création du lien;
+        this.drawNewLine(tableClickedIndex)
+        this.firstTableClicked = undefined;
+
     }
 
     drawNewLine(tableIndex: number, firstTableIndex?: number) {
@@ -151,13 +186,13 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy {
         );
     }
 
-    deleteAllLines() {
+    deleteAllLines(): void {
         this.lines.forEach((line) => {
             line.line.remove();
         })
     }
 
-    recalculateLine(index: number) {
+    recalculateLine(): void {
         this.lines.forEach((line) => {
             line.line.position();
         })
