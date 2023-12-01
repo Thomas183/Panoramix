@@ -114,6 +114,7 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
 
 @NgModule({
     imports: [
+        ReactiveFormsModule,
         BrowserModule,
         FormsModule,
         AppRoutingModule,
@@ -172,7 +173,6 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
         ProgressBarModule,
         RadioButtonModule,
         RatingModule,
-        ReactiveFormsModule,
         RippleModule,
         ScrollPanelModule,
         ScrollTopModule,
@@ -199,9 +199,6 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
         TreeTableModule,
         VirtualScrollerModule,
     ],
-  exports: [
-    ReactiveFormsModule,
-  ],
     declarations: [
         AppComponent,
         AppMainComponent,

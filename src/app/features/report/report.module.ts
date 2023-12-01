@@ -5,6 +5,11 @@ import {ExploreReportsComponent} from "./explore-reports/explore-reports.compone
 import {MyReportsComponent} from "./my-reports/my-reports.component";
 import {ReportRoutingModule} from "./report-routing.module";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { ListboxModule } from 'primeng/listbox';
+
 
 
 
@@ -18,6 +23,10 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     DragDropModule,
     CommonModule,
     ReportRoutingModule,
+    ReactiveFormsModule,
+    InputTextareaModule,
+    InputTextModule,
+    ListboxModule
   ]
 })
 export class ReportModule { }
