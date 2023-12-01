@@ -4,14 +4,14 @@ import { CanActivateFn } from '@angular/router';
 import { connectedGuard } from './connected.guard';
 
 describe('connectedGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => connectedGuard(...guardParameters));
+    const executeGuard: CanActivateFn = (...guardParameters) =>
+        TestBed.runInInjectionContext(() => connectedGuard(...guardParameters));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+    });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(executeGuard).toBeTruthy();
+    });
 });

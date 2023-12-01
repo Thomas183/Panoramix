@@ -9,11 +9,11 @@ import { adminGuard } from 'src/app/core/guards/admin.guard';
 const routes: Routes = [
     {
         path: 'createUser',
-        component: CreateUserComponent, canActivate : [adminGuard]
+        component: CreateUserComponent
     },
     {
         path: 'manageUsers',
-        component: ManageUsersComponent, canActivate : [adminGuard]
+        component: ManageUsersComponent
     },
     {
         path: 'login',
@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     {
         path: 'updateUser/:id',
-        component: UpdateUserComponent, canActivate : [adminGuard]
+        component: UpdateUserComponent
     },
 ];
 

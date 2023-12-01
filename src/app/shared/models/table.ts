@@ -5,5 +5,4 @@ export interface Table {
             name: string
             type: string
         }>
-
 }
