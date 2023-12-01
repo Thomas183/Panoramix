@@ -8,13 +8,17 @@ import {CreateUserComponent} from "./create-user/create-user.component";
 import {ManageUsersComponent} from "./manage-users/manage-users.component";
 import {DropdownModule} from "primeng/dropdown";
 import {AuthRoutingModule} from "./auth-routing.module";
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         CreateUserComponent,
         ManageUsersComponent,
+        UpdateUserComponent,
+    
     ],
     imports: [
         CommonModule,
@@ -23,7 +27,13 @@ import {AuthRoutingModule} from "./auth-routing.module";
         RippleModule,
         DropdownModule,
         AuthRoutingModule,
+        ReactiveFormsModule,
+        TableModule
+    ],
+    exports: [
+        ReactiveFormsModule
     ]
+
 })
 export class AuthModule {
 }

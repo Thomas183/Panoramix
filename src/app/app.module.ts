@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
@@ -110,6 +110,7 @@ import { MyDataComponent } from './features/data/my-data/my-data.component';
 import { ExploreDataComponent } from './features/data/explore-data/explore-data.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 
 @NgModule({
     imports: [
@@ -171,6 +172,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
         ProgressBarModule,
         RadioButtonModule,
         RatingModule,
+        ReactiveFormsModule,
         RippleModule,
         ScrollPanelModule,
         ScrollTopModule,
@@ -197,6 +199,9 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
         TreeTableModule,
         VirtualScrollerModule,
     ],
+  exports: [
+    ReactiveFormsModule,
+  ],
     declarations: [
         AppComponent,
         AppMainComponent,
@@ -212,6 +217,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
+        { provide : HTTP_INTERCEPTORS, useClass : AuthTokenInterceptor, multi : true},
         MenuService, BreadcrumbService
     ],
     bootstrap: [AppComponent]

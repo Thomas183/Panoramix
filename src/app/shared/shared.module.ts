@@ -11,5 +11,6 @@ import {DataParserService} from "./services/dataParser.service";
   imports: [
     CommonModule
   ]
+
 })
 export class SharedModule { }

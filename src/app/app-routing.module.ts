@@ -4,6 +4,9 @@ import {AppMainComponent} from './app.main.component';
 
 
 import {SettingsComponent} from "./features/settings/settings.component";
+import {LoginComponent} from "./features/auth/login/login.component";
+import { connectedGuard } from './core/guards/connected.guard';
+import { adminGuard } from './core/guards/admin.guard';
 import {AppNotfoundComponent} from "./pages/app.notfound.component";
 import {AppErrorComponent} from "./pages/app.error.component";
 import {AppAccessdeniedComponent} from "./pages/app.accessdenied.component";
@@ -22,16 +25,16 @@ import {AppAccessdeniedComponent} from "./pages/app.accessdenied.component";
                     },
                     {
                         path: 'data',
-                        loadChildren: () => import('./features/data/data.module').then(m => m.DataModule),
+                        loadChildren: () => import('./features/data/data.module').then(m => m.DataModule), canActivate : [connectedGuard, adminGuard]
                     },
                     {
                         path: 'report',
-                        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule),
+                        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule), canActivate : [connectedGuard, adminGuard]
                     },
                     // Autres routes
                     {
                         path: 'settings',
-                        component: SettingsComponent,
+                        component: SettingsComponent, canActivate : [connectedGuard, adminGuard]
                     },
                     {
                         path: 'notfound',
