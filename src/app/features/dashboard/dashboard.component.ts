@@ -10,14 +10,14 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
 export class DashboardComponent {
 connectedUser : User | undefined;
-constructor(private _auth : AuthService,
+constructor(private _authService : AuthService,
   private _router:Router) {}
 
 
 ngOnInit() :void {
   const storedUser = localStorage.getItem('connectedUser');
   this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-  this._auth.$connectedUser.subscribe({
+  this._authService.$connectedUser.subscribe({
     next : (value) => {
       this.connectedUser = value;
     },
@@ -25,8 +25,5 @@ ngOnInit() :void {
   })
 }
 
-disconnect() {
-this._auth.logout()
-}
 
 }

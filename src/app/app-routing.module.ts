@@ -29,11 +29,11 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
                     },
                     {
                         path: 'data',
-                        loadChildren: () => import('./features/data/data.module').then(m => m.DataModule), canActivate : [connectedGuard, adminGuard]
+                        loadChildren: () => import('./features/data/data.module').then(m => m.DataModule), canActivate : [connectedGuard]
                     },
                     {
                         path: 'report',
-                        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule), canActivate : [connectedGuard, adminGuard]
+                        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule), canActivate : [connectedGuard]
                     },
                     // Autres routes
                     {

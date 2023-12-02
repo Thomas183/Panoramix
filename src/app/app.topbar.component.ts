@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AppComponent} from './app.component';
 import { AppMainComponent} from './app.main.component';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -8,5 +9,9 @@ import { AppMainComponent} from './app.main.component';
 })
 export class AppTopBarComponent {
 
-    constructor(public app: AppComponent, public appMain: AppMainComponent) {}
+    constructor(public app: AppComponent, public appMain: AppMainComponent,private _authService: AuthService) {}
+
+    disconnect() {
+      this._authService.logout()
+      }
 }

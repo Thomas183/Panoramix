@@ -12,7 +12,7 @@ if(res) {
   return true;
 }
 else {
-  router.navigateByUrl('');
+  router.navigateByUrl('auth/login');
   return false;
 }
 }))

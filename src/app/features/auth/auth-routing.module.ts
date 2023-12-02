@@ -5,6 +5,7 @@ import {ManageUsersComponent} from "./manage-users/manage-users.component";
 import {LoginComponent} from "./login/login.component";
 import {UpdateUserComponent } from './update-user/update-user.component';
 import { adminGuard } from 'src/app/core/guards/admin.guard';
+import { connectedGuard } from 'src/app/core/guards/connected.guard';
 
 const routes: Routes = [
     {
@@ -21,7 +22,7 @@ const routes: Routes = [
     },
     {
         path: 'updateUser/:id',
-        component: UpdateUserComponent, canActivate : [adminGuard]
+        component: UpdateUserComponent, canActivate : [connectedGuard]
     },
 ];
 
