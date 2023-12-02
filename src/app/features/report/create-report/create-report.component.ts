@@ -15,16 +15,17 @@ export class CreateReportComponent {
   errorMsg : string = '';
   userSub : Subscription = new Subscription();
 
-  constructor(private _auth : AuthService) {}
+  constructor(private _authService : AuthService) {}
   
   ngOnInit(): void {
-    this.userSub = this._auth.$connectedUser.subscribe({
+    const storedUser = localStorage.getItem('connectedUser');
+    this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+    this._authService.$connectedUser.subscribe({
       next : (value) => {
         this.connectedUser = value;
-        console.log("NEXT IN DEMO : ", value);
-      }
-    })
-    
-}
+        console.log(this.connectedUser)
+      },
+      
+    })}
 
 }

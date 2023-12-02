@@ -1,6 +1,8 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FileInfo} from "../../../shared/models/file-info";
 import {AfterViewInit} from "@angular/core";
+import { User } from 'src/app/shared/models/user';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 
 @Component({
@@ -16,8 +18,10 @@ export class ExploreDataComponent  implements AfterViewInit{
     data : FileInfo[] = [
     ];
     rowsPerPage: number;
+    connectedUser : User | undefined;
 
-    constructor(private elRef: ElementRef) {
+    constructor(private elRef: ElementRef,
+        private _authService: AuthService) {
     }
 
     ngAfterViewInit(){
@@ -35,6 +39,16 @@ export class ExploreDataComponent  implements AfterViewInit{
     }
 
     ngOnInit(){
+        const storedUser = localStorage.getItem('connectedUser');
+        this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+        this._authService.$connectedUser.subscribe({
+          next : (value) => {
+            this.connectedUser = value;
+            console.log(this.connectedUser)
+          },
+          
+        })
+    
         console.log('allo')
         for (let i = 0; i < 500; i++){
             this.data.push({name : 'csv'+i, size : Math.floor(Math.random() * 10)});

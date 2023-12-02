@@ -24,6 +24,8 @@ export class ManageUsersComponent {
     private _auth: AuthService) { }
 
   ngOnInit(): void {
+    const storedUser = localStorage.getItem('connectedUser');
+    this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
     this.loaded=false;
     this._auth.$connectedUser.subscribe({
       next : (value) => {

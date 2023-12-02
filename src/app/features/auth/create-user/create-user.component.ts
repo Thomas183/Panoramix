@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { User } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 
@@ -16,6 +17,7 @@ export class CreateUserComponent {
   ];
 
   registerForm: FormGroup;
+  connectedUser : User | undefined;
 
 constructor(private _fb : FormBuilder,
   private _authService:AuthService) {
@@ -29,6 +31,17 @@ constructor(private _fb : FormBuilder,
   })
 }
   
+ngOnInit() :void {
+  const storedUser = localStorage.getItem('connectedUser');
+  this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+  this._authService.$connectedUser.subscribe({
+    next : (value) => {
+      this.connectedUser = value;
+      console.log(this.connectedUser)
+    },
+    
+  })
+}
 
 createUser() : void {
 
