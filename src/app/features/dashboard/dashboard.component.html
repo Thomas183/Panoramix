@@ -1,3 +1,4 @@
 <p>dashboard works!</p>
-<!-- <p>hello {{connectedUser.firstname}}</p>
-<p *ngIf="connectedUser">hello {{connectedUser.firstname}}</p> -->
+<p>Bonjour {{connectedUser.firstname}}</p>
+<p *ngIf="connectedUser">Bonjour {{connectedUser.firstname}} {{connectedUser.lastname}}</p>
+<button (click)="disconnect()">se deconnecter</button>

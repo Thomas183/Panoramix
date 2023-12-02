@@ -42,7 +42,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
                     },
                     {
                         path: 'dashboard',
-                        component: DashboardComponent, canActivate : [connectedGuard, adminGuard]
+                        component: DashboardComponent
                     },
                 ]
             },

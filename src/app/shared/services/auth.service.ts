@@ -12,72 +12,78 @@ import { UserReceived } from '../models/userReceived';
 })
 export class AuthService {
 
-  private _urlRegister : string = 'http://localhost:3000/register'
-  private _urlLogin : string = 'http://localhost:3000/login'
-  private _userUrl : string ="http://localhost:3000/users/";
-  
+  private _urlRegister: string = 'http://localhost:3000/register'
+  private _urlLogin: string = 'http://localhost:3000/login'
+  private _userUrl: string = "http://localhost:3000/users/";
 
-  user : User | undefined;
-  private _$users : BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  $users : Observable<User[]> = this._$users.asObservable();
+  user: User | undefined;
+  private _$users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  $users: Observable<User[]> = this._$users.asObservable();
 
-  private _$connectedUser : BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
-  $connectedUser : Observable<User | undefined> = this._$connectedUser.asObservable();
+  private _$connectedUser: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
+  $connectedUser: Observable<User | undefined> = this._$connectedUser.asObservable();
 
-  getUser() : User | undefined {
+  getUser(): User | undefined {
     return this.user
   }
 
-  constructor(private _http:HttpClient,
-    private _router:Router ) {  }
+  constructor(private _http: HttpClient,
+    private _router: Router) { }
 
-    create(register:Register):void {
-      this._http.post(this._urlRegister,register)
+  create(register: Register): void {
+    this._http.post(this._urlRegister, register)
       .subscribe({
-        next : response => {
+        next: response => {
           alert('Utilisateur enregistré')
           // this._router.navigate(['la page admin avec la liste des users getAll']);
         },
-        error:error => {
-          console.log ('une erreur s\' est produite')
+        error: error => {
+          console.log('une erreur s\' est produite')
         }
       })
-    }
+  }
 
-    login(user : UserLogin):void {
-      this._http.post<UserReceived>(this._urlLogin, user).subscribe({
-        next : (res : UserReceived) => {
-          localStorage.setItem('apiToken', res.accessToken);
-          this._$connectedUser.next(res.user)
-          this._router.navigate(['/auth/manageUsers']);
-        },
-        error:(err) => {
-          console.log('erreur de login, gerer l erreur de "email pw"')
-        }
-      })
-    }
+  login(user: UserLogin): void {
+    this._http.post<UserReceived>(this._urlLogin, user).subscribe({
+      next: (res: UserReceived) => {
+        localStorage.setItem('apiToken', res.accessToken);
+        localStorage.setItem('connectedUser', JSON.stringify(res.user));
+        this._$connectedUser.next(res.user)
+        this._router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.log('erreur de login, gerer l erreur de "email pw"')
+      }
+    })
+  }
 
-    getAll() : void {
-      this._http.get<User[]>(this._userUrl).subscribe({
-        next : (value) => { this._$users.next(value) },
-        error : (error) => { 
-          console.log(error);         
-         }
-      })
-    }
+  logout() {
+    localStorage.clear();
+    this._$connectedUser.next(undefined);
+      this._router.navigate(['/auth/login']);
+  }
 
-    getById(id : number) : Observable<User> {
-      return this._http.get<User>(this._userUrl+id);
-    }
+  getAll(): void {
+    this._http.get<User[]>(this._userUrl).subscribe({
+      next: (value) => { this._$users.next(value) },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
 
-    update(id : number, user : User) : Observable<User> {
-      console.log(this._userUrl+id, user)
-      return this._http.patch<User>(this._userUrl+id, user);
-    }
-  
-    delete(id : number) : Observable<User> {
-      return this._http.delete<User>(this._userUrl+id);
-    }
-  
+  getById(id: number): Observable<User> {
+    return this._http.get<User>(this._userUrl + id);
+  }
+
+  update(id: number, user: User): Observable<User> {
+    console.log(this._userUrl + id, user)
+    return this._http.patch<User>(this._userUrl + id, user);
+  }
+
+  delete(id: number): Observable<User> {
+    return this._http.delete<User>(this._userUrl + id);
+  }
+
 }
 

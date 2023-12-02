@@ -30,6 +30,17 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit() :void {
+    const storedUser = localStorage.getItem('connectedUser');
+    this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+    this._authService.$connectedUser.subscribe({
+      next : (value) => {
+        this.connectedUser = value;
+        console.log(this.connectedUser)
+      },
+      
+    })
+  }
   connect(): void {
     if (!this.loginForm.valid) {
       console.log('pas valide')
@@ -41,7 +52,10 @@ export class LoginComponent {
     }
   }
 
-
+  disconnect() {
+    this._authService.logout()
+    }
+    
 
 
 }
