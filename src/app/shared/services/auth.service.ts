@@ -34,8 +34,7 @@ export class AuthService {
     this._http.post(this._urlRegister, register)
       .subscribe({
         next: response => {
-          alert('Utilisateur enregistré')
-          // this._router.navigate(['la page admin avec la liste des users getAll']);
+          this._router.navigate(['auth/manageUsers']);
         },
         error: error => {
           console.log('une erreur s\' est produite')

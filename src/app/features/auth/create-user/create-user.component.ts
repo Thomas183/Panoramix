@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -20,7 +21,8 @@ export class CreateUserComponent {
   connectedUser : User | undefined;
 
 constructor(private _fb : FormBuilder,
-  private _authService:AuthService) {
+  private _authService:AuthService,
+  private _router:Router) {
   this.registerForm = this._fb.group({
     firstname : [null,[Validators.required],],
     lastname : [null,[Validators.required],],
@@ -51,7 +53,8 @@ createUser() : void {
   }
   else {
     console.log('formulaire valide', JSON.stringify(this.registerForm.value));
-    this._authService.create(this.registerForm.value)
+    this._authService.create(this.registerForm.value);
+    this._router.navigate(['/auth/manageUsers']);
   }
 
 
