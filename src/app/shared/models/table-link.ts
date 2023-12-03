@@ -1,4 +1,4 @@
 export interface TableLink {
-    from: string;
-    to: string;
+    from: number;
+    to: number;
 }

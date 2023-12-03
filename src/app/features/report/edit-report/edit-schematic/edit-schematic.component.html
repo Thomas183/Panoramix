@@ -1,21 +1,22 @@
 <p-button (onClick)="test()">Test</p-button>
-<p-messages [(value)]="warningMessagesToDisplay"></p-messages>
+<p-messages [(value)]="messagesToDisplay"></p-messages>
 
 <table>
     <tr *ngFor="let line of lines">
-        <td><button (click)="deleteLine(line)">{{line.link.from}} > {{line.link.to}}</button></td>
+        <td>
+            <button (click)="deleteLine(line)">{{line.link.from}} > {{line.link.to}}</button>
+        </td>
     </tr>
 </table>
 
 <div class="draggableArea">
-    <div id="tableContainer" *ngFor="let schematic of schematics; index as i" cdkDrag (cdkDragMoved)="recalculateLine(i)">
+    <div id="tableContainer" *ngFor="let schematic of schematics; index as i" cdkDrag
+         (cdkDragMoved)="recalculateLine()">
         <div class="dot"><a (click)="handleTableClick(i)">+</a></div>
         <p-table
             #tableRef
-            [id]="schematic.table"
+            [id]="i"
             class="p-datatable-sm p-4"
-            [scrollable]="true"
-            scrollHeight="300px"
             [columns]="schematic.headers" [value]="schematic.headers"
             autoLayout="true"
         >
@@ -23,8 +24,15 @@
             <ng-template pTemplate="header">
                 <tr class="tableHeader">
                     <th
-                        *ngFor="let header of schematic.headers">{{header.name}}
-                        <p-dropdown *ngIf="schematic.fact"></p-dropdown>
+                        *ngFor="let header of schematic.headers; index as j">{{header.name}}
+                        <p-dropdown
+                            *ngIf="schematic.fact"
+                            [options]="getLinkedHeaders(i) | async"
+                            optionLabel="header"
+                            [(ngModel)]="selectedHeader[i][j]"
+                            (onChange)="setKeys(i, j)"
+                            appendTo="body">
+                        </p-dropdown>
                     </th>
                 </tr>
             </ng-template>
@@ -35,10 +43,12 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <p-checkbox [binary]="true" [(ngModel)]="schematic.fact" label="Fait ?"></p-checkbox>
+                <div>Index : {{i}}</div>
+                <p-checkbox (onChange)="handleTableStatusChange()" [binary]="true" [(ngModel)]="schematic.fact"
+                            label="Table de fait"></p-checkbox>
             </ng-template>
         </p-table>
     </div>
 </div>
 
-<p-button id="saveButton">Enregistrer le schéma</p-button>
+<p-button id="saveButton" (onClick)="saveSchematics()">Enregistrer le schéma</p-button>
