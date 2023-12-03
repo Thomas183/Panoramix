@@ -63,6 +63,7 @@ export class ImportDataComponent {
             }
 
             this._data.tables.push({
+                id: Math.floor(Math.random()*1000).toString(),
                 table: table.table,
                 headers: headers,
             });

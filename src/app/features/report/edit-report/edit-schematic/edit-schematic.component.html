@@ -1,21 +1,22 @@
-<p-button (onClick)="test()">Test</p-button>
 <p-messages [(value)]="messagesToDisplay"></p-messages>
 
 <table>
-    <tr *ngFor="let line of lines">
+    <tr *ngFor="let link of tableLinks">
         <td>
-            <button (click)="deleteLine(line)">{{line.link.from}} > {{line.link.to}}</button>
+            <button (click)="deleteLine(link)">{{link.dimensionTableId}} > {{link.factTableId}}</button>
         </td>
     </tr>
 </table>
 
-<div class="draggableArea">
-    <div id="tableContainer" *ngFor="let schematic of schematics; index as i" cdkDrag
-         (cdkDragMoved)="recalculateLine()">
-        <div class="dot"><a (click)="handleTableClick(i)">+</a></div>
+<div class="draggableArea" (scroll)="recalculateLines()">
+    <div
+        id="tableContainer"
+        *ngFor="let schematic of schematics" cdkDrag
+        (cdkDragMoved)="recalculateLines()">
+        <div class="dot"><a (click)="handleTableClick(schematic.id)">+</a></div>
         <p-table
             #tableRef
-            [id]="i"
+            [id]="schematic.id"
             class="p-datatable-sm p-4"
             [columns]="schematic.headers" [value]="schematic.headers"
             autoLayout="true"
@@ -23,29 +24,31 @@
 
             <ng-template pTemplate="header">
                 <tr class="tableHeader">
-                    <th
-                        *ngFor="let header of schematic.headers; index as j">{{header.name}}
+                    <th *ngFor="let header of schematic.headers">
+                        {{header.name}}
                         <p-dropdown
                             *ngIf="schematic.fact"
-                            [options]="getLinkedHeaders(i) | async"
-                            optionLabel="header"
-                            [(ngModel)]="selectedHeader[i][j]"
-                            (onChange)="setKeys(i, j)"
+                            (onChange)="onDropDownSelect(header.id, $event)"
+                            [options]="getHeadersFromLink(schematic.id) | async"
+                            optionLabel="headerName"
                             appendTo="body">
                         </p-dropdown>
                     </th>
                 </tr>
             </ng-template>
-
             <ng-template pTemplate="body">
                 <tr>
-                    <td *ngFor="let header of schematic.headers">{{header.type}}</td>
+                    <td *ngFor="let header of schematic.headers">{{header}}</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div>Index : {{i}}</div>
-                <p-checkbox (onChange)="handleTableStatusChange()" [binary]="true" [(ngModel)]="schematic.fact"
-                            label="Table de fait"></p-checkbox>
+                <div>Id : {{schematic.id}}</div>
+                <p-checkbox
+                    (onChange)="handleTableStatusChange(schematic.id)"
+                    [binary]="true"
+                    [(ngModel)]="schematic.fact"
+                    [disabled]="doesTableHaveALink(schematic.id)"
+                    label="Table de fait"></p-checkbox>
             </ng-template>
         </p-table>
     </div>

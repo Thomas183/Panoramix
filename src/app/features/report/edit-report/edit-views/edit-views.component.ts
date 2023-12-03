@@ -27,56 +27,6 @@ export class EditViewsComponent {
     // Liste des types de chart pour le dropDown
     chartTypes: Array<string> = [];
 
-    schematicArray: Array<ApiSchematicResponse> = [
-        {
-            id: "01BX5ZZKBKACTAV9WEVGEMMVRY",
-            log: {
-                "createdAt": "2019-08-24T14:15:22.000Z",
-                "createdBy": "user@example.com",
-                "updatedAt": "2019-08-24T14:15:22.000Z",
-                "updatedBy": "user@example.com"
-            },
-            fact: false,
-            coord: {
-                x: 10,
-                y: 20
-            },
-            table: "DimNace",
-            headers: [
-                {
-                    pk: true,
-                    name: "SKNace",
-                    type: "NUMBER"
-                }
-            ]
-        },
-        {
-            id: "01BX5ZZKBKACTAV9WEVGEMMVRY",
-            log: {
-                createdAt: "2019-08-24T14:15:22.000Z",
-                createdBy: "user@example.com",
-                updatedAt: "2019-08-24T14:15:22.000Z",
-                updatedBy: "user@example.com"
-            },
-            fact: true,
-            coord: {
-                x: 10,
-                y: 20
-            },
-            table: "FactEffectifs",
-            headers: [
-                {
-                    fk: {
-                        field: "SKNace",
-                        table: "DimNace"
-                    },
-                    pk: false,
-                    name: "NaceFK",
-                    type: "STRING"
-                }
-            ]
-        }
-    ];
     constructor(private _dataService: DataService) {
         for (let key of Object.keys(this.chartMap)) {
             this.chartTypes.push(key)
@@ -91,46 +41,7 @@ export class EditViewsComponent {
         this.chartList.push()
     }
 
-    schematics: Array<ApiSchematicResponse> = [
-        {
-            "id": "01BX5ZZKBKACTAV9WEVGEMMVRY",
-            "log": {
-                "createdAt": "2019-08-24T14:15:22Z",
-                "createdBy": "user1@example.com",
-                "updatedAt": "2019-08-24T14:15:22Z",
-                "updatedBy": "user1@example.com"
-            },
-            "fact": true,
-            "coord": {
-                "x": 10,
-                "y": 20
-            },
-            "table": "Table1",
-            "headers": [
-                {"pk": true, "name": "SKNace", "type": "INT"},
-                {"fk": {"field": "Field1", "table": "Table1"}, "pk": false, "name": "NaceFK", "type": "STRING"}
-            ]
-        },
-        {
-            "id": "02BX5ZZKBKACTAV9WEVGEMMVRY",
-            "log": {
-                "createdAt": "2019-08-25T14:15:22Z",
-                "createdBy": "user2@example.com",
-                "updatedAt": "2019-08-25T14:15:22Z",
-                "updatedBy": "user2@example.com"
-            },
-            "fact": false,
-            "coord": {
-                "x": 15,
-                "y": 25
-            },
-            "table": "Table2",
-            "headers": [
-                {"pk": true, "name": "SKNace2", "type": "INT"},
-                {"fk": {"field": "Field2", "table": "Table2"}, "pk": false, "name": "NaceFK2", "type": "STRING"}
-            ]
-        }
-    ];
+
     data: ApiDataResponse = {
         "data": [
             {

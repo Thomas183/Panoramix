@@ -20,9 +20,9 @@ interface Coordinate {
 }
 
 export interface Header {
+    id: string;
     pk: boolean;
     name: string;
-    type: string;
     fk?: ForeignKey;
 }
 
