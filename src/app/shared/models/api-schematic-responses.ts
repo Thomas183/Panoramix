@@ -1,10 +1,17 @@
-export interface ApiSchematicResponse {
+export interface GetSchematicResponse {
     id: string;
     log: Log;
     fact: boolean;
     coord: Coordinate;
     table: string;
     headers: Header[];
+}
+
+export interface PutSchematic {
+    id: string;
+    fact: boolean;
+    headers: Header[];
+    coord: Coordinate;
 }
 
 interface Log {

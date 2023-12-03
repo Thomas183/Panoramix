@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FileInfo} from "../../../shared/models/file-info";
 import {DataParserService} from "../../../shared/services/dataParser.service";
 import {StructuredCsv} from "../../../shared/models/strctured-csv";
-import {DataService} from "../../../shared/services/data.service";
+import {TableService} from "../../../shared/services/table.service";
 import {Table} from "../../../shared/models/table";
 
 @Component({
@@ -11,7 +11,7 @@ import {Table} from "../../../shared/models/table";
     styleUrls: ['./import-data.component.scss']
 })
 export class ImportDataComponent {
-    constructor(private parser: DataParserService, private _data: DataService) {
+    constructor(private parser: DataParserService, private tableService: TableService) {
     }
 
     fileInfoList: Array<FileInfo> = [];
@@ -47,6 +47,7 @@ export class ImportDataComponent {
 
     clearFiles() {
         this.fileInfoList = [];
+        this.dataToUpload = [];
     }
 
     onDelete(index: number) {
@@ -62,11 +63,12 @@ export class ImportDataComponent {
                 headers.push({name: header.name, type: header.type})
             }
 
-            this._data.tables.push({
-                id: Math.floor(Math.random()*1000).toString(),
-                table: table.table,
+            this.tableService.tables.push({
+                id: Math.floor(Math.random() * 1000).toString(),
+                table: table.tableName,
                 headers: headers,
             });
         })
+        this.clearFiles();
     }
 }

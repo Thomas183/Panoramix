@@ -1,4 +1,4 @@
-export interface Table {
+export interface  Table {
     id: string,
     table: string,
     headers:

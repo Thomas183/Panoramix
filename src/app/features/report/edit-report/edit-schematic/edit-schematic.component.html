@@ -26,7 +26,7 @@
                 <tr class="tableHeader">
                     <th *ngFor="let header of schematic.headers">
                         {{header.name}}
-                        <p-dropdown
+                        <div *ngIf="schematic.fact">Primary Key :</div><p-dropdown
                             *ngIf="schematic.fact"
                             (onChange)="onDropDownSelect(header.id, $event)"
                             [options]="getHeadersFromLink(schematic.id) | async"

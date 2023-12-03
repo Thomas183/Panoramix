@@ -7,8 +7,8 @@ export interface ApiDataResponse {
 
 interface DataItem {
     id: string;
-    log: Log;
     values: Values;
+    log: Log;
 }
 
 interface Log {

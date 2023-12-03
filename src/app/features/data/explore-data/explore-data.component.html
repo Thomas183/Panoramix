@@ -1,20 +1,18 @@
-<div #tableWrapper>
-    <p-table [paginator]="true" [rows]="30" [value]="tables" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Nom de la table</th>
-                <th>Actions</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body">
-            <tr *ngFor="let table of tables">
-                <td>{{ table.table }}</td>
-                <td>
-                    <a>Visualiser</a>
-                    |
-                    <a>Supprimer</a>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
+<p-table [paginator]="true" [rows]="30" [value]="tables" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nom de la table</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tables>
+        <tr>
+            <td>{{ tables.table }}</td>
+            <td>
+                <p-button class="p-1" icon="pi pi-eye"></p-button>
+                <p-button class="p-1" icon="pi pi-times"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+

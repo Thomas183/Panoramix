@@ -1,7 +1,7 @@
 <div id="chartForm">
     <input type="text" pInputText>
-    <p-dropdown [options]="chartTypes" [(ngModel)]="selectedType"></p-dropdown>
-    <p-button (onClick)="createChart(selectedType)">Créer</p-button>
+    <p-dropdown [options]="chartTypes" optionLabel="nom" [(ngModel)]="selectedChartType"></p-dropdown>
+    <p-button (onClick)="createChart(selectedChartType.type)">Créer</p-button>
 </div>
 <div *ngFor="let chart of chartList">
     <div>

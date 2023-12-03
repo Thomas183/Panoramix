@@ -1,8 +1,7 @@
 import {TableLink} from "./table-link";
 
 export interface StructuredCsv {
-    table: string;
-    fact: boolean;
+    tableName: string;
     headers: Array<{
         name: string;
         type: 'INT' | 'FLOAT' | 'STRING';

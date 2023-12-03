@@ -1,5 +1,5 @@
 export interface Chart {
-    type: 'bar' | 'pie' | 'radar',
+    type: string,
     data: {
         datasets: Array<{
             data: Array<number>,

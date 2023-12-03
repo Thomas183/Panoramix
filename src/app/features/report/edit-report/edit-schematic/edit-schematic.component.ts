@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {Table as pTable} from "primeng/table";
 import {Table as csvTable} from '../../../../shared/models/table'
-import {DataService} from "../../../../shared/services/data.service";
-import {ApiSchematicResponse, Header} from "../../../../shared/models/api-schematic-response";
+import {TableService} from "../../../../shared/services/table.service";
+import {GetSchematicResponse, Header} from "../../../../shared/models/api-schematic-responses";
 import {Message, MessageService} from "primeng/api";
 import {Observable, of} from "rxjs";
 import {DropdownChangeEvent} from "primeng/dropdown";
@@ -38,7 +38,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     firstTableClickedId: string | undefined = undefined;
 
     // Listes des schéma du projet
-    schematics: Array<ApiSchematicResponse>;
+    schematics: Array<GetSchematicResponse>;
 
     // Répertoire des lignes tracées avec les coordoonées et l'objet Leaderline
     tableLinks: Array<TableLink> = [];
@@ -54,7 +54,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     messagesToDisplay: Array<Message> = [];
 
 
-    constructor(private _dataService: DataService, private _messageService: MessageService) {
+    constructor(private _dataService: TableService, private _messageService: MessageService) {
     }
 
     ngOnInit() {
@@ -73,7 +73,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     displayMessage(id: number): void {
         this._messageService.add(this.messages[id]);
         setTimeout(() => {
-            this._messageService.clear(id.toString());
+            this._messageService.clear();
         }, 3500);
     }
 
@@ -114,12 +114,11 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         })
     }
 
-
     getTableElementIndexById(id: string): number {
         return this.tableElementArray.findIndex(table => table.el.nativeElement.id === id)
     }
 
-    getSchematicByTableId(id: string): ApiSchematicResponse {
+    getSchematicByTableId(id: string): GetSchematicResponse {
         return this.schematics.find(schematic => schematic.id === id);
     }
 
@@ -151,10 +150,15 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
             this.firstTableClickedId = undefined;
             return;
         }
+        if (schematic.fact){
+            this.displayMessage(3);
+            this.firstTableClickedId = undefined;
+            return;
+        }
         const doesLinkExist = this.tableLinks.some(link =>
             (link.dimensionTableId === clickedTableId) ||
             (link.factTableId === this.firstTableClickedId));
-        if (doesLinkExist) {
+        if (doesLinkExist) { // Lien déjà existant
             this.displayMessage(0);
             this.firstTableClickedId = undefined;
             return;
@@ -165,7 +169,6 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         this.getHeadersFromLink(this.firstTableClickedId);
         this.firstTableClickedId = undefined;
     }
-
 
     drawNewLine(dimensionTableId: string, factTableId: string) {
         const dimensionTableElement = this.tableElementArray[this.getTableElementIndexById(dimensionTableId)];

@@ -18,7 +18,7 @@ export class DataParserService {
                     resolve(this.structurePapaparseResult(result, title));
                 },
                 header: true,
-                error: (error) => {
+                error: (error : any) => {
                     console.error('Error parsing CSV:', error);
                     reject(error);
                 }
@@ -28,8 +28,7 @@ export class DataParserService {
 
     private structurePapaparseResult(papaResult: ParseResult<any>, title: string) : StructuredCsv {
         const customObject: StructuredCsv = {
-            table: title,
-            fact: false,
+            tableName: title,
             headers: [],
             data: papaResult.data
         };
