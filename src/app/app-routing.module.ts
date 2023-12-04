@@ -46,10 +46,10 @@ import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
                         path: 'dashboard',
                         component: DashboardComponent, canActivate : [connectedGuard]
                     },
-                    {
-                        path: '',
-                        component: DashboardComponent, canActivate : [connectedGuard]
-                    },
+                    // {
+                    //     path: '',
+                    //     component: LoginComponent, canActivate : [connectedGuard]
+                    // },
                     { 
                         path : "notfound", 
                         component : AppNotfoundComponent },
@@ -59,6 +59,7 @@ import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
                     },
                 ]
             },
+            // {path: '#', redirectTo: '/auth/login'},
             {path: '**', redirectTo: '/notfound'},
         ], {scrollPositionRestoration: 'enabled'})
     ],

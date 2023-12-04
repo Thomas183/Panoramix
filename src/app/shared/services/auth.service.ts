@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { Register } from '../models/register';
 import { UserLogin } from '../models/userLogin';
 import { UserReceived } from '../models/userReceived';
+import { AppMenuComponent } from 'src/app/app.menu.component';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,7 @@ export class AuthService {
         localStorage.setItem('apiToken', res.accessToken);
         localStorage.setItem('connectedUser', JSON.stringify(res.user));
         this._$connectedUser.next(res.user)
+        
         this._router.navigate(['/dashboard']);
       },
       error: (err) => {
@@ -59,7 +61,9 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this._$connectedUser.next(undefined);
-      this._router.navigate(['/auth/login']);
+    this._router.navigate(['auth/login'])  
+    location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+      ;
   }
 
   getAll(): void {
