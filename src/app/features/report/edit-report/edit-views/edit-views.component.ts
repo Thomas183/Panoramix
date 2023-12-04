@@ -28,8 +28,7 @@ export class EditViewsComponent implements OnInit{
 
     constructor() {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     createChart(type: string) {
         this.chartList.push({
@@ -37,42 +36,4 @@ export class EditViewsComponent implements OnInit{
             data: null,
         })
     }
-
-
-    data: ApiDataResponse = {
-        "data": [
-            {
-                "id": "01BX5ZZKBKACTAV9WEVGEMMVRY",
-                "log": {
-                    "createdAt": "2019-08-24T14:15:22Z",
-                    "createdBy": "user1@example.com",
-                    "updatedAt": "2019-08-24T14:15:22Z",
-                    "updatedBy": "user1@example.com"
-                },
-                "values": {
-                    "field1": "Value1",
-                    "field2": 100,
-                    "field3": 200
-                }
-            },
-            {
-                "id": "02BX5ZZKBKACTAV9WEVGEMMVRY",
-                "log": {
-                    "createdAt": "2019-08-25T14:15:22Z",
-                    "createdBy": "user2@example.com",
-                    "updatedAt": "2019-08-25T14:15:22Z",
-                    "updatedBy": "user2@example.com"
-                },
-                "values": {
-                    "field1": 100,
-                    "field2": 150,
-                    "field3": 250
-                }
-            }
-        ],
-        "page": 0,
-        "size": 10,
-        "pages": 1
-    };
-
 }

@@ -13,7 +13,17 @@ export class AppMenuComponent implements OnInit {
 
     model: any[];
 
-    ngOnInit() {
+    private _isConnected: boolean = false;
+    set isConnected(value: boolean) {
+        this._isConnected = value;
+        this.setMenuItems();
+    }
+
+    isUserConnected(): void{
+        this.isConnected = true;
+    }
+
+    setMenuItems(): void{
         this.model = [
             {
                 label: 'Acceuil', icon: 'pi pi-fw pi-home',
@@ -53,5 +63,10 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
         ];
+    }
+
+
+    ngOnInit(): void {
+        this.setMenuItems();
     }
 }

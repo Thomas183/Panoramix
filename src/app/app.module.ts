@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppRoutingModule} from './app-routing.module';
+import { AppLoginComponent } from "./pages/app.login.component";
 
 // PrimeNG Components for demos
 import {AccordionModule} from 'primeng/accordion';
@@ -201,6 +202,7 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
     ],
     declarations: [
         AppComponent,
+        AppLoginComponent,
         AppMainComponent,
         AppMenuComponent,
         AppMenuitemComponent,

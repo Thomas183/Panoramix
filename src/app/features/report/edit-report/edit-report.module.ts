@@ -17,6 +17,8 @@ import {ChartModule} from "primeng/chart";
 import {FormsModule} from "@angular/forms";
 import {CheckboxModule} from "primeng/checkbox";
 import {MessagesModule} from "primeng/messages";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import {MessagesModule} from "primeng/messages";
         ChartModule,
         FormsModule,
         CheckboxModule,
-        MessagesModule
+        MessagesModule,
+        InputTextareaModule,
+        RippleModule
     ]
 })
 export class EditReportModule { }

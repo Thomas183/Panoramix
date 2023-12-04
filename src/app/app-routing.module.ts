@@ -11,6 +11,7 @@ import { adminGuard } from './core/guards/admin.guard';
 import {AppNotfoundComponent} from "./pages/app.notfound.component";
 import {AppErrorComponent} from "./pages/app.error.component";
 import {AppAccessdeniedComponent} from "./pages/app.accessdenied.component";
+import {AppLoginComponent} from "./pages/app.login.component";
 
 
 
@@ -48,7 +49,11 @@ import {AppAccessdeniedComponent} from "./pages/app.accessdenied.component";
                     {
                         path: 'accessDenied',
                         component: AppAccessdeniedComponent,
-                    }
+                    },
+                    {
+                        path: 'loginTest',
+                        component: AppLoginComponent,
+                    },
                 ]
             },
             {path: '**', redirectTo: '/notfound'},

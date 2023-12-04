@@ -67,6 +67,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     }
 
     ngOnDestroy() {
+        this.deleteAllLines();
     }
 
     // Fonction pour afficher un popup à l'écran
@@ -150,13 +151,13 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
             this.firstTableClickedId = undefined;
             return;
         }
-        if (schematic.fact){
+        if (schematic.fact) {
             this.displayMessage(3);
             this.firstTableClickedId = undefined;
             return;
         }
         const doesLinkExist = this.tableLinks.some(link =>
-            (link.dimensionTableId === clickedTableId) ||
+            (link.dimensionTableId === clickedTableId) &&
             (link.factTableId === this.firstTableClickedId));
         if (doesLinkExist) { // Lien déjà existant
             this.displayMessage(0);
@@ -194,7 +195,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
 
     // Retrouve une liste de tout les champs à afficher dans le dropdown d'une table de fait ainsi que des données
     // supplémentaires pour gérer l'action à la sélection
-    getHeadersFromLink(factTableId: string): Observable<{tableId: string, headerId: string, headerName: string}[]> {
+    getHeadersFromLink(factTableId: string): Observable<{ tableId: string, headerId: string, headerName: string }[]> {
         const headersInfo: Array<{ tableId: string, headerId: string, headerName: string }> = [];
 
         this.tableLinks.forEach(link => {
@@ -213,6 +214,12 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         this.tableLinks = this.tableLinks.filter(link =>
             link.factTableId !== tableLink.factTableId || link.dimensionTableId !== tableLink.dimensionTableId
         )
+    }
+
+    deleteAllLines(): void {
+        this.tableLinks.forEach(link => {
+            link.line.remove();
+        })
     }
 
     // Permet de recalculer le positionnement des lignes
