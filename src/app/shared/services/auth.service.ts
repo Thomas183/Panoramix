@@ -24,12 +24,13 @@ export class AuthService {
     private _$connectedUser: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
     $connectedUser: Observable<User | undefined> = this._$connectedUser.asObservable();
 
-    getUser(): User | undefined {
-        return this.user
-    }
 
     constructor(private _http: HttpClient,
                 private _router: Router) {
+    }
+
+    getUser(): User | undefined {
+        return this.user
     }
 
     create(register: Register): void {

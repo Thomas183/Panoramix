@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "./shared/services/auth.service";
 
 @Component({
     selector: 'app-menu',
@@ -11,19 +12,24 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppMenuComponent implements OnInit {
 
+    constructor(private _authService: AuthService) {
+    }
+
     model: any[];
 
-    private _isConnected: boolean = false;
-    set isConnected(value: boolean) {
-        this._isConnected = value;
+    private _isAdminConnected: boolean = false;
+    private set isAdminConnected(value: boolean) {
+        this._isAdminConnected = value;
         this.setMenuItems();
     }
 
-    isUserConnected(): void{
-        this.isConnected = true;
+    private _isUserConnected: boolean = false;
+    private set isUserConnected(value: boolean) {
+        this._isUserConnected = value;
+        this.setMenuItems();
     }
 
-    setMenuItems(): void{
+    setMenuItems(): void {
         this.model = [
             {
                 label: 'Acceuil', icon: 'pi pi-fw pi-home',
@@ -32,7 +38,9 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Utilisateurs', icon: 'pi pi-fw pi-star-fill', routerLink: ['/auth'],
+                label: 'Utilisateurs',
+                icon: 'pi pi-fw pi-star-fill',
+                routerLink: ['/auth'],
                 items: [
                     {label: 'Créer un utilisateur', icon: 'pi pi-fw pi-id-card', routerLink: ['auth/createUser']},
                     {label: 'Gérer les utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['auth/manageUsers']},
@@ -40,11 +48,15 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label:'Rapports', icon: 'pi pi-fw pi-prime', routerLink: ['/report'],
-                items:[
+                label: 'Rapports', icon: 'pi pi-fw pi-prime', routerLink: ['/report'],
+                items: [
                     {label: 'Créer un nouveau rapport', icon: 'pi pi-fw pi-plus', routerLink: ['report/createReport']},
                     {label: 'Mes Rapports', icon: 'pi pi-fw pi-eye', routerLink: ['report/myReports']},
-                    {label: 'Explorer les rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['report/exploreReports']},
+                    {
+                        label: 'Explorer les rapports',
+                        icon: 'pi pi-fw pi-chart-bar',
+                        routerLink: ['report/exploreReports']
+                    },
                     {label: 'EditReport (Testing)', icon: 'pi pi-fw pi-ban', routerLink: ['report/editReport']},
                 ]
             },
@@ -53,7 +65,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {label: 'Importer des données', icon: 'pi pi-fw pi-file-import', routerLink: ['data/importData']},
                     {label: 'Mes données', icon: 'pi pi-fw pi-eye', routerLink: ['data/myData']},
-                    {label: 'Explorer les données', icon: 'pi pi-fw pi-list',routerLink: ['data/exploreData']},
+                    {label: 'Explorer les données', icon: 'pi pi-fw pi-list', routerLink: ['data/exploreData']},
                 ]
             },
             {
@@ -68,5 +80,13 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit(): void {
         this.setMenuItems();
+        const user: string | undefined = undefined;
+        this._authService.$connectedUser.subscribe({
+            next: (user) => {
+                if (user.role === 'administrateur') {
+                    this.isAdminConnected = true
+                }
+            }
+        })
     }
 }
