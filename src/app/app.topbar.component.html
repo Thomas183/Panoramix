@@ -22,7 +22,7 @@
             </a>
 
             <ul class="fadeInDown">
-                <li role="menuitem">
+                <li role="dashboard">
                     <a href="#" (click)="appMain.onTopbarSubItemClick($event)">
                         <i class="pi pi-user"></i>
                         <span>Profile</span>
@@ -37,7 +37,8 @@
 
                 <!-- Bouton déconnexion !-->
                 <li role="menuitem">
-                    <a routerLink="settings" (click)="disconnect()">
+                    <a (click)="disconnect()">
+                        <!-- <a routerLink="login" (click)="disconnect()"> -->
                         <i class="pi pi-sign-out"></i>
                         <span>Se déconnecter</span>
                     </a>

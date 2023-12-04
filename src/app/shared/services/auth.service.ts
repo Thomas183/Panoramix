@@ -61,8 +61,8 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this._$connectedUser.next(undefined);
-    this._router.navigate(['auth/login'])  
     location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+    this._router.navigate(['auth/login'])  
       ;
   }
 
