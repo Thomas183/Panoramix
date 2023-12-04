@@ -13,7 +13,7 @@ if(res && res.role=="administrateur") {
   return true;
 }
 else {
-  router.navigateByUrl('auth/login');
+  router.navigateByUrl('/denied');
   return false;
 }
 }))

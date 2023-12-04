@@ -34,7 +34,7 @@ export class AppMenuComponent implements OnInit {
                 items:[
                     {label: 'Créer un nouveau rapport', icon: 'pi pi-fw pi-plus', routerLink: ['report/createReport']},
                     {label: 'Mes Rapports', icon: 'pi pi-fw pi-eye', routerLink: ['report/myReports']},
-                    {label: 'Explorer les rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['report/exploreReports']},
+                    {label: 'Explorer les rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['report/exploreReports'], visible : false},
                 ]
             },
             {

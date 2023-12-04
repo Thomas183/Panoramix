@@ -12,7 +12,7 @@ if(res) {
   return true;
 }
 else {
-  router.navigateByUrl('auth/login');
+  router.navigateByUrl('/denied');
   return false;
 }
 }))

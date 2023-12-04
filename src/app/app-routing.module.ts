@@ -15,6 +15,8 @@ import {LoginComponent} from "./features/auth/login/login.component";
 import { connectedGuard } from './core/guards/connected.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { AppNotfoundComponent } from './pages/app.notfound.component';
+import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 
 
 @NgModule({
@@ -38,11 +40,22 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
                     // Autres routes
                     {
                         path: 'settings',
-                        component: SettingsComponent, canActivate : [connectedGuard, adminGuard]
+                        component: SettingsComponent, canActivate : [connectedGuard]
                     },
                     {
                         path: 'dashboard',
-                        component: DashboardComponent
+                        component: DashboardComponent, canActivate : [connectedGuard]
+                    },
+                    {
+                        path: '',
+                        component: DashboardComponent, canActivate : [connectedGuard]
+                    },
+                    { 
+                        path : "notfound", 
+                        component : AppNotfoundComponent },
+                    {
+                        path: 'denied',
+                        component: AppAccessdeniedComponent
                     },
                 ]
             },
