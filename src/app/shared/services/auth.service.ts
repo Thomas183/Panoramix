@@ -18,7 +18,7 @@ export class AuthService {
   // private _urlRegister: string = 'http://localhost:3000/register'
   private _urlLogin: string = environment.baseUrl;
   // private _urlLogin: string = 'http://localhost:3000/login'
-  private _userUrl: string = environment.baseUrl;
+  private _urlUser: string = environment.baseUrl;
   // private _userUrl: string = "http://localhost:3000/users/";
 
   user: User | undefined;
@@ -71,7 +71,7 @@ export class AuthService {
   }
 
   getAll(): void {
-    this._http.get<User[]>(this._userUrl).subscribe({
+    this._http.get<User[]>(this._urlUser).subscribe({
       next: (value) => { this._$users.next(value) },
       error: (error) => {
         console.log(error);
@@ -80,16 +80,16 @@ export class AuthService {
   }
 
   getById(id: number): Observable<User> {
-    return this._http.get<User>(this._userUrl + id);
+    return this._http.get<User>(this._urlUser + id);
   }
 
   update(id: number, user: User): Observable<User> {
-    console.log(this._userUrl + id, user)
-    return this._http.patch<User>(this._userUrl + id, user);
+    console.log(this._urlUser + id, user)
+    return this._http.patch<User>(this._urlUser + id, user);
   }
 
   delete(id: number): Observable<User> {
-    return this._http.delete<User>(this._userUrl + id);
+    return this._http.delete<User>(this._urlUser + id);
   }
 
 }
