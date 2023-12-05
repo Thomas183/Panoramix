@@ -4,6 +4,8 @@ import { User } from 'src/app/shared/models/user';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-manage-users',
@@ -14,7 +16,9 @@ import { Observable } from 'rxjs';
 export class ManageUsersComponent {
 
   errorUser: string = '';
-  userUrl: string = "http://localhost:3000/users";
+  userUrl: string = environment.baseUrl
+  // userUrl: string = "http://localhost:3000/users";
+
   users: User[] = [];
   $users: Observable<User[]>;
   connectedUser : User | undefined;

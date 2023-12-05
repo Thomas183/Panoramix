@@ -7,15 +7,19 @@ import { Register } from '../models/register';
 import { UserLogin } from '../models/userLogin';
 import { UserReceived } from '../models/userReceived';
 import { AppMenuComponent } from 'src/app/app.menu.component';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private _urlRegister: string = 'http://localhost:3000/register'
-  private _urlLogin: string = 'http://localhost:3000/login'
-  private _userUrl: string = "http://localhost:3000/users/";
+  private _urlRegister: string = environment.baseUrl;
+  // private _urlRegister: string = 'http://localhost:3000/register'
+  private _urlLogin: string = environment.baseUrl;
+  // private _urlLogin: string = 'http://localhost:3000/login'
+  private _userUrl: string = environment.baseUrl;
+  // private _userUrl: string = "http://localhost:3000/users/";
 
   user: User | undefined;
   private _$users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
