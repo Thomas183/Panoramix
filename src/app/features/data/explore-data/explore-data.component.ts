@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Table} from "../../../shared/models/table";
-import {TableService} from "../../../shared/services/table.service";
+import {Table} from "@models/api/table";
+import {TableService} from "@services/api/table.service";
 
 
 @Component({

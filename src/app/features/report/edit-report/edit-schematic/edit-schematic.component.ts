@@ -6,9 +6,9 @@ import {
     ViewChildren
 } from '@angular/core';
 import {Table as pTable} from "primeng/table";
-import {Table as csvTable} from '../../../../shared/models/table'
-import {TableService} from "../../../../shared/services/table.service";
-import {GetSchematicResponse, Header} from "../../../../shared/models/api-schematic-responses";
+import {Table as csvTable} from "@models/api/table"
+import {TableService} from "@services/api/table.service";
+import {GetSchematicResponse, Header} from "@models/api-schematic-responses";
 import {Message, MessageService} from "primeng/api";
 import {Observable, of} from "rxjs";
 import {DropdownChangeEvent} from "primeng/dropdown";

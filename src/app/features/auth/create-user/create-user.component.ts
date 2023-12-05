@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '../../../shared/services/api/auth.service';
 
 
 @Component({
@@ -28,12 +28,12 @@ constructor(private _fb : FormBuilder,
     role : ['utilisateur']
   })
 }
-  
+
 
 createUser() : void {
 
   if(!this.registerForm.valid) {
-    this.registerForm.markAllAsTouched(); 
+    this.registerForm.markAllAsTouched();
     console.log('pas valide', JSON.stringify(this.registerForm.value))
   }
   else {

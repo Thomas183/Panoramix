@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {report} from 'src/app/shared/models/report';
+import {Report} from '../../../shared/models/api/report';
 import {NgModule} from '@angular/core';
 import {ListboxModule} from 'primeng/listbox';
 import {AllcsvService} from 'src/app/shared/services/allcsv.service';
@@ -15,7 +15,7 @@ import {DataTableForm} from 'src/app/shared/models/data-table-form';
 export class CreateReportComponent {
 
     value: string;
-    report: report[] = [];
+    report: Report[] = [];
 
     ngOnInit(): void {
         this.getAllTables();

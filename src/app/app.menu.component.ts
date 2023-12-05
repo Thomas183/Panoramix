@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "./shared/services/auth.service";
+import {AuthService} from "./shared/services/api/auth.service";
 
 @Component({
     selector: 'app-menu',
@@ -12,24 +12,12 @@ import {AuthService} from "./shared/services/auth.service";
 })
 export class AppMenuComponent implements OnInit {
 
-    constructor(private _authService: AuthService) {
+    constructor() {
     }
 
     model: any[];
 
-    private _isAdminConnected: boolean = false;
-    private set isAdminConnected(value: boolean) {
-        this._isAdminConnected = value;
-        this.setMenuItems();
-    }
-
-    private _isUserConnected: boolean = false;
-    private set isUserConnected(value: boolean) {
-        this._isUserConnected = value;
-        this.setMenuItems();
-    }
-
-    setMenuItems(): void {
+    ngOnInit(): void {
         this.model = [
             {
                 label: 'Acceuil', icon: 'pi pi-fw pi-home',
@@ -75,18 +63,5 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
         ];
-    }
-
-
-    ngOnInit(): void {
-        this.setMenuItems();
-        const user: string | undefined = undefined;
-        this._authService.$connectedUser.subscribe({
-            next: (user) => {
-                if (user.role === 'administrateur') {
-                    this.isAdminConnected = true
-                }
-            }
-        })
     }
 }

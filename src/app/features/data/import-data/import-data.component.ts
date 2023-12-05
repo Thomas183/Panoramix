@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {FileInfo} from "../../../shared/models/file-info";
-import {DataParserService} from "../../../shared/services/dataParser.service";
-import {StructuredCsv} from "../../../shared/models/strctured-csv";
-import {TableService} from "../../../shared/services/table.service";
-import {Table} from "../../../shared/models/table";
+import {FileInfo} from "@models/file-info";
+import {DataParserService} from "@services/dataParser.service";
+import {StructuredCsv} from "@models/strctured-csv";
+import {TableService} from "@services/api/table.service";
 
 @Component({
     selector: 'app-import-data',

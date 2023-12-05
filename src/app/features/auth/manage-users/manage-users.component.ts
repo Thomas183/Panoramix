@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { User } from 'src/app/shared/models/user';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '../../../shared/services/api/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({

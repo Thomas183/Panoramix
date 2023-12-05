@@ -1,23 +1,24 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart} from "../../../../shared/models/chart";
-import {TableService} from "../../../../shared/services/table.service";
-import {GetSchematicResponse} from "../../../../shared/models/api-schematic-responses";
-import {ApiDataResponse} from "../../../../shared/models/api-data-responses";
+import {environment} from "../../../../../environments/environment";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Component({
     selector: 'app-edit-views',
     templateUrl: './edit-views.component.html',
     styleUrls: ['./edit-views.component.scss']
 })
-export class EditViewsComponent implements OnInit{
+export class EditViewsComponent implements OnInit {
+
+    baseUrl = environment.baseUrl;
 
     // Type de chart sélectionné au dropdown
-    selectedChartType: {nom: string, type: string} = {
+    selectedChartType: { nom: string, type: string } = {
         nom: 'Batons', type: 'bar'
     };
 
     // Types de chart disponible au dropdown, nom correspond au nom d'affichage et type au type de chartJS
-    chartTypes: Array<{nom: string, type: string}> = [
+    chartTypes: Array<{ nom: string, type: string }> = [
         {nom: 'Batons', type: 'bar'},
         {nom: 'Disque', type: 'pie'},
         {nom: 'Radar', type: 'radar'},
@@ -26,9 +27,18 @@ export class EditViewsComponent implements OnInit{
     // Liste des charts générés
     chartList: Array<Chart> = [];
 
-    constructor() {}
+    constructor(private _httpClient: HttpClient) {
+    }
 
-    ngOnInit() {}
+    ngOnInit() {
+        const credentials = {login: 'Devs.PanoraMix@hotmail.com', password: 'admin'}
+
+        this._httpClient.post(`${this.baseUrl}/api/login`, credentials).subscribe({
+            next: (value) => {
+                console.log(value);
+            }
+        })
+    }
 
     createChart(type: string) {
         this.chartList.push({

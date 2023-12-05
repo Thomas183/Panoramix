@@ -1,6 +1,6 @@
 <h1>Nouveau rapport</h1>
 
-    <div class="container">   
+    <div class="container">
         <form [formGroup]="registerForm" (ngSubmit)="createReport()">
 
             <div class="column">
@@ -9,9 +9,9 @@
                         <input id="name" type="text" formControlName="name"  pInputText [(ngModel)]="value">
                         <label htmlFor="Nom du rapport">Nom du rapport</label>
                     </span>
-                
+
                 </div>
-                
+
                 <div class="my-3">
                     <textarea id="description" formControlName="description" placeholder="Description ..." rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
                 </div>
@@ -33,7 +33,6 @@
                             [checkbox]="true"
                             [showToggleAll]="false"
                             [metaKeySelection]="false"
-                            (onSelectAllChange)="onSelectAllChange($event)"
                             (onChange)="onChange($event)"
                             [listStyle]="{ 'max-height': '220px' }"
                         ></p-listbox>
@@ -50,11 +49,11 @@
 
 
 
-<!-- 
+<!--
 <div>
     <h2>Détails</h2>
     <div>
-        
+
         <form [formGroup]="registerForm" (ngSubmit)="createReport()" class="flex-container">
 
             <div class="flex-child magenta">
