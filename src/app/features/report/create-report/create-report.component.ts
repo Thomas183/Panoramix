@@ -5,7 +5,8 @@ import { NgModule } from '@angular/core';
 import { ListboxModule } from 'primeng/listbox';
 import { AllcsvService } from 'src/app/shared/services/allcsv.service';
 import { DataTableForm } from 'src/app/shared/models/data-table-form';
-
+import { TableService } from 'src/app/shared/services/table.service';
+import { Table } from 'src/app/shared/models/table';
 
 @Component({
   selector: 'app-create-report',
@@ -17,14 +18,11 @@ export class CreateReportComponent {
   value : string;
   report: report[] = [];
 
-  ngOnInit(): void {
-    this.getAllTables();
-  }
-
   //formulaire
   registerForm : FormGroup;
   constructor(private _fb : FormBuilder,
-              private allcsvservice : AllcsvService
+              private allcsvservice : AllcsvService,
+              private TableService : TableService
     ) {
     this.registerForm = this._fb.group({
       name : [null, Validators.required, ],
@@ -40,48 +38,33 @@ export class CreateReportComponent {
     }
   }
 
-  arrayCSV : any[] = [
-    { name :"csv1"},
-    { name :"csv2"},
-    { name :"csv3"},
-    { name :"csv4"},
-    { name :"csv5"}
-  ];
-  //tableau fichiers
-  items = this.arrayCSV;
 
+  items = this.TableService.tables;
   selectedItems!: any[];
-
   selectAll = false;
+  drupy:any[] = [];
 
   onSelectAllChange(event) {
       this.selectedItems = event.checked ? [...this.items] : [];
       this.selectAll = event.checked;
       event.updateModel(this.selectedItems, event.originalEvent)
+      this.drupy.push(this.selectedItems);
   }
 
   onChange(event) {
-      const { originalEvent, value } = event
-      if(value) this.selectAll = value.length === this.items.length;
+      this.selectedItems = []
+      this.selectedItems = event.value
   }
 
+  lancement(selectedItems){
+    localStorage.setItem(Math.floor(Math.random()*1000).toString(), JSON.stringify(this.getIds()));
+  }
 
-  //récupérer les ttes les tables
-  alltable : DataTableForm[] = [];
-
-  getAllTables() : void{
-    this.allcsvservice.getAllcsv(0,10).subscribe(
-      (data) => {
-        // this.alltable.
-        // Handle the data received from the API
-        console.log(data);
-      },
-      (error) => {
-        // Handle errors
-        console.error(error);
+  getIds(): Array<string>{
+      const tableIds : Array<string> = [];
+      for(let selectedItem of this.selectedItems){
+          tableIds.push(selectedItem.tableId)
       }
-    )
+      return tableIds;
   }
 }
-
-//en créant le rapport, il a un nom et un ensemble de fichiers qui lui sont ajoutés

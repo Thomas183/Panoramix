@@ -10,7 +10,7 @@ export class TableService {
     constructor() {
     }
 
-    tables: Array<Table> = [];
+    public tables: Array<Table> = [];
 
 
 }
