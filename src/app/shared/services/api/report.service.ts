@@ -1,12 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {GetSchematicResponse, PutSchematic} from "@models/api-schematic-responses";
-import {ApiDataResponse} from "@models/api-data-responses";
 import {environment} from "../../../../environments/environment";
 import {SchemaTable, SchemaTableForm} from "@models/api/schematic";
-import {A, H} from "@angular/cdk/keycodes";
-import {n} from "@fullcalendar/core/internal-common";
 import {Report} from "@models/api/report";
 
 @Injectable({

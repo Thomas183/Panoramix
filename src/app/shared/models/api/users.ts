@@ -11,7 +11,7 @@ export interface User {
     id: string
     firstName: string,
     lastName: string,
-    role: 'User' | 'Admin',
+    role: 'USER' | 'ADMIN',
     isActivated: boolean
     log: HistoryLog;
 }
@@ -21,7 +21,7 @@ export interface UserFormCreate {
     lastName: string,
     email: string,
     password: string,
-    role: 'ADMIN' | 'ADMIN',
+    role: 'USER' | 'ADMIN',
     isActivated: boolean,
 }
 
