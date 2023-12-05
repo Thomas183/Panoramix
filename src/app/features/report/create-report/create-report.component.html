@@ -1,5 +1,4 @@
 <h1>Nouveau rapport</h1>
-
     <div class="container">
         <form [formGroup]="registerForm" (ngSubmit)="createReport()">
 
@@ -9,9 +8,7 @@
                         <input id="name" type="text" formControlName="name"  pInputText [(ngModel)]="value">
                         <label htmlFor="Nom du rapport">Nom du rapport</label>
                     </span>
-
                 </div>
-
                 <div class="my-3">
                     <textarea id="description" formControlName="description" placeholder="Description ..." rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
                 </div>
@@ -26,7 +23,7 @@
                     <div class="card flex justify-content-center">
                         <p-listbox
                             [options]="items"
-                            optionLabel="name"
+                            optionLabel="table"
                             [style]="{ width: '25rem' }"
                             [filter]="true"
                             [multiple]="true"
@@ -40,44 +37,8 @@
                 </div>
                 <div class="my-3">
                     <button class="btn" routerLink="" value="Retour">Retour</button>
-                    <!-- Gérer le retour vers la page "rapport" voir en fonction de si les info sont correctes ou pas -->
-                    <input class="btn" type="submit" routerLink="/report/myReports" value="Continuer">
+                    <input class="btn" type="submit" routerLink="/report/myReports" value="Continuer" (click)="lancement(selectedItems)">
                 </div>
             </div>
         </form>
     </div>
-
-
-
-<!--
-<div>
-    <h2>Détails</h2>
-    <div>
-
-        <form [formGroup]="registerForm" (ngSubmit)="createReport()" class="flex-container">
-
-            <div class="flex-child magenta">
-                <div class="form-group">
-                    <input id="name" type="text" formControlName="name" placeholder="Nom du rapport">
-                </div>
-                <div class="form-group">
-                    <input id="description" type="text" formControlName="description" placeholder="Description ...">
-                </div>
-            </div>
-
-            <div class="flex-child green">
-                <div>
-                    <h3>Fichiers</h3>
-                </div>
-                <div>
-                    <h3>le tableau</h3>
-                </div>
-                <div id="divbtn">
-                    <button class="btn" value="Retour">Retour</button>
-                    <input class="btn" type="submit" value="Continuer">
-                </div>
-            </div>
-
-        </form>
-    </div>
-</div> -->
