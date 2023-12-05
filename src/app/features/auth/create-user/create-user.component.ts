@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { AuthService } from '../../../shared/services/api/auth.service';
+import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models/user';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 
 @Component({
@@ -16,9 +19,11 @@ export class CreateUserComponent {
   ];
 
   registerForm: FormGroup;
+  connectedUser : User | undefined;
 
 constructor(private _fb : FormBuilder,
-  private _authService:AuthService) {
+  private _authService:AuthService,
+  private _router:Router) {
   this.registerForm = this._fb.group({
     firstname : [null,[Validators.required],],
     lastname : [null,[Validators.required],],
@@ -29,6 +34,17 @@ constructor(private _fb : FormBuilder,
   })
 }
 
+ngOnInit() :void {
+  const storedUser = localStorage.getItem('connectedUser');
+  this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+  this._authService.$connectedUser.subscribe({
+    next : (value) => {
+      this.connectedUser = value;
+      console.log(this.connectedUser)
+    },
+
+  })
+}
 
 createUser() : void {
 
@@ -38,7 +54,8 @@ createUser() : void {
   }
   else {
     console.log('formulaire valide', JSON.stringify(this.registerForm.value));
-    this._authService.create(this.registerForm.value)
+    this._authService.create(this.registerForm.value);
+    this._router.navigate(['/auth/manageUsers']);
   }
 
 

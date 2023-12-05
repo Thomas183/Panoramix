@@ -14,8 +14,27 @@ import {DataTableForm} from 'src/app/shared/models/data-table-form';
 })
 export class CreateReportComponent {
 
+    connectedUser: User | undefined;
+    errorMsg: string = '';
+    userSub: Subscription = new Subscription();
+
     value: string;
     report: Report[] = [];
+
+    constructor(private _authService: AuthService) {
+    }
+
+    ngOnInit(): void {
+        const storedUser = localStorage.getItem('connectedUser');
+        this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+        this._authService.$connectedUser.subscribe({
+            next: (value) => {
+                this.connectedUser = value;
+                console.log(this.connectedUser)
+            },
+
+        })
+    }
 
     ngOnInit(): void {
         this.getAllTables();

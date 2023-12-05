@@ -54,7 +54,7 @@ export class UpdateUserComponent {
   updateUser(): void {
     this._authService.update(this.userId, this.userForm.value).subscribe({
       complete: () => {
-        this._router.navigateByUrl('/auth/manageUsers');
+        this._router.navigateByUrl('/auth/manageUsersc');
       }
     });
 
