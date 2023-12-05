@@ -6,16 +6,19 @@ import {User} from '@models/user';
 import {Register} from '@models/register';
 import {UserLogin} from '@models/userLogin';
 import {UserReceived} from '@models/userReceived';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    private _urlRegister: string = 'http://localhost:3000/register'
-    private _urlLogin: string = 'http://localhost:3000/login'
-    private _userUrl: string = "http://localhost:3000/users/";
-
+    private _urlRegister: string = environment.baseUrl;
+    // private _urlRegister: string = 'http://localhost:3000/register'
+    private _urlLogin: string = environment.baseUrl;
+    // private _urlLogin: string = 'http://localhost:3000/login'
+    private _urlUser: string = environment.baseUrl;
+    // private _userUrl: string = "http://localhost:3000/users/";
 
     user: User | undefined;
     private _$users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
@@ -24,24 +27,22 @@ export class AuthService {
     private _$connectedUser: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
     $connectedUser: Observable<User | undefined> = this._$connectedUser.asObservable();
 
+    getUser(): User | undefined {
+        return this.user
+    }
 
     constructor(private _http: HttpClient,
                 private _router: Router) {
-    }
-
-    getUser(): User | undefined {
-        return this.user
     }
 
     create(register: Register): void {
         this._http.post(this._urlRegister, register)
             .subscribe({
                 next: response => {
-                    alert('Utilisateur enregistré')
-                    // this._router.navigate(['la page admin avec la liste des users getAll']);
+                    this._router.navigate(['auth/manageUsers']);
                 },
                 error: error => {
-                    console.log('register fail', register, error)
+                    console.log('une erreur s\' est produite')
                 }
             })
     }
@@ -49,19 +50,28 @@ export class AuthService {
     login(user: UserLogin): void {
         this._http.post<UserReceived>(this._urlLogin, user).subscribe({
             next: (res: UserReceived) => {
-                localStorage.setItem('apiToken', res.token);
-                this._$connectedUser.next(res.member)
-                console.log(res)
-                // this._router.navigate(['page de l'utilisateur']);
+                localStorage.setItem('apiToken', res.accessToken);
+                localStorage.setItem('connectedUser', JSON.stringify(res.user));
+                this._$connectedUser.next(res.user)
+
+                this._router.navigate(['/dashboard']);
             },
             error: (err) => {
-                console.log('erreur de login, gerer l erreur de email pw')
+                console.log('erreur de login, gerer l erreur de "email pw"')
             }
         })
     }
 
+    logout() {
+        localStorage.clear();
+        this._$connectedUser.next(undefined);
+        location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+        this._router.navigate(['auth/login'])
+        ;
+    }
+
     getAll(): void {
-        this._http.get<User[]>(this._userUrl).subscribe({
+        this._http.get<User[]>(this._urlUser).subscribe({
             next: (value) => {
                 this._$users.next(value)
             },
@@ -72,17 +82,15 @@ export class AuthService {
     }
 
     getById(id: number): Observable<User> {
-        return this._http.get<User>(this._userUrl + id);
+        return this._http.get<User>(this._urlUser + id);
     }
 
     update(id: number, user: User): Observable<User> {
-        console.log(this._userUrl + id, user)
-        return this._http.patch<User>(this._userUrl + id, user);
+        console.log(this._urlUser + id, user)
+        return this._http.patch<User>(this._urlUser + id, user);
     }
 
     delete(id: number): Observable<User> {
-        return this._http.delete<User>(this._userUrl + id);
+        return this._http.delete<User>(this._urlUser + id);
     }
-
 }
-

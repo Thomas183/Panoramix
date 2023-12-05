@@ -2,9 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService} from '../../../shared/services/api/auth.service';
+import {AuthService} from '@services/api/auth.service';
 import {User} from 'src/app/shared/models/user';
-import {AuthService} from 'src/app/shared/services/auth.service';
 
 @Component({
     selector: 'app-login',

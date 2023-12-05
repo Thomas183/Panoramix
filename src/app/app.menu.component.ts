@@ -1,11 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "./shared/services/auth.service";
-import { FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
-import { User } from "./shared/models/user";
-
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from "./shared/services/api/auth.service";
+import { AuthService } from "@services/api/auth.service";
 
 @Component({
     selector: 'app-menu',
@@ -109,5 +103,11 @@ export class AppMenuComponent implements OnInit {
                 }
             }
         })
+
+        // TODO A retirer au déploiment
+
+        this.isUserConnected = true
+        this.isAdminConnected = true
+
     }
 }

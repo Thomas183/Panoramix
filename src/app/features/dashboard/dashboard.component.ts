@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from '@services/api/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +21,7 @@ ngOnInit() :void {
     next : (value) => {
       this.connectedUser = value;
     },
-    
+
   })
 }
 
