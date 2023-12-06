@@ -5,6 +5,7 @@ import { ReportService } from '@services/api/report.service';
 import { Report } from '@models/api/report';
 import { Router, RouterModule } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { el } from '@fullcalendar/core/internal-common';
 
 
 @Component({
@@ -15,8 +16,10 @@ import { TableModule } from 'primeng/table';
 export class MyReportsComponent {
   connectedUser : User | undefined;
 
+  listReports: Report[] =[];
+  listReportsFinish: any[] =[];
+  listReportsUnfinish: any[] =[];
 
-  listReports: any[] =[];
 
 
   constructor(private _authService: AuthService,
@@ -34,14 +37,25 @@ export class MyReportsComponent {
       })
  
       //obj : afficher les rapports et récupérer l'id qd on clique dessus
-      //rajouter des pages et updater le numéro de la page pr afficher les autres dossiers
+        //rajouter des pages et updater le numéro de la page pr afficher les autres dossiers
       let page : number = 0;
-      let size : number = 10;
+      let size : number = 30;
       this._reportService.getReports(page, size).subscribe({
         next:(goldorak) => {
-            this.listReports=goldorak.data
-            console.log(goldorak.data[9].id)
-            console.log("Rapports récupérés")
+          this.listReports=goldorak.data
+          //pour chaque rapport, voir si il est public ou non et le classé dans la bonne catégorie
+          this.listReports.forEach((report : Report) => {
+            if(report.isPublic && report.log.createdBy =="Devs.PanoraMix@hotmail.com"){
+              this.listReportsFinish.push(report);
+            } else {
+              this.listReportsUnfinish.push(report);
+            }
+          });
+
+
+            // this.listReports=goldorak.data
+            // console.log(goldorak.data[9].id)
+            // console.log("Rapports récupérés")
         }
       })
     }

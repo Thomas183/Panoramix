@@ -1,10 +1,13 @@
 <h3>Liste de mes rapports</h3>
 
-    <p-table [value]="listReports" [tableStyle]="{ 'min-width': '50rem' }">
+<h4>Rapports non achevés</h4>
+
+    <p-table [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Nom du rapport</th>
                 <th>Description</th>
+                <th>Date de création</th>
                 <th>Modifier</th>
             </tr>
         </ng-template>
@@ -12,7 +15,28 @@
             <tr>
                 <td>{{ report.name }}</td>
                 <td>{{ report.description }}</td>
+                <td>{{ report.log.createdAt | date : short }}</td>
+
                 <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
             </tr>
         </ng-template>
     </p-table>
+
+<h4>Rapport achevés</h4>
+
+<p-table [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nom du rapport</th>
+            <th>Description</th>
+            <th>Modifier</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-report>
+        <tr>
+            <td>{{ report.name }}</td>
+            <td>{{ report.description }}</td>
+            <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
+        </tr>
+    </ng-template>
+</p-table>
