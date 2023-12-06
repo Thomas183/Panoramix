@@ -9,3 +9,5 @@ export interface Data {
 export interface DataForm{
 
 }
+
+export interface DataRow {     [key: string]: string }

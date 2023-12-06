@@ -40,8 +40,8 @@ export class ReportService {
         }>(this.baseUrl, {params: httpParams});
     }
 
-    createReport(name: string, description: string): Observable<string> {
-        return this._httpClient.post<string>(`${this.baseUrl}`, {name: name, description: description});
+    createReport(name: string, description: string): Observable<{id:string}> {
+        return this._httpClient.post<{id:string}>(`${this.baseUrl}`, {name: name, description: description});
     }
 
     getReport(reportId: string): Observable<Report> {

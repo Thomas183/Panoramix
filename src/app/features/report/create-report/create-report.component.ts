@@ -29,21 +29,15 @@ export class CreateReportComponent {
     
     ngOnInit(): void {
 
-        this._tableService.getTables(0,0).subscribe({
+        //Récupération des tables
+        this._tableService.getTables(0,100).subscribe({
             next:(value)=>{
-                console.log(value)
-                console.log(value.data)
-                this.listTables=value.data
-                console.log("ça marche")
+                this.items = value.data
             }
         });
         const credentials = {login: 'Devs.PanoraMix@hotmail.com', password: 'admin'}
 
-            this._tableService.getTables(0, 10).subscribe({
-                next: (tables) => {
-                console.log(tables)
-        }
-        })
+
     }
 
     // Formulaire
@@ -61,26 +55,27 @@ export class CreateReportComponent {
         this.registerForm = this._fb.group({
             name: [null, Validators.required,],
             description: [null, Validators.required],
-            csv:[null,],
+            csv:[null,]
         });
     }
 
+    //Création du report
     createReport() {
         if (this.registerForm.valid) {
-            console.log(this.registerForm.value);
             console.log("form valide")
             
             //envoie du report en db avec réception de l'id
-            //ça ne va pas mais jsp pq. Le form est valide ms ça ne me renvoie rien
-
-            // const id = this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value)
-            // console.log(id)
-            
             this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
                 next : (Response) => {
-                    console.log(Response);
+                    //rajout de chaque tables ds le projet avec idproject + idtable
+                    this._reportService.addTableToReport(Response.id,this.items[0].id).subscribe({
+                        next : () =>{
+                            console.log("tables ajoutées au rapport")
+                        }
+                    })
                 },
         })
+            //Redirection vers "mes rapports"
             this._routeur.navigate(['/report/myReports']);
         } else {
             this.registerForm.markAllAsTouched();
@@ -88,10 +83,9 @@ export class CreateReportComponent {
         }
     }
 
-// Tableau fichiers
-
-//
-    items = this._tableService.tables;
+    // Tableau fichiers
+        //items un array de table{}
+    items : Array<DataTable>;
     selectedItems!: any[];
 
     onChange(event: ListboxChangeEvent) {
@@ -99,16 +93,12 @@ export class CreateReportComponent {
         this.selectedItems = event.value
     }
 
-    //envoie l'id des csv sélectionnés
-    lancement(selectedItems) {
-        localStorage.setItem(Math.floor(Math.random() * 1000).toString(), JSON.stringify(this.getIds()));
-    }
-
-    getIds(): Array<string> {
-        const tableIds: Array<string> = [];
-        for (let selectedItem of this.selectedItems) {
-            tableIds.push(selectedItem.tableId)
-        }
-        return tableIds;
-    }
+    //a supp
+    // getIds(): Array<string> {
+    //     const tableIds: Array<string> = [];
+    //     for (let selectedItem of this.selectedItems) {
+    //         tableIds.push(selectedItem.tableId)
+    //     }
+    //     return tableIds;
+    // }
 }

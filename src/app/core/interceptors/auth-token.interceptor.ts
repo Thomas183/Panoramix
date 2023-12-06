@@ -13,7 +13,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let token= "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdW…cRSumSIY8R6rKtdHOKqq1z0A1LtV_Ith0XcjkyvkWlVvTWimA";
+    let token= "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJEZXZzLlBhbm9yYU1peEBob3RtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImV4cCI6MTcwMTg4MjkzM30.PT0hI9PYbYXSflSQD6HAeSgyD5sUtrsNM9kWUmzq9R_uDaTULQN1YA29BJk-4nBAmSedHjnuIpQylSQYpWiDnQ";
 
 
     if(token && token !=='') {

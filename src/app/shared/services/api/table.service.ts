@@ -53,8 +53,8 @@ export class TableService {
     }
 
 
-    createTable(table: { table: string, headers: Array<{ name: string }> }): Observable<string> {
-        return this._httpClient.post<string>(`${this.baseUrl}`, table)
+    createTable(table: { table: string, headers: Array<{ name: string }> }): Observable<{id:string}> {
+        return this._httpClient.post<{id:string}>(`${this.baseUrl}`, table)
     }
 
     getTable(tableId: string): Observable<DataTable> {
@@ -67,5 +67,16 @@ export class TableService {
 
     deleteTable(tableId: string): Observable<null> {
         return this._httpClient.delete<null>(`${this.baseUrl}/${tableId}`);
+    }
+
+
+    deleteTables(amount: number): void {
+        this.getTables(0, amount).subscribe({
+            next: (tables) => {
+                tables.data.forEach(data => {
+                    this.deleteTable(data.id).subscribe()
+                })
+            }
+        })
     }
 }
