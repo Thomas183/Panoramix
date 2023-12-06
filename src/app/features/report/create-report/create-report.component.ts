@@ -6,6 +6,11 @@ import {User} from "@models/user";
 import {Subscription} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";
+import {ReportService} from "@services/api/report.service";
+import { DataTable, Table } from '@models/api/table';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -15,13 +20,30 @@ import {ListboxChangeEvent} from "primeng/listbox";
 })
 export class CreateReportComponent {
 
+    baseUrl = environment.baseUrl;
     connectedUser: User | undefined;
 
     value: string;
     report: Report[] = [];
-
+    listTables : Array<DataTable>
+    
     ngOnInit(): void {
 
+        this._tableService.getTables(0,0).subscribe({
+            next:(value)=>{
+                console.log(value)
+                console.log(value.data)
+                this.listTables=value.data
+                console.log("ça marche")
+            }
+        });
+        const credentials = {login: 'Devs.PanoraMix@hotmail.com', password: 'admin'}
+
+            this._tableService.getTables(0, 10).subscribe({
+                next: (tables) => {
+                console.log(tables)
+        }
+        })
     }
 
     // Formulaire
@@ -29,26 +51,46 @@ export class CreateReportComponent {
 
     constructor(
         private _fb: FormBuilder,
+        private _httpClient : HttpClient,
         private _authService: AuthService,
-        private _tableService : TableService
+        private _tableService : TableService,
+        private _reportService : ReportService,
+        private _routeur : Router,
+        
     ) {
-        this
-            .registerForm = this._fb.group({
+        this.registerForm = this._fb.group({
             name: [null, Validators.required,],
-            description: [null, Validators.required]
+            description: [null, Validators.required],
+            csv:[null,],
         });
     }
 
     createReport() {
         if (this.registerForm.valid) {
             console.log(this.registerForm.value);
+            console.log("form valide")
+            
+            //envoie du report en db avec réception de l'id
+            //ça ne va pas mais jsp pq. Le form est valide ms ça ne me renvoie rien
+
+            // const id = this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value)
+            // console.log(id)
+            
+            this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
+                next : (Response) => {
+                    console.log(Response);
+                },
+        })
+            this._routeur.navigate(['/report/myReports']);
         } else {
             this.registerForm.markAllAsTouched();
+            console.log("form invalide")
         }
     }
 
 // Tableau fichiers
 
+//
     items = this._tableService.tables;
     selectedItems!: any[];
 
@@ -57,6 +99,7 @@ export class CreateReportComponent {
         this.selectedItems = event.value
     }
 
+    //envoie l'id des csv sélectionnés
     lancement(selectedItems) {
         localStorage.setItem(Math.floor(Math.random() * 1000).toString(), JSON.stringify(this.getIds()));
     }

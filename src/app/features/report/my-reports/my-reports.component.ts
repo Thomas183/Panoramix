@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/shared/models/user';
 import { AuthService } from '@services/api/auth.service';
+import { ReportService } from '@services/api/report.service';
 
 @Component({
   selector: 'app-my-reports',
@@ -9,8 +10,10 @@ import { AuthService } from '@services/api/auth.service';
 })
 export class MyReportsComponent {
   connectedUser : User | undefined;
+  listReport: any;
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _authService: AuthService,
+              private _reportService : ReportService) { }
 
   ngOnInit() :void {
       const storedUser = localStorage.getItem('connectedUser');
@@ -22,5 +25,9 @@ export class MyReportsComponent {
         },
 
       })
+
+      this._reportService.getReports(1,10).subscribe
     }
+
+    
 }
