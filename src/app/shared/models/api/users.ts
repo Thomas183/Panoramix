@@ -29,6 +29,11 @@ export interface UserFormPatch {
     firstName: string,
     lastName: string,
     email: string,
-    password: string,
     role: 'USER' | 'ADMIN'
 }
+
+export interface LoginForm {
+    email : string,
+    password: string
+}
+

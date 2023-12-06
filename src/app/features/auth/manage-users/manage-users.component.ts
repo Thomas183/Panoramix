@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { User } from 'src/app/shared/models/user';
+import { User } from '@models/api/users';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AuthService } from '../../../shared/services/api/auth.service';
+import { AuthService } from '@services/api/auth.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +17,6 @@ export class ManageUsersComponent {
 
   errorUser: string = '';
   userUrl: string = environment.baseUrl
-  // userUrl: string = "http://localhost:3000/users";
 
   users: User[] = [];
   $users: Observable<User[]>;
@@ -28,8 +27,19 @@ export class ManageUsersComponent {
     private _auth: AuthService) { }
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('connectedUser');
-    this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+    console.log('manage user ok')
+    const storedUser: string | null = localStorage.getItem('apiToken');
+    console.log(storedUser)
+    
+    
+    // const storedUser = localStorage.getItem('apiToken');
+    // this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
+
+
+
+    // TODO: voir si modifier pour recuper je sais pas quoi
+
+
     this.loaded=false;
     this._auth.$connectedUser.subscribe({
       next : (value) => {
@@ -43,18 +53,7 @@ export class ManageUsersComponent {
 
   }
 
-  // ngOnInit(): void {
-  //   this.$users = this._auth.$users
-  //   this.connectedUser = this._auth.$connectedUser
-
-  //   this._auth.getAll();
-  // }
-
-
-
-
-
-  delete(id: number) {
+  delete(id: string) {
     this._auth.delete(id).subscribe({
       complete: () => {
         this.$users = this._auth.$users

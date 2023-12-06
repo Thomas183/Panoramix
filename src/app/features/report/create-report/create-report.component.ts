@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
 import {AuthService} from "@services/api/auth.service";
-import {User} from "@models/user";
+import { User } from '@models/api/users';
 import {Subscription} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";

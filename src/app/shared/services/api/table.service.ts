@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {DataTable, Table} from "@models/api/table";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {n} from "@fullcalendar/core/internal-common";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
@@ -23,12 +23,15 @@ export class TableService {
         size: number,
         data: Array<DataTable>
     }> {
+        const httpParams: HttpParams = new HttpParams()
+        .append('page', page)
+        .append('size', size)
         return this._httpClient.get<{
             pages: number,
             page: number,
             size: number,
             data: Array<DataTable>
-        }>(`${this.baseUrl}/tables`)
+        }>(`${this.baseUrl}`, {params: httpParams})
     }
 
     createTable(table: { table: string, headers: Array<{ name: string }> }): Observable<string> {

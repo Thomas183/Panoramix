@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/api/auth.service';
-import {User} from 'src/app/shared/models/user';
+import { User } from '@models/api/users';
 
 @Component({
     selector: 'app-login',
@@ -36,7 +36,7 @@ export class LoginComponent {
         this._authService.$connectedUser.subscribe({
             next: (value) => {
                 this.connectedUser = value;
-                console.log(this.connectedUser)
+                // console.log(this.connectedUser)
             },
 
         })
@@ -44,14 +44,14 @@ export class LoginComponent {
 
     connect(): void {
         if (!this.loginForm.valid) {
-            console.log('pas valide')
+            console.log('pas valide',this.loginForm)
 
         } else {
+            this._authService.login('Devs.PanoraMix@hotmail.com', 'admin')
+            }}
 
-            this._authService.login(this.loginForm.value);
-
-        }
-    }
+    
+    
 
     disconnect() {
         this._authService.logout()
