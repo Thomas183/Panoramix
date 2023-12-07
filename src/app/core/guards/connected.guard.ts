@@ -4,13 +4,10 @@ import { map } from 'rxjs';
 import { AuthService } from '@services/api/auth.service';
 
 export const connectedGuard: CanActivateFn = (route, state) => {
-
+// recupération du Token
     const storedUser: string | null = localStorage.getItem('apiToken');
-
-    const decodedPayload: string = atob(storedUser.split('.')[1]);
-    const parsedPayload: any = JSON.parse(decodedPayload);
-
-    if (parsedPayload) {
+// vérification de la présence d'un token, si oui, il est au minimum User
+    if (storedUser) {
         return true
     }
     else {

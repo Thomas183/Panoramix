@@ -13,9 +13,11 @@ export class AuthTokenInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+
+    // récupération du Token
     const token: string | null = localStorage.getItem('apiToken');
 
-
+    // Stockage du token s'il est présent et non vide
     if (token && token !== '') {
       let requestClone = request.clone({
         setHeaders: {

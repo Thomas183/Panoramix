@@ -15,10 +15,7 @@ import { environment } from 'src/environments/environment';
 
 export class ManageUsersComponent {
 
-  errorUser: string = '';
-  userUrl: string = environment.baseUrl
 
-  users: User[] = [];
   $users: Observable<User[]>;
   connectedUser: User | undefined;
   loaded: boolean;
@@ -28,7 +25,6 @@ export class ManageUsersComponent {
 
   ngOnInit(): void {
     const storedUser: string | null = localStorage.getItem('apiToken');
-
     this.loaded = false;
     this._auth.$connectedUser.subscribe({
       next: (value) => {

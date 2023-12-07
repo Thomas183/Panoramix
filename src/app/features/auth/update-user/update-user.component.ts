@@ -12,6 +12,7 @@ import { Password } from 'primeng/password';
 })
 export class UpdateUserComponent {
 
+  // créations des choix pour le rôle
   dropdownItems: Array<{ role: string }> = [
     { role: 'USER' },
     { role: 'ADMIN' }

@@ -12,6 +12,7 @@ import { User } from '@models/api/users';
 })
 export class CreateUserComponent {
 
+  // créations des choix pour le rôle
   dropdownItems: Array<{ role: string }> = [
     { role: 'USER'},
     { role: 'ADMIN'}
@@ -28,18 +29,8 @@ constructor(private _fb : FormBuilder,
     lastName : [null,[Validators.required],],
     email : [null,[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],],
     password : [null,[Validators.required,Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).{5,}$/)],],
-    role : ['USER'],
+    role : ['USER'], 
     isActivated : [true],
-  })
-}
-
-ngOnInit() :void {
-  const storedUser = localStorage.getItem('apiToken');
-  this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-  this._authService.$connectedUser.subscribe({
-    next : (value) => {
-      this.connectedUser = value;
-    },
   })
 }
 

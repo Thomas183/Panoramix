@@ -15,9 +15,12 @@ export class AuthService {
     private _baseUrl: string = environment.baseUrl;
 
     user: User | undefined;
+
+    // création du tableau d'observables pour récupérer la liste d'users
     private _$users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
     $users: Observable<User[]> = this._$users.asObservable();
 
+    // création de l'observable pour 1 seul user
     private _$connectedUser: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(this.getUser());
     $connectedUser: Observable<User | undefined> = this._$connectedUser.asObservable();
 
@@ -38,7 +41,7 @@ export class AuthService {
                 error: error => {
                 },
                 complete: () => {
-                    location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+                    location.reload(); // rafraichit la page pour mettre à jour le menu
                 }
             })
     }
