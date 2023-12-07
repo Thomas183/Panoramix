@@ -43,7 +43,6 @@ export class UpdateUserComponent {
   ngOnInit(): void {
     this._authService.getByIdToModify(this.userId).subscribe({
       next: (user) => {
-        console.log(user);
         this.userForm.patchValue({
           firstName: user.firstName,
           lastName: user.lastName,
@@ -52,17 +51,14 @@ export class UpdateUserComponent {
         });
       },
       error: () => {
-        console.log('j\'y suis j\'y reste');
         this._router.navigateByUrl('/notfound');
       }
     })
   }
 
   updateUser(): void {
-console.log('lancement updateUser()',this.userForm.value);
     this._authService.update(this.userId, this.userForm.value).subscribe({
       complete: () => {
-        console.log('fin de update')
         // this._router.navigateByUrl('/auth/manageUsersc');
       }
     });

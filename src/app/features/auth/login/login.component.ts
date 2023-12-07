@@ -33,12 +33,10 @@ export class LoginComponent {
 
     connect(): void {
         if (!this.loginForm.valid) {
-            console.log('pas valide',this.loginForm)
 
         } else {
             const email = this.loginForm.get('email')?.value;
             const password = this.loginForm.get('password')?.value;
-            console.log(email, password)
 
 
             if (email && password) {

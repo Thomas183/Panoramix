@@ -88,24 +88,24 @@ export class AppMenuComponent implements OnInit {
             const decodedPayload: string = atob(storedUser.split('.')[1]);
             const parsedPayload: any = JSON.parse(decodedPayload);
 
-            console.log('Decoded Payload:', parsedPayload);
+            
 
             if (parsedPayload.role === 'ADMIN') {
                 this._isAdminConnected = true;
                 this._isUserConnected = true;
-                console.log('admin connected');
+            
                 this.setMenuItems();
             }
             else if (parsedPayload.role === 'USER') {
                 this._isAdminConnected = false;
                 this._isUserConnected = true;
-                console.log('USER Connected');
+            
                 this.setMenuItems();
             }
             else {
                 this._isAdminConnected = false;
                 this._isUserConnected = false;
-                console.log('PLANTAGE');
+            
                 this.setMenuItems();
             }
         }}}

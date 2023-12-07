@@ -36,7 +36,6 @@ export class AuthService {
                     this._router.navigate(['auth/manageUsers']);
                 },
                 error: error => {
-                    console.log('une erreur s\' est produite')
                 },
                 complete:() => {
                     location.reload(); // simule f5 pour faire disparaitre le menu à gauche
@@ -45,14 +44,12 @@ export class AuthService {
     }
 
     login(email: string, password: string): void {
-        console.log('entré dans le login auth', email, password)
         this._http.post<{token:string}>(`${this._baseUrl}/auth/sign-in`, { login: email, password: password }).subscribe({
             next: response => {
                 localStorage.setItem('apiToken', response.token);
                 return response
             },
             error:error => {
-                console.log('something went wrong with your login');
                 return error
             },
             complete:() => {
@@ -81,7 +78,6 @@ export class AuthService {
                 this._$users.next(value.data)
             },
             error: (error) => {
-                console.log(error);
             }
         })
     }
@@ -99,7 +95,6 @@ export class AuthService {
 
     update(id: string, user: User): Observable<User> {
 
-        console.log('vous etes dans update de l\'auth','voici le lien',`${this._baseUrl}/users/` + id, 'voici l\'user',user)
 
         return this._http.patch<User>(`${this._baseUrl}/users/` + id, user);
     }

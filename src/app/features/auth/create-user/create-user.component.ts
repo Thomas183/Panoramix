@@ -43,7 +43,7 @@ ngOnInit() :void {
   this._authService.$connectedUser.subscribe({
     next : (value) => {
       this.connectedUser = value;
-      console.log(this.connectedUser)
+      
     },
 
   })
@@ -53,10 +53,9 @@ createUser() : void {
 
   if(!this.registerForm.valid) {
     this.registerForm.markAllAsTouched();
-    console.log('pas valide', JSON.stringify(this.registerForm.value))
+   
   }
   else {
-    console.log('formulaire valide', JSON.stringify(this.registerForm.value));
     this._authService.create(this.registerForm.value);
     this._router.navigate(['/auth/manageUsers']);
   }

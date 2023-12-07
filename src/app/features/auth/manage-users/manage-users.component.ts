@@ -27,9 +27,7 @@ export class ManageUsersComponent {
     private _auth: AuthService) { }
 
   ngOnInit(): void {
-    console.log('manage user ok')
     const storedUser: string | null = localStorage.getItem('apiToken');
-    console.log(storedUser)
     
     
     // const storedUser = localStorage.getItem('apiToken');
