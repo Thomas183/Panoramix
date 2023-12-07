@@ -17,8 +17,6 @@ export class CreateUserComponent {
     { role: 'ADMIN'}
   ];
 
-  
-
   registerForm: FormGroup;
   connectedUser : User | undefined;
 
@@ -35,32 +33,23 @@ constructor(private _fb : FormBuilder,
   })
 }
 
-
-
 ngOnInit() :void {
   const storedUser = localStorage.getItem('apiToken');
   this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
   this._authService.$connectedUser.subscribe({
     next : (value) => {
       this.connectedUser = value;
-      
     },
-
   })
 }
 
 createUser() : void {
-
   if(!this.registerForm.valid) {
     this.registerForm.markAllAsTouched();
-   
   }
   else {
     this._authService.create(this.registerForm.value);
     this._router.navigate(['/auth/manageUsers']);
   }
-
-
 }
-
 }

@@ -19,12 +19,8 @@
                 <td>{{ users.email }}</td>
                 <td>{{ users.role }}</td>
                 <td>
-
                     <a [routerLink]="['/auth/updateUser/',users.id]"><i class="pi pi-user-edit"></i></a>
-                    <!-- <a routerLink="auth/updateUser/{{users.id}}"><i class="pi pi-user-edit"></i></a> -->
-
                     <a (click)="delete(users.id)" class="delete-icon"><i class="pi pi-trash"></i></a>
-                    
                 </td>
             </tr>
         </ng-template>

@@ -17,8 +17,6 @@ export class LoginComponent {
     ]
 
     loginForm: FormGroup;
-    // notLogged: boolean = false
-    // connectedUser: User | undefined;
 
     constructor(private _fb: FormBuilder,
                 private _httpClient: HttpClient,
@@ -30,7 +28,6 @@ export class LoginComponent {
         });
     }
 
-
     connect(): void {
         if (!this.loginForm.valid) {
 
@@ -38,23 +35,12 @@ export class LoginComponent {
             const email = this.loginForm.get('email')?.value;
             const password = this.loginForm.get('password')?.value;
 
-
             if (email && password) {
                 this._authService.login(email, password);
 
-
-
-            // this._authService.login(this.loginForm.     'email reçu', 'pw')
             }}}
-
-    
-    
 
     disconnect() {
         this._authService.logout()
     }
-
-
 }
-
-

@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { User, UserFormPatch } from '@models/api/users';
-import {Register} from '@models/register';
-import {UserLogin} from '@models/userLogin';
-import {environment} from 'src/environments/environment';
+import { Register } from '@models/register';
+import { UserLogin } from '@models/userLogin';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +23,7 @@ export class AuthService {
 
     constructor(private _http: HttpClient,
         private _router: Router) {
-}
+    }
 
     getUser(): User | undefined {
         return this.user
@@ -37,22 +37,22 @@ export class AuthService {
                 },
                 error: error => {
                 },
-                complete:() => {
+                complete: () => {
                     location.reload(); // simule f5 pour faire disparaitre le menu à gauche
                 }
             })
     }
 
     login(email: string, password: string): void {
-        this._http.post<{token:string}>(`${this._baseUrl}/auth/sign-in`, { login: email, password: password }).subscribe({
+        this._http.post<{ token: string }>(`${this._baseUrl}/auth/sign-in`, { login: email, password: password }).subscribe({
             next: response => {
                 localStorage.setItem('apiToken', response.token);
                 return response
             },
-            error:error => {
+            error: error => {
                 return error
             },
-            complete:() => {
+            complete: () => {
                 this._router.navigate(['/dashboard'])
                 setTimeout(() => {
                     location.reload()
@@ -92,10 +92,7 @@ export class AuthService {
 
     }
 
-
     update(id: string, user: User): Observable<User> {
-
-
         return this._http.patch<User>(`${this._baseUrl}/users/` + id, user);
     }
 

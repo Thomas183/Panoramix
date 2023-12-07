@@ -20,7 +20,6 @@ export class UpdateUserComponent {
   userForm: FormGroup;
   userId: string;
   
-
   constructor(private _fb: FormBuilder,
     private _authService: AuthService,
     private _router: Router,
@@ -35,10 +34,6 @@ export class UpdateUserComponent {
     });
     this.userId = this._ActiveRoute.snapshot.params['id'];
   }
-
-
-
-
 
   ngOnInit(): void {
     this._authService.getByIdToModify(this.userId).subscribe({
@@ -62,10 +57,5 @@ export class UpdateUserComponent {
         // this._router.navigateByUrl('/auth/manageUsersc');
       }
     });
-
   }
-
-
-
-
 }

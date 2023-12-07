@@ -20,35 +20,24 @@ export class ManageUsersComponent {
 
   users: User[] = [];
   $users: Observable<User[]>;
-  connectedUser : User | undefined;
-  loaded : boolean;
+  connectedUser: User | undefined;
+  loaded: boolean;
 
   constructor(private _httpClient: HttpClient,
     private _auth: AuthService) { }
 
   ngOnInit(): void {
     const storedUser: string | null = localStorage.getItem('apiToken');
-    
-    
-    // const storedUser = localStorage.getItem('apiToken');
-    // this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
 
-
-
-    // TODO: voir si modifier pour recuper je sais pas quoi
-
-
-    this.loaded=false;
+    this.loaded = false;
     this._auth.$connectedUser.subscribe({
-      next : (value) => {
+      next: (value) => {
         this.connectedUser = value;
         this.$users = this._auth.$users
         this._auth.getAll();
       },
     })
-    this.loaded=true;
-
-
+    this.loaded = true;
   }
 
   delete(id: string) {
@@ -56,8 +45,7 @@ export class ManageUsersComponent {
       complete: () => {
         this.$users = this._auth.$users
         this._auth.getAll();
-          },
-        });
-      }
+      },
+    });
   }
-
+}
