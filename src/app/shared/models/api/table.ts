@@ -24,6 +24,7 @@ export interface DataTable {
     log: HistoryLog,
 }
 
+
 export interface DataTableFormCreate {
     table: string,
     headers: Array<{

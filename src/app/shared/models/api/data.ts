@@ -1,11 +1,16 @@
 import {HistoryLog} from "../historyLog";
+import {KeyValue} from "@angular/common";
 
 export interface Data {
     id: string,
-    values: any,
+    values: DataRow,
     log: HistoryLog,
 }
 
-export interface DataForm{
+export interface DataRow {
+    [key: string]: string
+}
+
+export interface DataForm {
 
 }

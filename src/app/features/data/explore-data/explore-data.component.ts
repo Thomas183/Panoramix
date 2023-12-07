@@ -1,4 +1,3 @@
-import {Table} from "@models/api/table";
 import {TableService} from "@services/api/table.service";
 import {Component, OnInit} from '@angular/core';
 
@@ -10,11 +9,23 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ExploreDataComponent implements OnInit {
 
-    tables: Array<Table>;
+    tables: Array<{tableId: string, name: string}> = [];
 
-    constructor(private _data: TableService) {
+    constructor(private _tableService: TableService) {
     }
 
     ngOnInit() {
+        this.getTables();
+
+    }
+
+    getTables() {
+        this._tableService.getTables(0, 100).subscribe({
+            next: (tables) => {
+                for (let table of tables.data) {
+                    this.tables.push({tableId: table.id, name: table.table});
+                }
+            }
+        })
     }
 }

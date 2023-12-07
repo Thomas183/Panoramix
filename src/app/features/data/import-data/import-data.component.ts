@@ -1,47 +1,57 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FileInfo} from "@models/file-info";
 import {DataParserService} from "@services/dataParser.service";
-import {StructuredCsv} from "@models/strctured-csv";
 import {TableService} from "@services/api/table.service";
+import {DataService} from "@services/api/data.service";
+import {DataTableFormCreate} from "@models/api/table";
+import {DataRow} from "@models/api/data";
+import {FileUploadEvent} from "primeng/fileupload";
 
 @Component({
     selector: 'app-import-data',
     templateUrl: './import-data.component.html',
     styleUrls: ['./import-data.component.scss']
 })
-export class ImportDataComponent {
-    constructor(private parser: DataParserService, private tableService: TableService) {
+export class ImportDataComponent implements OnInit {
+    constructor(
+        private _parser: DataParserService,
+        private _tableService: TableService,
+        private _dataService: DataService) {
+    }
+
+    ngOnInit() {
     }
 
     fileInfoList: Array<FileInfo> = [];
-    dataToUpload: Array<StructuredCsv> = [];
+    selectedFile: File;
+    dataToUpload: Array<{ table: DataTableFormCreate, data: Array<DataRow> }> = [];
 
-    // Fonction au chargement d'un fichier, au secours
-    onSelect(event: any): void {
-        const file: File = event.files[0];
+    onSelect(event: FileUploadEvent): void {
+        const file = event.files[0]
+        this.selectedFile = file
+        this.getFileInfo(file)
+        this.parseCsv(file)
+        console.log(this.dataToUpload)
+    }
 
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-            const text = e.target.result;
-            this.parser.parseCsvFile(text, file.name).then(parsedData => {
-                if (parsedData) {
-                    this.dataToUpload.push(parsedData);
-                }
-            }).catch(error => {
-                console.error('Error during file processing', error);
-            });
+    parseCsv(loadedFile: File) {
+        const reader: FileReader = new FileReader();
+
+        reader.onload = (file: any) => {
+            const text = file.target.result;
+            this._parser.parseCsvFile(text, loadedFile.name).then(parsedCsv => {
+                this.dataToUpload.push(parsedCsv);
+            })
         };
 
-        reader.onerror = (error) => {
-            console.error('Error reading file:', error);
-        };
+        reader.readAsText(loadedFile);
+    }
 
-        reader.readAsText(file);
-
+    getFileInfo(file: File) {
         this.fileInfoList.push({
             name: file.name,
-            size: file.size,
-        });
+            size: file.size
+        })
     }
 
     clearFiles() {
@@ -54,20 +64,34 @@ export class ImportDataComponent {
         this.dataToUpload.splice(index, 1);
     }
 
-    uploadFiles() {
-        this.dataToUpload.forEach((table: StructuredCsv) => {
+    addDataToTable(tableId: string, data: Array<DataRow>) {
+        this._dataService.addDataToTable(tableId, data).subscribe({})
+    }
 
-            let headers: Array<{ name: string, type: string }> = [];
-            for (let header of table.headers) {
-                headers.push({name: header.name, type: header.type})
+    logTables(){
+        this._tableService.getTables(0, 1).subscribe({
+            next: (tables) => {
+                console.log('Tables : ', tables)
             }
-
-            this.tableService.tables.push({
-                id: Math.floor(Math.random() * 1000).toString(),
-                table: table.tableName,
-                headers: headers,
-            });
         })
-        this.clearFiles();
+    }
+
+    deleteTables(){
+        this._tableService.deleteTables(100);
+    }
+
+    uploadFiles() {
+        for (let table of this.dataToUpload) {
+            this._tableService.createTable({table: table.table.table, headers: table.table.headers}).subscribe({
+                next: (tableId) => {
+                    console.log(tableId)
+                    this.addDataToTable(tableId.id, table.data)
+                },
+                complete: () => {
+
+                }
+            })
+        }
+        this.clearFiles()
     }
 }

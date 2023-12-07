@@ -15,7 +15,8 @@ export class ReportService {
     }
 
     reportId: number;
-    baseUrl: string = environment.baseUrl + '/projects';
+    projectsUrl: string = environment.baseUrl + '/projects';
+    projectUrl: string = environment.baseUrl + '/project';
 
 
     // Rapport
@@ -37,48 +38,53 @@ export class ReportService {
             page: number,
             size: number,
             data: Array<Report>
-        }>(this.baseUrl, {params: httpParams});
+        }>(this.projectsUrl, {params: httpParams});
     }
 
-    createReport(name: string, description: string): Observable<string> {
-        return this._httpClient.post<string>(`${this.baseUrl}`, {name: name, description: description});
+    createReport(name: string, description: string): Observable<{ id: string }> {
+        return this._httpClient.post<{ id: string }>(`${this.projectsUrl}`, {name: name, description: description});
     }
 
     getReport(reportId: string): Observable<Report> {
-        return this._httpClient.get<Report>(`${this.baseUrl}/${reportId}`)
+        return this._httpClient.get<Report>(`${this.projectsUrl}/${reportId}`)
     }
 
     updateReport(reportId: string, name: string, description: string, isPublic: boolean): Observable<null> {
-        return this._httpClient.put<null>(`${this.baseUrl}/${reportId}`, {
+        return this._httpClient.put<null>(`${this.projectsUrl}/${reportId}`, {
             name: name,
             description: description,
             isPublic: isPublic
         })
     }
 
-    deleteReport(reportId: string): Observable<null>{
-        return this._httpClient.delete<null>(`${this.baseUrl}/${reportId}`)
+    deleteReport(reportId: string): Observable<null> {
+        return this._httpClient.delete<null>(`${this.projectsUrl}/${reportId}`)
     }
 
 
     // Schémas
-    getProjectSchematics(reportId: number): Observable<Array<SchemaTable>> {
-        return this._httpClient.get<Array<SchemaTable>>(`${this.baseUrl}/${reportId}/schema`);
+    getReportSchematics(reportId: string): Observable<Array<SchemaTable>> {
+        return this._httpClient.get<Array<SchemaTable>>(`${this.projectsUrl}/${reportId}/schema`);
     }
 
-    editSchematic(reportId: number, schematic: SchemaTableForm): Observable<null> {
-        return this._httpClient.put<null>(`${this.baseUrl}/${reportId}/schema`, schematic)
+    editSchematic(reportId: string, schematic: Array<SchemaTableForm>): Observable<null> {
+        return this._httpClient.put<null>(`${this.projectsUrl}/${reportId}/schema`, schematic)
     }
 
-    getReportSchematicIds(reportId: number): Observable<Array<string>> {
-        return this._httpClient.get<Array<string>>(`${this.baseUrl}/${reportId}/schema/tables`)
+    getReportSchematicIds(reportId: string): Observable<Array<string>> {
+        return this._httpClient.get<Array<string>>(`${this.projectsUrl}/${reportId}/schema/tables`)
     }
 
     addTableToReport(reportId: string, tableId: string): Observable<null> {
-        return this._httpClient.post<null>(`${this.baseUrl}/${reportId}/schema/tables/${tableId}`, null)
+        return this._httpClient.post<null>(`${this.projectsUrl}/${reportId}/schema/tables/${tableId}`, null)
     }
 
     deleteTableFromSchematic(reportId: string, tableId: string): Observable<null> {
-        return this._httpClient.delete<null>(`${this.baseUrl}/${reportId}/schema/tables/${tableId}`);
+        return this._httpClient.delete<null>(`${this.projectsUrl}/${reportId}/schema/tables/${tableId}`);
     }
+
+    // updateHeaderMetadata(reportId: string, headerId: string): Observable<null>{
+    //     return this._httpClient.patch(`${this.baseUrl}/${reportId}/schema/headers/${headerId}`)
+    // }
+
 }

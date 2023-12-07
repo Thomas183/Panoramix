@@ -1,25 +1,28 @@
 import {HistoryLog} from "../historyLog";
-import {b, n} from "@fullcalendar/core/internal-common";
+
+export interface SchemaTableHeader {
+    id: string,
+    name: string,
+    pk: boolean,
+    fk?: {
+        table: string,
+        field: string
+    }
+}
 
 export interface SchemaTable {
     id: string, // ID de la table
     table: string, // Nom de la table
     fact: boolean,
-    headers: Array<{
-        id: string,
-        name: string,
-        pk: boolean,
-        fk?: {
-            table: string,
-            field: string,
-        }
-        log: HistoryLog,
-        coord: {
-            x: number,
-            y: number,
-        }
-    }>
+    headers: Array<SchemaTableHeader>
+    log: HistoryLog,
+    coord: {
+        x: number,
+        y: number,
+    }
+
 }
+
 
 export interface SchemaTableForm {
     id: string,

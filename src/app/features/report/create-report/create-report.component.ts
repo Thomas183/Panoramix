@@ -6,6 +6,7 @@ import {User} from "@models/user";
 import {Subscription} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";
+import {ReportService} from "@services/api/report.service";
 
 
 @Component({
@@ -21,7 +22,15 @@ export class CreateReportComponent {
     report: Report[] = [];
 
     ngOnInit(): void {
+        this.test()
+    }
 
+    test(): void {
+        this._reportService.createReport('Test', 'desciption').subscribe({
+            next: (id) =>{
+                console.log('Id du projet: ', id);
+            }
+        })
     }
 
     // Formulaire
@@ -30,7 +39,8 @@ export class CreateReportComponent {
     constructor(
         private _fb: FormBuilder,
         private _authService: AuthService,
-        private _tableService : TableService
+        private _tableService: TableService,
+        private _reportService: ReportService
     ) {
         this
             .registerForm = this._fb.group({
@@ -46,6 +56,8 @@ export class CreateReportComponent {
             this.registerForm.markAllAsTouched();
         }
     }
+
+
 
 // Tableau fichiers
 

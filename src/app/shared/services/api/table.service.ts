@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {DataTable, Table} from "@models/api/table";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {n} from "@fullcalendar/core/internal-common";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
@@ -23,16 +23,24 @@ export class TableService {
         size: number,
         data: Array<DataTable>
     }> {
+        const params: HttpParams = new HttpParams()
+            .append('page', page)
+            .append('size', size)
+        if (from) {
+            params.append('from', from);
+        }
+
         return this._httpClient.get<{
             pages: number,
             page: number,
             size: number,
             data: Array<DataTable>
-        }>(`${this.baseUrl}/tables`)
+        }>(`${this.baseUrl}`, {params: params})
     }
 
-    createTable(table: { table: string, headers: Array<{ name: string }> }): Observable<string> {
-        return this._httpClient.post<string>(`${this.baseUrl}`, table)
+
+    createTable(table: { table: string, headers: Array<{ name: string }> }): Observable<{id: string}> {
+        return this._httpClient.post<{id: string}>(`${this.baseUrl}`, table)
     }
 
     getTable(tableId: string): Observable<DataTable> {
@@ -45,5 +53,15 @@ export class TableService {
 
     deleteTable(tableId: string): Observable<null> {
         return this._httpClient.delete<null>(`${this.baseUrl}/${tableId}`);
+    }
+
+    deleteTables(amount: number): void {
+        this.getTables(0, amount).subscribe({
+            next: (tables) => {
+                tables.data.forEach(data => {
+                    this.deleteTable(data.id).subscribe()
+                })
+            }
+        })
     }
 }

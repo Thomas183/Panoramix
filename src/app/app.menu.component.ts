@@ -90,19 +90,19 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit(): void {
         this.setMenuItems();
-        const user: string | undefined = undefined;
-        this._authService.$connectedUser.subscribe({
-            next: (user) => {
-                if (user.role === 'administrateur') {
-                    this.isAdminConnected = true;
-                    this.isUserConnected = true
-                }
-                if (user.role === 'utilisateur') {
-                    this.isAdminConnected = false;
-                    this.isUserConnected = true
-                }
-            }
-        })
+        // const user: string | undefined = undefined;
+        // this._authService.$connectedUser.subscribe({
+        //     next: (user) => {
+        //         if (user.role === 'administrateur') {
+        //             this.isAdminConnected = true;
+        //             this.isUserConnected = true
+        //         }
+        //         if (user.role === 'utilisateur') {
+        //             this.isAdminConnected = false;
+        //             this.isUserConnected = true
+        //         }
+        //     }
+        // })
 
         // TODO A retirer au déploiment
 
