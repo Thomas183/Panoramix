@@ -93,6 +93,7 @@ export class AuthService {
     }
 
     update(id: string, user: User): Observable<User> {
+        this._router.navigate(['auth/manageUsers']);
         return this._http.patch<User>(`${this._baseUrl}/users/` + id, user);
     }
 
