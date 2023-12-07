@@ -53,6 +53,7 @@ export class AuthService {
                 return response
             },
             error: error => {
+                alert('Cette combinaison Email - Mot de passe ne fonctionne pas')
                 return error
             },
             complete: () => {
