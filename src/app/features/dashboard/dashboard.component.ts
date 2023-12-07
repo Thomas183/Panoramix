@@ -9,8 +9,5 @@ import { AuthService } from '@services/api/auth.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-connectedUser : User | undefined;
-constructor(private _authService : AuthService,
-  private _router:Router) {}
 
 }

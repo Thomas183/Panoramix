@@ -56,17 +56,21 @@ export class AuthService {
                 return error
             },
             complete:() => {
-                location.reload(); 
-                this._router.navigate(['dashboard'])
+                this._router.navigate(['/dashboard'])
+                setTimeout(() => {
+                    location.reload()
+                }, 10);
             }
         });
     }
 
     logout() {
         localStorage.clear();
-        this._router.navigate(['auth/login'])
         this._$connectedUser.next(undefined);
-        location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+        this._router.navigate(['auth/login'])
+        setTimeout(() => {
+            location.reload()
+        }, 10);
         ;
     }
 

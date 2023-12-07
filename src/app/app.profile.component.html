@@ -2,8 +2,9 @@
     <a href="#" (click)="onClick($event)" class="layout-profile-button">
         <i class="pi pi-user"></i>
         <div class="layout-profile-userinfo">
-            <span class="layout-profile-name">Arlene Welch</span>
-            <span class="layout-profile-role">Design Ops</span>
+
+            <span class="layout-profile-name">{{connectedUser.firstName}},{{connectedUser.lastName}} </span>
+            <span class="layout-profile-role">{{connectedUser.role}}</span>
         </div>
         <i class="layout-profile-icon pi pi-angle-down"></i>
     </a>

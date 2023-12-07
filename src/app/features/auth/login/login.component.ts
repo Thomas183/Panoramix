@@ -17,8 +17,8 @@ export class LoginComponent {
     ]
 
     loginForm: FormGroup;
-    notLogged: boolean = false
-    connectedUser: User | undefined;
+    // notLogged: boolean = false
+    // connectedUser: User | undefined;
 
     constructor(private _fb: FormBuilder,
                 private _httpClient: HttpClient,
@@ -30,17 +30,6 @@ export class LoginComponent {
         });
     }
 
-    ngOnInit(): void {
-        const storedUser = localStorage.getItem('connectedUser');
-        this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-        this._authService.$connectedUser.subscribe({
-            next: (value) => {
-                this.connectedUser = value;
-                // console.log(this.connectedUser)
-            },
-
-        })
-    }
 
     connect(): void {
         if (!this.loginForm.valid) {
