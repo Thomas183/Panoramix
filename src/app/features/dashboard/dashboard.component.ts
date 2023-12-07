@@ -13,7 +13,4 @@ connectedUser : User | undefined;
 constructor(private _authService : AuthService,
   private _router:Router) {}
 
-
-
-
 }

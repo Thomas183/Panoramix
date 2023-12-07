@@ -47,8 +47,18 @@ export class LoginComponent {
             console.log('pas valide',this.loginForm)
 
         } else {
-            this._authService.login('Devs.PanoraMix@hotmail.com', 'admin')
-            }}
+            const email = this.loginForm.get('email')?.value;
+            const password = this.loginForm.get('password')?.value;
+            console.log(email, password)
+
+
+            if (email && password) {
+                this._authService.login(email, password);
+
+
+
+            // this._authService.login(this.loginForm.     'email reçu', 'pw')
+            }}}
 
     
     

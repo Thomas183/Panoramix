@@ -31,7 +31,7 @@ export class UpdateUserComponent {
       lastName: [null, [Validators.required],],
       email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],],
       role: ['USER'],
-      isActivated : ['true']
+      isActivated : [true]
     });
     this.userId = this._ActiveRoute.snapshot.params['id'];
   }
@@ -59,7 +59,7 @@ export class UpdateUserComponent {
   }
 
   updateUser(): void {
-console.log(this.userForm.value);
+console.log('lancement updateUser()',this.userForm.value);
     this._authService.update(this.userId, this.userForm.value).subscribe({
       complete: () => {
         console.log('fin de update')

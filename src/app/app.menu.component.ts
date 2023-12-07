@@ -18,23 +18,14 @@ export class AppMenuComponent implements OnInit {
     model: any[];
 
     private _isAdminConnected: boolean = false;
-    private set isAdminConnected(value: boolean) {
-        this._isAdminConnected = value;
-        this.setMenuItems();
-    }
-
     private _isUserConnected: boolean = false;
-    private set isUserConnected(value: boolean) {
-        this._isUserConnected = value;
-        this.setMenuItems();
-    }
 
     setMenuItems(): void {
         this.model = [
             {
                 label: 'Acceuil', icon: 'pi pi-fw pi-home', visible: this._isUserConnected,
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['dashboard'] },
                 ]
             },
             {
@@ -90,55 +81,31 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit(): void {
         this.setMenuItems();
-        const user: string | undefined = undefined;
+        // const user: string | undefined = undefined;
         const storedUser: string | null = localStorage.getItem('apiToken');
-        console.log(this.isAdminConnected,this.isUserConnected);
-console.log('storedUser',storedUser)
 
         if (storedUser) {
             const decodedPayload: string = atob(storedUser.split('.')[1]);
             const parsedPayload: any = JSON.parse(decodedPayload);
 
-            console.log('Decoded Payload:', parsedPayload.role);
-            console.log(this.isAdminConnected,this.isUserConnected);
+            console.log('Decoded Payload:', parsedPayload);
 
             if (parsedPayload.role === 'ADMIN') {
-                this.isAdminConnected = true;
-                this.isUserConnected = true;
-                console.log(this.isAdminConnected,this.isUserConnected)
+                this._isAdminConnected = true;
+                this._isUserConnected = true;
+                console.log('admin connected');
+                this.setMenuItems();
             }
-            if (parsedPayload.role === 'USER') {
-                this.isAdminConnected = false;
-                this.isUserConnected = true;
-                console.log(this.isAdminConnected,this.isUserConnected)
-
+            else if (parsedPayload.role === 'USER') {
+                this._isAdminConnected = false;
+                this._isUserConnected = true;
+                console.log('USER Connected');
+                this.setMenuItems();
             }
-        }
-
-
-
-
-
-        // this._authService.$connectedUser.subscribe({
-        //     next: (user) => {
-        //         if (user.role === 'ADMIN') {
-        //             this.isAdminConnected = true;
-        //             this.isUserConnected = true
-        //         }
-        //         if (user.role === 'USER') {
-        //             this.isAdminConnected = false;
-        //             this.isUserConnected = true
-        //         }
-        //     }
-        // })
-
-
-        // JSON.parse(window.atob(localStorage.getItem('apiToken').split('.')[1]))["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-
-        // TODO A retirer au déploiment
-
-        // this.isUserConnected = true
-        // this.isAdminConnected = true
-
-    }
-}
+            else {
+                this._isAdminConnected = false;
+                this._isUserConnected = false;
+                console.log('PLANTAGE');
+                this.setMenuItems();
+            }
+        }}}

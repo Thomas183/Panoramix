@@ -45,6 +45,7 @@ export class AuthService {
     }
 
     login(email: string, password: string): void {
+        console.log('entré dans le login auth', email, password)
         this._http.post<{token:string}>(`${this._baseUrl}/auth/sign-in`, { login: email, password: password }).subscribe({
             next: response => {
                 localStorage.setItem('apiToken', response.token);
@@ -55,15 +56,16 @@ export class AuthService {
                 return error
             },
             complete:() => {
-                location.reload(); // simule f5 pour faire disparaitre le menu à gauche
+                location.reload(); 
+                this._router.navigate(['dashboard'])
             }
         });
     }
 
     logout() {
         localStorage.clear();
-        this._$connectedUser.next(undefined);
         this._router.navigate(['auth/login'])
+        this._$connectedUser.next(undefined);
         location.reload(); // simule f5 pour faire disparaitre le menu à gauche
         ;
     }
@@ -91,12 +93,11 @@ export class AuthService {
     }
 
 
-    update(id: string, user: UserFormPatch): Observable<UserFormPatch> {
+    update(id: string, user: User): Observable<User> {
 
-        console.log(`${this._baseUrl}/users/` + id, user)
+        console.log('vous etes dans update de l\'auth','voici le lien',`${this._baseUrl}/users/` + id, 'voici l\'user',user)
 
-        // console.log(this._baseUrl + id, user)
-        return this._http.patch<UserFormPatch>(`${this._baseUrl}/users/` + id, user);
+        return this._http.patch<User>(`${this._baseUrl}/users/` + id, user);
     }
 
     delete(id: string): Observable<User> {
