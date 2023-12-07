@@ -36,7 +36,7 @@ export class UpdateUserComponent {
   }
 
   ngOnInit(): void {
-    this._authService.getByIdToModify(this.userId).subscribe({
+    this._authService.getById(this.userId).subscribe({
       next: (user) => {
         this.userForm.patchValue({
           firstName: user.firstName,

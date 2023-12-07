@@ -68,7 +68,6 @@ export class AuthService {
         setTimeout(() => {
             location.reload()
         }, 10);
-        ;
     }
 
     getAll(): void {
@@ -82,18 +81,15 @@ export class AuthService {
         })
     }
 
-    getById(id: string): Observable<User> {
-        return this._http.get<User>(`${this._baseUrl}/users/` + id);
-
-    }
-
-    getByIdToModify(id: string): Observable<UserFormPatch> {
+    getById(id: string): Observable<UserFormPatch> {
         return this._http.get<UserFormPatch>(`${this._baseUrl}/users/` + id);
-
     }
 
     update(id: string, user: User): Observable<User> {
         this._router.navigate(['auth/manageUsers']);
+        setTimeout(() => {
+            location.reload()
+        }, 10);
         return this._http.patch<User>(`${this._baseUrl}/users/` + id, user);
     }
 
