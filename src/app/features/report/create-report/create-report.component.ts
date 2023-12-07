@@ -1,15 +1,12 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
-import {AuthService} from "@services/api/auth.service";
 import {User} from "@models/user";
-import {Subscription} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";
 import {ReportService} from "@services/api/report.service";
 import { DataTable, Table } from '@models/api/table';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 
@@ -28,7 +25,6 @@ export class CreateReportComponent {
     listTables : Array<DataTable>
     
     ngOnInit(): void {
-
         //Récupération des tables
         this._tableService.getTables(0,100).subscribe({
             next:(value)=>{
@@ -36,8 +32,6 @@ export class CreateReportComponent {
             }
         });
         const credentials = {login: 'Devs.PanoraMix@hotmail.com', password: 'admin'}
-
-
     }
 
     // Formulaire
@@ -45,13 +39,9 @@ export class CreateReportComponent {
 
     constructor(
         private _fb: FormBuilder,
-        private _httpClient : HttpClient,
-        private _authService: AuthService,
         private _tableService : TableService,
         private _reportService : ReportService,
-        private _routeur : Router,
-        
-    ) {
+        private _routeur : Router) {
         this.registerForm = this._fb.group({
             name: [null, Validators.required,],
             description: [null, Validators.required],
@@ -63,7 +53,6 @@ export class CreateReportComponent {
     createReport() {
         if (this.registerForm.valid) {
             console.log("form valide")
-            
             //envoie du report en db avec réception de l'id
             this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
                 next : (Response) => {
@@ -92,13 +81,4 @@ export class CreateReportComponent {
         this.selectedItems = []
         this.selectedItems = event.value
     }
-
-    //a supp
-    // getIds(): Array<string> {
-    //     const tableIds: Array<string> = [];
-    //     for (let selectedItem of this.selectedItems) {
-    //         tableIds.push(selectedItem.tableId)
-    //     }
-    //     return tableIds;
-    // }
 }

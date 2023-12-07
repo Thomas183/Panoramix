@@ -4,9 +4,6 @@ import { AuthService } from '@services/api/auth.service';
 import { ReportService } from '@services/api/report.service';
 import { Report } from '@models/api/report';
 import { Router, RouterModule } from '@angular/router';
-import { TableModule } from 'primeng/table';
-import { el } from '@fullcalendar/core/internal-common';
-
 
 @Component({
   selector: 'app-my-reports',
@@ -15,12 +12,9 @@ import { el } from '@fullcalendar/core/internal-common';
 })
 export class MyReportsComponent {
   connectedUser : User | undefined;
-
   listReports: Report[] =[];
   listReportsFinish: any[] =[];
   listReportsUnfinish: any[] =[];
-
-
 
   constructor(private _authService: AuthService,
               private _reportService : ReportService,
@@ -51,15 +45,9 @@ export class MyReportsComponent {
               this.listReportsUnfinish.push(report);
             }
           });
-
-
-            // this.listReports=goldorak.data
-            // console.log(goldorak.data[9].id)
-            // console.log("Rapports récupérés")
         }
       })
     }
-
     quoicoubeh(id:string) {
       console.log("les cramptés")
       //quelle est la route pr renvoyer vers l'édition de ce rapport en particulier

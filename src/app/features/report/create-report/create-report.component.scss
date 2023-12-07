@@ -1,12 +1,20 @@
-div{
-    border: 1px solid black;
-}
 .container {
     width: 100%;
-  }
+}
   
-  .column {
-    width: 50%; /* Chaque colonne occupe 50% de la largeur */
-    box-sizing: border-box; /* Pour inclure la bordure et le padding dans la largeur définie */
-    float: left; /* Pour placer les colonnes côte à côte */
-  }
+.column {
+    width: 48%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.flex-container {
+    display: flex;
+}
+
+#boutons{
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+

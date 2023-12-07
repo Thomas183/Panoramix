@@ -29,7 +29,6 @@ export class ExploreReportsComponent {
         },
       })
 
-
       let page : number = 0;
       let size : number = 30;
 
