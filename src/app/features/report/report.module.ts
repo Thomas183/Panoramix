@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 
 
@@ -26,7 +28,9 @@ import { ListboxModule } from 'primeng/listbox';
     ReactiveFormsModule,
     InputTextareaModule,
     InputTextModule,
-    ListboxModule
+    ListboxModule,
+    TableModule,
+    ButtonModule
   ]
 })
 export class ReportModule { }

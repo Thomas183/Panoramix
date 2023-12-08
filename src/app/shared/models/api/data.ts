@@ -14,3 +14,5 @@ export interface DataRow {
 export interface DataForm {
 
 }
+
+export interface DataRow {     [key: string]: string }

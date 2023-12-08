@@ -1,44 +1,47 @@
-<h1>Nouveau rapport</h1>
-    <div class="container">
-        <form [formGroup]="registerForm" (ngSubmit)="createReport()">
-
-            <div class="column">
-                <div class="my-3">
-                    <span class="p-float-label">
-                        <input id="name" type="text" formControlName="name"  pInputText [(ngModel)]="value">
-                        <label htmlFor="Nom du rapport">Nom du rapport</label>
-                    </span>
-                </div>
-                <div class="my-3">
-                    <textarea id="description" formControlName="description" placeholder="Description ..." rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="my-3">
-                    <h5>Sélection des fichiers</h5>
-                </div>
-                <div class="my-3">
-
-                    <div class="card flex justify-content-center">
-                        <p-listbox
-                            [options]="items"
-                            optionLabel="table"
-                            [style]="{ width: '25rem' }"
-                            [filter]="true"
-                            [multiple]="true"
-                            [checkbox]="true"
-                            [showToggleAll]="false"
-                            [metaKeySelection]="false"
-                            (onChange)="onChange($event)"
-                            [listStyle]="{ 'max-height': '220px' }"
-                        ></p-listbox>
+<div class="flex-container">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-10 m-auto">
+        <h1>Nouveau rapport</h1>
+            <div class="container">
+                <form [formGroup]="registerForm" (ngSubmit)="createReport()">
+                    <div class="column">
+                        <div class="my-3">
+                            <span class="p-float-label">
+                                <input id="name" type="text" formControlName="name"  pInputText [(ngModel)]="value">
+                                <label htmlFor="Nom du rapport">Nom du rapport</label>
+                            </span>
+                        </div>
+                        <div class="my-3">
+                            <textarea id="description" formControlName="description" placeholder="Description ..." rows="5" cols="30" pInputTextarea [autoResize]="true"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="my-3">
-                    <button class="btn" routerLink="" value="Retour">Retour</button>
-                    <input class="btn" type="submit" routerLink="/report/myReports" value="Continuer" (click)="lancement(selectedItems)">
-                </div>
+                    <div class="column">
+                        <div class="my-3">
+                            <h5>Sélection des fichiers</h5>
+                        </div>
+                        <div class="my-3">
+                            <div>
+                                <p-listbox
+                                    formControlName="csv"
+                                    id="csv"
+                                    [options]="items"
+                                    optionLabel="table"
+                                    [style]="{ width: 'flex-container' }"
+                                    [filter]="true"
+                                    [multiple]="true"
+                                    [checkbox]="true"
+                                    [showToggleAll]="false"
+                                    [metaKeySelection]="false"
+                                    (onChange)="onChange($event)"
+                                    [listStyle]="{ 'max-height': '220px' }"
+                                ></p-listbox>
+                            </div>
+                        </div>
+                        <div id="boutons">
+                            <p-button class="btn" routerLink="">Retour</p-button>
+                            <p-button class="btn" type="submit">Continuer</p-button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
     </div>
+</div>

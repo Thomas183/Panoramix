@@ -1,1 +1,19 @@
-<p>Drupy</p>
+<h3>Liste des rapports</h3>
+<p-table [value]="listReports" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nom du rapport</th>
+            <th>Description</th>
+            <th>Date de création</th>
+            <th>Accéder</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-report>
+        <tr>
+            <td>{{ report.name }}</td>
+            <td>{{ report.description }}</td>
+            <td>{{ report.log.createdAt | date : short }}</td>
+            <p-button label="" (click)="quoicoubeh(report.id)"></p-button>
+        </tr>
+    </ng-template>
+</p-table>
