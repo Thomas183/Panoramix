@@ -12,11 +12,10 @@ import {DropdownChangeEvent} from "primeng/dropdown";
 import {SchemaTable, SchemaTableForm, SchemaTableHeader} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
 import {EditReportService} from "@services/edit-report.service";
-import {Data, DataRow} from "@models/api/data";
+import {DataRow} from "@models/api/data";
 import {DataService} from "@services/api/data.service";
 import {ErrorForm} from "@models/api/error";
 import {CheckboxChangeEvent} from "primeng/checkbox";
-import {log10} from "chart.js/helpers";
 
 
 declare var LeaderLine: any;

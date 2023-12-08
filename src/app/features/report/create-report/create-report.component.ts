@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
-import {User} from "@models/user";
+import {User} from "@models/api/users";
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";
 import {ReportService} from "@services/api/report.service";
