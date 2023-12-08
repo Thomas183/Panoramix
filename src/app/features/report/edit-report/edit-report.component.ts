@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {EditReportService} from "@services/edit-report.service";
+import {HttpClient} from "@angular/common/http";
+import {ReportService} from "@services/api/report.service";
 
 @Component({
     selector: 'app-edit-report',
@@ -15,17 +17,20 @@ export class EditReportComponent implements OnInit, OnDestroy {
         {label: 'Vues', icon: 'pi pi-chart-bar', routerLink: 'editViews'},
     ]
 
-    reportId: string = 'AYxDcz1WZGwuApUDmUxcsA';
+    reportId: string;
 
-    constructor(private _editReportService: EditReportService) {
+    constructor(private _editReportService: EditReportService, private _reportService: ReportService, private _route: ActivatedRoute) {
+
     }
 
     ngOnInit() {
-        this._editReportService.reportId = this.reportId
+        this._route.params.subscribe(params => {
+            this.reportId = params['id'];
+            this._editReportService.reportId = params['id'];
+        })
     }
 
     ngOnDestroy() {
-        this._editReportService.reportId = '';
     }
 
 

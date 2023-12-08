@@ -16,6 +16,7 @@ import {DataRow} from "@models/api/data";
 import {DataService} from "@services/api/data.service";
 import {ErrorForm} from "@models/api/error";
 import {CheckboxChangeEvent} from "primeng/checkbox";
+import {ActivatedRoute} from "@angular/router";
 
 
 declare var LeaderLine: any;
@@ -68,14 +69,19 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         private _messageService: MessageService,
         private _editReportService: EditReportService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _dataService: DataService) {
+        private _dataService: DataService,
+        private _route: ActivatedRoute) {
     }
 
 
     ngOnInit() {
-        this.reportId = this._editReportService.reportId;
+        this.reportId = this._editReportService.reportId
+        this._reportService.getReportSchematics(this.reportId).subscribe({
+            next: (data) => {
+                console.log(data)
+            }
+        })
         this.initializeSchematics();
-
     }
 
     ngAfterViewInit() {
@@ -118,6 +124,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     }
 
     initializeSchematics(): void {
+        console.log(this.reportId)
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (schematics) => {
                 for (let schematic of schematics) {
@@ -287,10 +294,8 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     getLinks() {
         for (let schematic of this.schematics) {
             for (let header of schematic.headers) {
-                console.log(header.fk)
                 if (schematic.fact && header.fk !== null) {
                     this.drawNewLine(header.fk.table, schematic.id);
-                    break;
                 }
             }
         }

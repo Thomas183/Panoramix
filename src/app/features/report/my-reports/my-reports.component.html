@@ -2,7 +2,7 @@
 
 <h4>Rapports non achevés</h4>
 
-    <p-table [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table autoLayout="true" [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Nom du rapport</th>
@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ report.name }}</td>
                 <td>{{ report.description }}</td>
-                <td>{{ report.log.createdAt | date : short }}</td>
+                <td>{{ report.log.createdAt | date }}</td>
 
                 <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
             </tr>
@@ -24,11 +24,12 @@
 
 <h4>Rapport achevés</h4>
 
-<p-table [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table autoLayout="true" [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
         <tr>
             <th>Nom du rapport</th>
             <th>Description</th>
+            <th>Date de création</th>
             <th>Modifier</th>
         </tr>
     </ng-template>
@@ -36,6 +37,7 @@
         <tr>
             <td>{{ report.name }}</td>
             <td>{{ report.description }}</td>
+            <td>{{ report.log.createdAt | date  }}</td>
             <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
         </tr>
     </ng-template>

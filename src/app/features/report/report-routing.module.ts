@@ -18,7 +18,7 @@ const routes: Routes = [
         component: ExploreReportsComponent,
     },
     {
-        path: 'editReport',
+        path: 'editReport/:id',
         loadChildren: () => import('./edit-report/edit-report.module').then(m => m.EditReportModule),
     }
 ];

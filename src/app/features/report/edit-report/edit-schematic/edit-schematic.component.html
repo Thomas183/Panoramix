@@ -1,17 +1,19 @@
 <p-messages></p-messages>
 
-<table>
+<div class="deleteLinesContainer">
+    Liens :
     <tr *ngFor="let link of tableLinks">
         <td>
             <button (click)="deleteLine(link)">{{link.dimensionTableId}} > {{link.factTableId}}</button>
         </td>
     </tr>
-</table>
+</div>
 
 <div class="draggableArea" (scroll)="recalculateLines()">
     <div
         id="tableContainer"
-        *ngFor="let schematic of schematics" cdkDrag
+        *ngFor="let schematic of schematics"
+        cdkDrag
         (cdkDragMoved)="recalculateLines()"
     >
         <div class="dot">

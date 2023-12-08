@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {SchemaTable} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
 import {DataService} from "@services/api/data.service";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EditReportService {
 
-    reportId: string;
+    reportId: string = 'AYxIZOvl8F3aResMiFYv9w'
 
     schematics: Array<SchemaTable> = [];
 
-  constructor(private _reportService : ReportService, private _dataService: DataService) { }
+    constructor(private _reportService: ReportService, private _dataService: DataService) {
+    }
 
 
 }

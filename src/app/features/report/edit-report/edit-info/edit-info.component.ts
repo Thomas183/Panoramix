@@ -11,7 +11,7 @@ import {EditReportService} from "@services/edit-report.service";
 })
 export class EditInfoComponent implements OnInit {
 
-    reportId: string = 'AYxDcz1WZGwuApUDmUxcsA'
+    reportId: string;
     reportTitle: string = '';
     reportDescription: string = '';
     isPublic: boolean = false;
@@ -25,6 +25,7 @@ export class EditInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.reportId = this._editReportService.reportId;
         this.getReport();
     }
 
