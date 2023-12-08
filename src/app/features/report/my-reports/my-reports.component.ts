@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from 'src/app/shared/models/user';
+import { User } from '@models/api/users';
 import { AuthService } from '@services/api/auth.service';
 import { ReportService } from '@services/api/report.service';
 import { Report } from '@models/api/report';
@@ -29,7 +29,7 @@ export class MyReportsComponent {
           console.log(this.connectedUser)
         },
       })
- 
+
       //obj : afficher les rapports et récupérer l'id qd on clique dessus
         //rajouter des pages et updater le numéro de la page pr afficher les autres dossiers
       let page : number = 0;

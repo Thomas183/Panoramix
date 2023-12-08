@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
 import {AppMainComponent} from './app.main.component';
+import { User } from '@models/api/users';
+import { AuthService } from '@services/api/auth.service';
 
 @Component({
     selector: 'app-inline-profile',
@@ -30,11 +32,27 @@ import {AppMainComponent} from './app.main.component';
 export class AppProfileComponent {
 
     active: boolean;
+    connectedUser : User | undefined
+    
 
-    constructor(public appMain: AppMainComponent) { }
+    constructor(public appMain: AppMainComponent,
+        private _auth : AuthService) { }
 
     onClick(event) {
         this.appMain.onInlineMenuClick(event);
         event.preventDefault();
     }
+
+
+
+    ngOnInit(): void {
+        
+        this._auth.$connectedUser.subscribe({
+          next : (value) => {
+            this.connectedUser = value;
+            this._auth.getById(value.id);
+            
+          },
+        })
+      }
 }

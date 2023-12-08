@@ -18,23 +18,14 @@ export class AppMenuComponent implements OnInit {
     model: any[];
 
     private _isAdminConnected: boolean = false;
-    private set isAdminConnected(value: boolean) {
-        this._isAdminConnected = value;
-        this.setMenuItems();
-    }
-
     private _isUserConnected: boolean = false;
-    private set isUserConnected(value: boolean) {
-        this._isUserConnected = value;
-        this.setMenuItems();
-    }
 
     setMenuItems(): void {
         this.model = [
             {
-                label: 'Acceuil', icon: 'pi pi-fw pi-home',visible: this._isUserConnected,
+                label: 'Acceuil', icon: 'pi pi-fw pi-home', visible: this._isUserConnected,
                 items: [
-                    {label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/']},
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['dashboard'] },
                 ]
             },
             {
@@ -43,9 +34,9 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/auth'],
                 visible: this._isAdminConnected,
                 items: [
-                    {label: 'Créer un utilisateur', icon: 'pi pi-fw pi-id-card', routerLink: ['auth/createUser']},
-                    {label: 'Gérer les utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['auth/manageUsers']},
-                    {label: 'Login Page (Testing)', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login']},
+                    { label: 'Créer un utilisateur', icon: 'pi pi-fw pi-id-card', routerLink: ['auth/createUser'] },
+                    { label: 'Gérer les utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['auth/manageUsers'] },
+                    // { label: 'Login Page (Testing)', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login'] },
                 ]
             },
             {
@@ -54,34 +45,34 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ['/auth'],
                 visible: !this._isUserConnected,
                 items: [
-                    {label: 'Login Page', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login']},
+                    { label: 'Login Page', icon: 'pi pi-fw pi-sign-in', routerLink: ['auth/login'] },
                 ]
             },
             {
-                label: 'Rapports', icon: 'pi pi-fw pi-prime', routerLink: ['/report'],visible: this._isUserConnected,
+                label: 'Rapports', icon: 'pi pi-fw pi-prime', routerLink: ['/report'], visible: this._isUserConnected,
                 items: [
-                    {label: 'Créer un nouveau rapport', icon: 'pi pi-fw pi-plus', routerLink: ['report/createReport']},
-                    {label: 'Mes Rapports', icon: 'pi pi-fw pi-eye', routerLink: ['report/myReports']},
+                    { label: 'Créer un nouveau rapport', icon: 'pi pi-fw pi-plus', routerLink: ['report/createReport'] },
+                    { label: 'Mes Rapports', icon: 'pi pi-fw pi-eye', routerLink: ['report/myReports'] },
                     {
                         label: 'Explorer les rapports',
                         icon: 'pi pi-fw pi-chart-bar',
                         routerLink: ['report/exploreReports']
                     },
-                    {label: 'EditReport (Testing)', icon: 'pi pi-fw pi-ban', routerLink: ['report/editReport']},
+                    { label: 'EditReport (Testing)', icon: 'pi pi-fw pi-ban', routerLink: ['report/editReport'] },
                 ]
             },
             {
-                label: 'Données', icon: 'pi pi-fw pi-compass', routerLink: ['/data'],visible: this._isUserConnected,
+                label: 'Données', icon: 'pi pi-fw pi-compass', routerLink: ['/data'], visible: this._isUserConnected,
                 items: [
-                    {label: 'Importer des données', icon: 'pi pi-fw pi-file-import', routerLink: ['data/importData']},
-                    {label: 'Mes données', icon: 'pi pi-fw pi-eye', routerLink: ['data/myData']},
-                    {label: 'Explorer les données', icon: 'pi pi-fw pi-list', routerLink: ['data/exploreData']},
+                    { label: 'Importer des données', icon: 'pi pi-fw pi-file-import', routerLink: ['data/importData'] },
+                    { label: 'Mes données', icon: 'pi pi-fw pi-eye', routerLink: ['data/myData'] },
+                    { label: 'Explorer les données', icon: 'pi pi-fw pi-list', routerLink: ['data/exploreData'] },
                 ]
             },
             {
-                label: 'Autres', icon: 'pi pi-fw pi-copy',visible: this._isUserConnected,
+                label: 'Autres', icon: 'pi pi-fw pi-copy', visible: this._isUserConnected,
                 items: [
-                    {label: 'Settings', icon: 'pi pi-fw pi-cog', routerLink: ['settings']},
+                    { label: 'Settings', icon: 'pi pi-fw pi-cog', routerLink: ['settings'] },
                 ]
             },
         ];
@@ -91,23 +82,30 @@ export class AppMenuComponent implements OnInit {
     ngOnInit(): void {
         this.setMenuItems();
         // const user: string | undefined = undefined;
-        // this._authService.$connectedUser.subscribe({
-        //     next: (user) => {
-        //         if (user.role === 'administrateur') {
-        //             this.isAdminConnected = true;
-        //             this.isUserConnected = true
-        //         }
-        //         if (user.role === 'utilisateur') {
-        //             this.isAdminConnected = false;
-        //             this.isUserConnected = true
-        //         }
-        //     }
-        // })
+        const storedUser: string | null = localStorage.getItem('apiToken');
 
-        // TODO A retirer au déploiment
+        if (storedUser) {
+            const decodedPayload: string = atob(storedUser.split('.')[1]);
+            const parsedPayload: any = JSON.parse(decodedPayload);
 
-        this.isUserConnected = true
-        this.isAdminConnected = true
 
-    }
-}
+
+            if (parsedPayload.role === 'ADMIN') {
+                this._isAdminConnected = true;
+                this._isUserConnected = true;
+
+                this.setMenuItems();
+            }
+            else if (parsedPayload.role === 'USER') {
+                this._isAdminConnected = false;
+                this._isUserConnected = true;
+
+                this.setMenuItems();
+            }
+            else {
+                this._isAdminConnected = false;
+                this._isUserConnected = false;
+
+                this.setMenuItems();
+            }
+        }}}

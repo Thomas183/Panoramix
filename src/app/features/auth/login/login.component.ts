@@ -3,7 +3,9 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/api/auth.service';
-import {User} from 'src/app/shared/models/user';
+import { DialogModule } from 'primeng/dialog';
+import { Password } from 'primeng/password';
+
 
 @Component({
     selector: 'app-login',
@@ -17,8 +19,7 @@ export class LoginComponent {
     ]
 
     loginForm: FormGroup;
-    notLogged: boolean = false
-    connectedUser: User | undefined;
+    
 
     constructor(private _fb: FormBuilder,
                 private _httpClient: HttpClient,
@@ -30,34 +31,19 @@ export class LoginComponent {
         });
     }
 
-    ngOnInit(): void {
-        const storedUser = localStorage.getItem('connectedUser');
-        this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-        this._authService.$connectedUser.subscribe({
-            next: (value) => {
-                this.connectedUser = value;
-                console.log(this.connectedUser)
-            },
-
-        })
-    }
-
     connect(): void {
         if (!this.loginForm.valid) {
-            console.log('pas valide')
-
+alert('Combinaison Email - Mot de passe incorrecte')
         } else {
+            const email = this.loginForm.get('email')?.value;
+            const password = this.loginForm.get('password')?.value;
 
-            this._authService.login(this.loginForm.value);
+            if (email && password) {
+                this._authService.login(email, password);
 
-        }
-    }
+            }}}
 
     disconnect() {
         this._authService.logout()
     }
-
-
 }
-
-

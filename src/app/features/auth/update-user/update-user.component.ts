@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/api/auth.service';
+import { UserFormPatch } from '@models/api/users';
+import { Password } from 'primeng/password';
 
 @Component({
   selector: 'app-update-user',
@@ -10,39 +12,38 @@ import { AuthService } from '../../../shared/services/api/auth.service';
 })
 export class UpdateUserComponent {
 
-  dropdownItems: Array<{ name: string }> = [
-    { name: 'utilisateur' },
-    { name: 'administrateur' }
+  // créations des choix pour le rôle
+  dropdownItems: Array<{ role: string }> = [
+    { role: 'USER' },
+    { role: 'ADMIN' }
   ];
 
   userForm: FormGroup;
-  userId: number;
-
+  userId: string;
+  
   constructor(private _fb: FormBuilder,
     private _authService: AuthService,
     private _router: Router,
     private _ActiveRoute: ActivatedRoute) {
+      
     this.userForm = this._fb.group({
-      firstname: [null, [Validators.required],],
-      lastname: [null, [Validators.required],],
+      firstName: [null, [Validators.required],],
+      lastName: [null, [Validators.required],],
       email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],],
-      // password: [null, [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).{5,}$/)],],
-      dateOfBirth: [null, [Validators.required, Validators.pattern(/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/)],],
-      role: ['utilisateur']
+      role: ['USER'],
+      isActivated : [true]
     });
-    this.userId = +this._ActiveRoute.snapshot.params['id'];
+    this.userId = this._ActiveRoute.snapshot.params['id'];
   }
-
 
   ngOnInit(): void {
     this._authService.getById(this.userId).subscribe({
       next: (user) => {
         this.userForm.patchValue({
-          firstname: user.firstname,
-          lastname: user.lastname,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
           email: user.email,
-          dateOfBirth: user.dateOfBirth,
-          role: user.role
         });
       },
       error: () => {
@@ -54,9 +55,8 @@ export class UpdateUserComponent {
   updateUser(): void {
     this._authService.update(this.userId, this.userForm.value).subscribe({
       complete: () => {
-        this._router.navigateByUrl('/auth/manageUsersc');
+        
       }
     });
-
   }
 }

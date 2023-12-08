@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from 'src/app/shared/models/user';
+import { User } from '@models/api/users';
 import { AuthService } from '@services/api/auth.service';
 import { ReportService } from '@services/api/report.service';
 import { Report } from '@models/api/report';
