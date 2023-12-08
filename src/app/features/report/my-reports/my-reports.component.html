@@ -1,8 +1,8 @@
-<h3>Liste de mes rapports</h3>
+<h3 class="centre">Liste de mes rapports</h3>
 
-<h4>Rapports non achevés</h4>
+<h4 class="centre">Rapports non achevés</h4>
 
-    <p-table autoLayout="true" [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table class="table" autoLayout="true" [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Nom du rapport</th>
@@ -22,9 +22,9 @@
         </ng-template>
     </p-table>
 
-<h4>Rapport achevés</h4>
+<h4 class="centre">Rapport achevés</h4>
 
-<p-table autoLayout="true" [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table class="table" autoLayout="true" [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
         <tr>
             <th>Nom du rapport</th>
@@ -34,7 +34,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-report>
-        <tr>
+        <tr id="tr">
             <td>{{ report.name }}</td>
             <td>{{ report.description }}</td>
             <td>{{ report.log.createdAt | date  }}</td>
