@@ -1,8 +1,8 @@
 <div id="chartForm">
     <input type="text" pInputText>
     <p-dropdown [options]="chartTypes" optionLabel="nom" [(ngModel)]="selectedChartType"></p-dropdown>
-    <p-dropdown placeholder="Axe 1" [options]="fields" optionLabel="name" (onChange)="handleDropDownChangeEvent(0, $event)"></p-dropdown>
-    <p-dropdown placeholder="Axe 2" [options]="fields" optionLabel="name" (onChange)="handleDropDownChangeEvent(1, $event)"></p-dropdown>
+    <p-dropdown placeholder="Axe 1" [options]="fields" optionLabel="dimFieldName" (onChange)="handleDropDownChangeEvent(0, $event)"></p-dropdown>
+    <p-dropdown placeholder="Axe 2" [options]="fields" optionLabel="dimFieldName" (onChange)="handleDropDownChangeEvent(1, $event)"></p-dropdown>
     <p-button (onClick)="createChart(selectedChartType.type)">Créer</p-button>
 
 </div>

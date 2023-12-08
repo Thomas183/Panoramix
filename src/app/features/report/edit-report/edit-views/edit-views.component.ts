@@ -4,16 +4,16 @@ import {ReportService} from "@services/api/report.service";
 import {SchemaTable, SchemaTableHeader} from "@models/api/schematic";
 import {EditReportService} from "@services/edit-report.service";
 import {ViewService} from "@services/api/view.service";
-import {forkJoin, map, Observable} from "rxjs";
+import {catchError, forkJoin, map, Observable, of} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {DropdownChangeEvent} from "primeng/dropdown";
-import {ViewForm} from "@models/api/view";
 
 interface FieldInfo {
     facTabletId: string;
     factheaderId: string;
     dimTableId: string;
     dimFieldId: string;
+    dimFieldName?: string
 }
 
 
@@ -24,7 +24,7 @@ interface FieldInfo {
 })
 export class EditViewsComponent implements OnInit {
 
-    fields: Array<FieldInfo>
+    fields: Array<{}>
 
     // Type de chart sélectionné au dropdown
     selectedChartType: { nom: string, type: string } = {
@@ -64,6 +64,22 @@ export class EditViewsComponent implements OnInit {
     }
 
     getFields() {
+        /*
+               -=====-                         -=====-
+                _..._                           _..._
+              .~     `~.                     .~`     ~.
+      ,_     /          }                   {          \     _,
+     ,_\'--, \   _.'`~~/                     \~~`'._   / ,--'/_,
+      \'--,_`{_,}    -(                       )-    {,_}`_,--'/
+       '.`-.`\;--,___.'_                     _'.___,--;/`.-`.'
+         '._`/    |_ _{@}                   {@}_ _|    \`_.'
+            /     ` |-';/           _       \;'-| `     \
+           /   \    /  |       _   {@}_      |  \    /   \
+          /     '--;_       _ {@}  _Y{@}        _;--'     \
+         _\          `\    {@}\Y/_{@} Y/      /`          /_
+        / |`-.___.    /    \Y/\|{@}Y/\|//     \    .___,-'| \
+       --`------'`--`^^^^^^^^^^^^^^^^^^^^^^^^^`--`'------`--`^^^^^^^
+        * */
         const foreignKeys = this.schematics
             .filter(schematic => schematic.fact)
             .flatMap(schematic =>
@@ -71,19 +87,36 @@ export class EditViewsComponent implements OnInit {
                     .filter(header => header.fk !== null)
                     .map(header => ({
                         facTabletId: schematic.id,
-                        factheaderId: header.id,
+                        factHeaderId: header.id,
                         dimTableId: header.fk.table,
                         dimFieldId: header.fk.field,
+                        dimFieldName: null,
                     }))
             );
 
-        console.log(this.fields)
-
-
+        forkJoin(
+            foreignKeys.map(foreignKey =>
+                this._tableService.getTable(foreignKey.dimTableId).pipe(
+                    catchError(() => of(null)), // Handle errors if needed
+                    map(table => table ? table.headers
+                        .filter(header => header.id !== foreignKey.dimFieldId) // Exclude the field matching dimFieldId
+                        .map(header => ({
+                            factTableId: foreignKey.facTabletId,
+                            factHeaderId: foreignKey.factHeaderId,
+                            dimTableId: foreignKey.dimTableId,
+                            dimFieldId: header.id,
+                            dimFieldName: header.name,
+                        })) : [])
+                )
+            )
+        ).subscribe(resultArray => {
+            const fieldData = resultArray.flat(); // Flatten the array of arrays
+            this.fields = fieldData;
+        });
     }
 
     handleDropDownChangeEvent(axisIndex: number, event: DropdownChangeEvent) {
-
+        console.log(event.value)
     }
 
     createChart(type: string) {
