@@ -30,7 +30,7 @@ export class ViewService {
             page: number,
             size: number,
             data: Array<View>
-        }>(`${this.baseUrl}/${projectId}/views`)
+        }>(`${this.baseUrl}/${projectId}/views`, {params: params})
     }
 
     createView(projectId: string, view: ViewForm): Observable<{ id: string }> {
@@ -50,7 +50,7 @@ export class ViewService {
     }
 
     getChartFromView(projectId: string, viewId: string): Observable<Chart>{
-        return this._httpClient.get<Chart>(`${this.baseUrl}/${projectId}/view/${viewId}/chart`)
+        return this._httpClient.get<Chart>(`${this.baseUrl}/${projectId}/views/${viewId}/chart`)
     }
 
     createChartData(projectId: string, chartForm: ViewForm): Observable<Chart>{

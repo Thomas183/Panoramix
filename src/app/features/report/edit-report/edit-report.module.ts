@@ -19,6 +19,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {MessagesModule} from "primeng/messages";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {RippleModule} from "primeng/ripple";
+import {ObserversModule} from "@angular/cdk/observers";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {RippleModule} from "primeng/ripple";
         CheckboxModule,
         MessagesModule,
         InputTextareaModule,
-        RippleModule
+        RippleModule,
+        ObserversModule
     ]
 })
 export class EditReportModule { }

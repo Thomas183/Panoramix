@@ -15,6 +15,7 @@
         *ngFor="let schematic of schematics"
         cdkDrag
         (cdkDragMoved)="recalculateLines()"
+        (cdkObserveContent)="recalculateLines()"
     >
         <div class="dot">
             <a (click)="handleTableClick(schematic.id)">+</a>

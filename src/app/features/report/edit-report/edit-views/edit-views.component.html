@@ -1,14 +1,27 @@
 <div id="chartForm">
     <input type="text" pInputText>
     <p-dropdown [options]="chartTypes" optionLabel="nom" [(ngModel)]="selectedChartType"></p-dropdown>
-    <p-dropdown placeholder="Axe 1" [options]="fields" optionLabel="dimFieldName" (onChange)="handleDropDownChangeEvent(0, $event)"></p-dropdown>
-    <p-dropdown placeholder="Axe 2" [options]="fields" optionLabel="dimFieldName" (onChange)="handleDropDownChangeEvent(1, $event)"></p-dropdown>
-    <p-button (onClick)="createChart(selectedChartType.type)">Créer</p-button>
+    <p-dropdown
+        placeholder="Données"
+        [options]="fields"
+        optionLabel="dimFieldName"
+        (onChange)="handleDropDownChangeEvent(false, $event)"
+    >
+    </p-dropdown>
+    <p-dropdown
+        placeholder="Champs"
+        [options]="fields"
+        optionLabel="dimFieldName"
+
+        (onChange)="handleDropDownChangeEvent(true, $event)"
+    >
+    </p-dropdown>
+
+    <p-button (onClick)="createChart()">Créer</p-button>
 
 </div>
 <div *ngFor="let chart of chartList">
-    <div>
-        <p-checkbox *ngFor="let header of chart.data.labels"></p-checkbox>
-        <p-chart [type]="chart.type" [data]="chart.data"></p-chart>
+    <div class="w-10 h-10 m-auto">
+        <p-chart [responsive]="true" [type]="chart.type.toLowerCase()" [data]="chart"></p-chart>
     </div>
 </div>

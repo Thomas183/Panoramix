@@ -60,8 +60,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         {severity: 'warn', summary: 'Erreur', detail: 'Echec de la mise à jour'}, // 5
         {severity: 'warn', summary: 'Attention', detail: 'Une table de fait ne peut pas avoir de primary Key'}, // 5
     ];
-    // Liste des messages affichés à l'écran
-    messagesToDisplay: Array<Message> = [];
+
 
 
     constructor(
@@ -70,7 +69,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         private _editReportService: EditReportService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dataService: DataService,
-        private _route: ActivatedRoute) {
+        ) {
     }
 
 
@@ -82,6 +81,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
             }
         })
         this.initializeSchematics();
+        this.recalculateLines();
     }
 
     ngAfterViewInit() {
@@ -299,6 +299,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
                 }
             }
         }
+
     }
 
 // Enregistre les modifications apportées au schémas

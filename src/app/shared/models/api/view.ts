@@ -23,9 +23,18 @@ export interface Chart {
     }>
 }
 
+export interface FullChart {
+    type: 'BAR' | 'RADAR' | 'PIE'
+    labels: Array<string>,
+    datasets: Array<{
+        label: string,
+        data: string,
+    }>
+}
+
 export interface ViewForm {
     chart: 'BAR' | 'RADAR' | 'PIE'
-    labels: {
+    label: {
         table: string,
         field: string,
     }

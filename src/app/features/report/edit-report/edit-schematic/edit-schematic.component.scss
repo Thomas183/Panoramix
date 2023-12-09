@@ -9,6 +9,7 @@ p-table {
     flex-wrap: wrap;
     align-items: center;
     font-weight: bolder;
+
     button {
         border-color: rgba(242, 242, 242, 0.22);
         border: 0.5px black dashed;
@@ -20,10 +21,16 @@ p-table {
 }
 
 .draggableArea {
+
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
+    align-items: center;
     height: 100%;
-    position: relative;
-    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    z-index: -1;
+    overflow-x: auto;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
@@ -31,14 +38,24 @@ p-table {
     }
 }
 
-.draggableArea {
+
+body {
+    z-index: 0
+}
+
+.layout-content0 {
+    z-index: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #tableContainer {
-    position: absolute;
+    padding: 0;
+    margin: 0;
     display: flex;
     width: fit-content;
     align-items: center;
+    justify-content: space-between;
     flex-direction: column-reverse;
 }
 

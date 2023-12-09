@@ -14,7 +14,7 @@ export class ReportService {
 
     }
 
-    reportId: number;
+    reportId: string;
     projectsUrl: string = environment.baseUrl + '/projects';
     projectUrl: string = environment.baseUrl + '/project';
 
