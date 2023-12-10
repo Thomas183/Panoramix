@@ -4,7 +4,7 @@ import {AuthService} from '@services/api/auth.service';
 import {ReportService} from '@services/api/report.service';
 import {Report} from '@models/api/report';
 import {Router, RouterModule} from '@angular/router';
-import {EditReportService} from "@services/edit-report.service";
+import {DisplayViewService} from "@services/displayView.service";
 
 @Component({
     selector: 'app-my-reports',
@@ -19,8 +19,7 @@ export class MyReportsComponent {
 
     constructor(private _authService: AuthService,
                 private _reportService: ReportService,
-                private _routeur: Router,
-                private _editReportService: EditReportService) {
+                private _routeur: Router) {
     }
 
     ngOnInit(): void {

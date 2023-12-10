@@ -11,7 +11,7 @@ import {forkJoin, map, Observable, of} from "rxjs";
 import {DropdownChangeEvent} from "primeng/dropdown";
 import {SchemaTable, SchemaTableForm, SchemaTableHeader} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
-import {EditReportService} from "@services/edit-report.service";
+import {DisplayViewService} from "@services/displayView.service";
 import {DataRow} from "@models/api/data";
 import {DataService} from "@services/api/data.service";
 import {ErrorForm} from "@models/api/error";
@@ -66,7 +66,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     constructor(
         private _reportService: ReportService,
         private _messageService: MessageService,
-        private _editReportService: EditReportService,
+        private _displayViewService: DisplayViewService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dataService: DataService,
         ) {
@@ -74,7 +74,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
 
 
     ngOnInit() {
-        this.reportId = this._editReportService.reportId
+        this.reportId = this._displayViewService.reportId
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (data) => {
 

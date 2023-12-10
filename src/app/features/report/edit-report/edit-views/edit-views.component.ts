@@ -9,7 +9,7 @@ import {
 import {FullChart, ViewForm} from "@models/api/view";
 import {ReportService} from "@services/api/report.service";
 import {SchemaTable} from "@models/api/schematic";
-import {EditReportService} from "@services/edit-report.service";
+import {DisplayViewService} from "@services/displayView.service";
 import {ViewService} from "@services/api/view.service";
 import {catchError, forkJoin, map, of} from "rxjs";
 import {TableService} from "@services/api/table.service";
@@ -69,14 +69,13 @@ export class EditViewsComponent implements OnInit {
     constructor(
         private _tableService: TableService,
         private _reportService: ReportService,
-        private _editReportService: EditReportService,
-        private _viewService: ViewService,
-        private _router: Router) {
+        private _displayViewService: DisplayViewService,
+        private _viewService: ViewService) {
     }
 
 
     ngOnInit() {
-        this.reportId = this._editReportService.reportId
+        this.reportId = this._displayViewService.reportId
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (schematics) => {
                 this.schematics = schematics;
@@ -85,7 +84,7 @@ export class EditViewsComponent implements OnInit {
                 this.getFields();
             }
         })
-        this._editReportService.displayedChart.subscribe({
+        this._displayViewService.displayedChart.subscribe({
             next: (chart) => {
                 this.displayedChart = chart;
             }
@@ -174,8 +173,8 @@ export class EditViewsComponent implements OnInit {
             chart.viewId !== viewId
         );
 
-        if (!this._editReportService.displayNextChart(this._editReportService.displayedChartIndex)) {
-            this._editReportService.displayPreviousChart(this._editReportService.displayedChartIndex)
+        if (!this._displayViewService.displayNextChart(this._displayViewService.displayedChartIndex)) {
+            this._displayViewService.displayPreviousChart(this._displayViewService.displayedChartIndex)
         }
         location.reload();
     }

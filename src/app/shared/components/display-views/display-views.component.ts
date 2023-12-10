@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FullChart} from "@models/api/view";
 import {PaginatorState} from "primeng/paginator";
-import {EditReportService} from "@services/edit-report.service";
+import {DisplayViewService} from "@services/displayView.service";
 
 @Component({
     selector: 'app-display-views',
@@ -21,14 +21,14 @@ export class DisplayViewsComponent implements OnInit {
     displayedChart: FullChart;
     chartCount: number = 0;
 
-    constructor(private _editReportService: EditReportService) {
+    constructor(private _displayViewService: DisplayViewService) {
     }
 
     ngOnInit() {
-        this._editReportService.displayedChart.subscribe({
+        this._displayViewService.displayedChart.subscribe({
             next: (chart) => {
                 this.displayedChart = chart;
-                this.chartCount = this._editReportService.chartList.length;
+                this.chartCount = this._displayViewService.chartList.length;
             }
         })
     }
@@ -38,7 +38,7 @@ export class DisplayViewsComponent implements OnInit {
         this.displayedChartIndex = event.page
         this.displayedChart = null
         setTimeout(() => {
-            this._editReportService.displayChart(this.displayedChartIndex);
+            this._displayViewService.displayChart(this.displayedChartIndex);
         }, 0)
     }
 }

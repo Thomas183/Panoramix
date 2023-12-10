@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EditReportService } from './edit-report.service';
+import { DisplayViewService } from './displayView.service';
 
 describe('EditReportService', () => {
-  let service: EditReportService;
+  let service: DisplayViewService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EditReportService);
+    service = TestBed.inject(DisplayViewService);
   });
 
   it('should be created', () => {

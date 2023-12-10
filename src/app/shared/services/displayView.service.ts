@@ -8,19 +8,14 @@ import {BehaviorSubject} from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
-export class EditReportService {
+export class DisplayViewService {
 
 
     chartList: Array<FullChart> = []
     private _displayedChart: BehaviorSubject<FullChart> = new BehaviorSubject<FullChart>(null)
     public displayedChart = this._displayedChart.asObservable();
     displayedChartIndex: number;
-
     reportId: string;
-
-
-
-    schematics: Array<SchemaTable> = [];
 
     chartColors = [
         '#FF6384', '#36A2EB', '#FFCE56',

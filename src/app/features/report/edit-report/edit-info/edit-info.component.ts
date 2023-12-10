@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ReportService} from "@services/api/report.service";
 import {Message, MessageService} from "primeng/api";
-import {EditReportService} from "@services/edit-report.service";
+import {DisplayViewService} from "@services/displayView.service";
 
 @Component({
     selector: 'app-edit-info',
@@ -18,17 +18,17 @@ export class EditInfoComponent implements OnInit {
     messages: Array<Message> = []
 
 
-    constructor(private _reportService: ReportService, private _messageService: MessageService, private _editReportService: EditReportService) {
+    constructor(private _displayViewService: ReportService, private _messageService: MessageService, private _editViewService: DisplayViewService) {
 
     }
 
     ngOnInit() {
-        this.reportId = this._editReportService.reportId;
+        this.reportId = this._editViewService.reportId;
         this.getReport();
     }
 
     updateReport(): void {
-        this._reportService.updateReport(this.reportId, this.reportTitle, this.reportDescription, this.isPublic).subscribe({
+        this._displayViewService.updateReport(this.reportId, this.reportTitle, this.reportDescription, this.isPublic).subscribe({
             next: () => {
                 this.displayMessage('Rapport modifié avec succès')
             }
@@ -44,7 +44,7 @@ export class EditInfoComponent implements OnInit {
     }
 
     getReport(): void {
-        this._reportService.getReport(this.reportId).subscribe({
+        this._displayViewService.getReport(this.reportId).subscribe({
             next: (report) => {
                 this.reportTitle = report.name;
                 this.reportDescription = report.description;
