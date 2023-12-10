@@ -8,6 +8,7 @@
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "scss"
+                    
                 }
             },
             "root": "",
@@ -135,4 +136,5 @@
     "cli": {
       "analytics": false
     }
+    
 }

@@ -11,6 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
 
 
 
@@ -30,7 +32,9 @@ import { ButtonModule } from 'primeng/button';
     InputTextModule,
     ListboxModule,
     TableModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule,
+    MessageModule
   ]
 })
 export class ReportModule { }

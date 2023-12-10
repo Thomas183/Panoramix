@@ -1,38 +1,21 @@
-// #headers{
-//     display: flex;
-//   }
-
-//   #fileList{
-//     display: flex;
-//     div{
-//       flex: 1 0 0;
-//       text-align: justify;
-//     }
-//   }
-
-// .table{
-//     display: flex;
-//     justify-content: space-around;
-//     text-align: center;
-//     width: 100%;
-//     tr{
-//         flex: 1 0 0;
-//     }
-// }
-
-// .centre{
-//     text-align: center;
-// }
 
 .title{
   text-align: center;
 }
 td{
   
-    /* Définissez une largeur fixe pour les colonnes */
-    width: 25%; /* Ajustez selon vos besoins */
+    width: 25%; 
     overflow: hidden;
-    text-overflow: ellipsis; /* Gère le texte qui dépasse la largeur */
     white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
-  
 }
+
+.btnMod{
+  display: flex;
+  align-items: center; /* Vertically centers the button */
+  height: 50px;
+}
+
+.btnMod1 {
+}
+
+

@@ -3,6 +3,7 @@
 
 <h4 class="centre">Rapports non achevés</h4>
 
+
     <p-table class="table" autoLayout="true" [value]="listReportsUnfinish" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
@@ -18,13 +19,14 @@
                 <td>{{ report.description }}</td>
                 <td>{{ report.log.createdAt | date }}</td>
 
-                <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
+                <div class="btnMod">
+                    <p-button class="btnMod1" label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
+                </div>
             </tr>
         </ng-template>
     </p-table>
 
 <h4 class="centre">Rapport achevés</h4>
-
 <p-table class="table" autoLayout="true" [value]="listReportsFinish" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
         <tr>
@@ -39,7 +41,10 @@
             <td>{{ report.name }}</td>
             <td>{{ report.description }}</td>
             <td>{{ report.log.createdAt | date  }}</td>
-            <p-button label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
+            <div class="btnMod">
+                <p-button class="btnMod1" label="Modifier" (click)="quoicoubeh(report.id)"></p-button>
+            </div>
+
         </tr>
     </ng-template>
 </p-table>

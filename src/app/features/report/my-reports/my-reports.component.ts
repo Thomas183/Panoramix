@@ -3,13 +3,14 @@ import {User} from '@models/api/users';
 import {AuthService} from '@services/api/auth.service';
 import {ReportService} from '@services/api/report.service';
 import {Report} from '@models/api/report';
-import {Router, RouterModule} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {EditReportService} from "@services/edit-report.service";
 
 @Component({
     selector: 'app-my-reports',
     templateUrl: './my-reports.component.html',
-    styleUrls: ['./my-reports.component.scss']
+    styleUrls: ['./my-reports.component.scss'],
+
 })
 export class MyReportsComponent {
     connectedUser: User | undefined;
@@ -20,7 +21,8 @@ export class MyReportsComponent {
     constructor(private _authService: AuthService,
                 private _reportService: ReportService,
                 private _routeur: Router,
-                private _editReportService: EditReportService) {
+                private _editReportService: EditReportService,
+                private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -53,8 +55,6 @@ export class MyReportsComponent {
     }
 
     quoicoubeh(id: string) {
-        console.log("les cramptés")
-        //quelle est la route pr renvoyer vers l'édition de ce rapport en particulier
         console.log(id);
         this._routeur.navigate(['/report/editReport', id]);
     }
