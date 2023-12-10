@@ -46,7 +46,6 @@ export class CreateReportComponent {
     //Création du report
     createReport() {
         if (this.registerForm.valid) {
-            console.log("form valide")
             //envoie du report en db avec réception de l'id
             this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
                 next: (Response) => {
@@ -63,7 +62,6 @@ export class CreateReportComponent {
             })
         } else {
             this.registerForm.markAllAsTouched();
-            console.log("form invalide")
         }
     }
 

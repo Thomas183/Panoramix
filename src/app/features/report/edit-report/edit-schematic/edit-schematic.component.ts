@@ -77,7 +77,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         this.reportId = this._editReportService.reportId
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (data) => {
-                console.log(data)
+
             }
         })
         this.initializeSchematics();
@@ -124,7 +124,6 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     }
 
     initializeSchematics(): void {
-        console.log(this.reportId)
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (schematics) => {
                 for (let schematic of schematics) {

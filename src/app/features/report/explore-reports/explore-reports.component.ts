@@ -32,7 +32,6 @@ export class ExploreReportsComponent {
 
 
     viewReport(reportId: string){
-        console.log('je pars')
         this._router.navigate(['/report/viewReport', reportId])
     }
 }

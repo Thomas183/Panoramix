@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { User, UserFormPatch } from '@models/api/users';
-import { Register } from '@models/register';
-import { UserLogin } from '@models/userLogin';
-import { environment } from 'src/environments/environment';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {User, UserFormPatch} from '@models/api/users';
+import {Register} from '@models/register';
+import {UserLogin} from '@models/userLogin';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +25,7 @@ export class AuthService {
     $connectedUser: Observable<User | undefined> = this._$connectedUser.asObservable();
 
     constructor(private _http: HttpClient,
-        private _router: Router) {
+                private _router: Router) {
     }
 
     getUser(): User | undefined {
@@ -38,31 +38,14 @@ export class AuthService {
                 next: response => {
                     this._router.navigate(['auth/manageUsers']);
                 },
-                error: error => {
-                },
                 complete: () => {
                     location.reload(); // rafraichit la page pour mettre à jour le menu
                 }
             })
     }
 
-    login(email: string, password: string): void {
-        this._http.post<{ token: string }>(`${this._baseUrl}/auth/sign-in`, { login: email, password: password }).subscribe({
-            next: response => {
-                localStorage.setItem('apiToken', response.token);
-                return response
-            },
-            error: error => {
-                alert('Cette combinaison Email - Mot de passe ne fonctionne pas')
-                return error
-            },
-            complete: () => {
-                this._router.navigate(['/dashboard'])
-                setTimeout(() => {
-                    location.reload()
-                }, 10);
-            }
-        });
+    login(email: string, password: string): Observable<{ token: string }> {
+        return this._http.post<{ token: string }>(`${this._baseUrl}/auth/sign-in`, {login: email, password: password})
     }
 
     logout() {
@@ -99,5 +82,13 @@ export class AuthService {
 
     delete(id: string): Observable<User> {
         return this._http.delete<User>(`${this._baseUrl}/users/` + id);
+    }
+
+    changePassword(password: string): Observable<null> {
+        return this._http.post<null>(`${this._baseUrl}/auth/change-password/${localStorage.getItem('apiToken').split(' ')[1]}`, {password: password})
+    }
+
+    recoverPassword(email: string): Observable<null> {
+        return this._http.post<null>(`${this._baseUrl}/auth/change-password`, {email: email})
     }
 }

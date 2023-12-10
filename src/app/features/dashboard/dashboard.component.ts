@@ -66,7 +66,6 @@ export class DashboardComponent implements OnInit {
 
         this._authService.$users.subscribe({
             next: (users) => {
-                console.log(users)
                 this.userCount = users.length
             }
         })

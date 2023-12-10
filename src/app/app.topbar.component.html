@@ -23,9 +23,9 @@
 
             <ul class="fadeInDown">
                 <li role="dashboard">
-                    <a href="#" (click)="appMain.onTopbarSubItemClick($event)">
+                    <a [routerLink]="['/auth/changePassword']" (click)="appMain.onTopbarSubItemClick($event)">
                         <i class="pi pi-user "></i>
-                        <span>Profile</span>
+                        <span>Profil</span>
                     </a>
                 </li>
                 <li role="menuitem">

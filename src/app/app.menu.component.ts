@@ -70,7 +70,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Autres', icon: 'pi pi-fw pi-copy', visible: this._isUserConnected,
                 items: [
-                    { label: 'Settings', icon: 'pi pi-fw pi-cog', routerLink: ['settings'] },
+                    { label: 'Paramètres', icon: 'pi pi-fw pi-cog', routerLink: ['settings'] },
                 ]
             },
         ];

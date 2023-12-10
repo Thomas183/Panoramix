@@ -45,6 +45,6 @@ export interface ViewForm {
     data?: {
         table: string,
         field: string,
-        pkValue? : string,
+        value? : string,
     }
 }

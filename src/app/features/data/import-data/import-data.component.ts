@@ -31,7 +31,6 @@ export class ImportDataComponent implements OnInit {
         this.selectedFile = file
         this.getFileInfo(file)
         this.parseCsv(file)
-        console.log(this.dataToUpload)
     }
 
     parseCsv(loadedFile: File) {
@@ -71,7 +70,6 @@ export class ImportDataComponent implements OnInit {
     logTables(){
         this._tableService.getTables(0, 1).subscribe({
             next: (tables) => {
-                console.log('Tables : ', tables)
             }
         })
     }
@@ -84,7 +82,6 @@ export class ImportDataComponent implements OnInit {
         for (let table of this.dataToUpload) {
             this._tableService.createTable({table: table.table.table, headers: table.table.headers}).subscribe({
                 next: (tableId) => {
-                    console.log(tableId)
                     this.addDataToTable(tableId.id, table.data)
                 },
                 complete: () => {

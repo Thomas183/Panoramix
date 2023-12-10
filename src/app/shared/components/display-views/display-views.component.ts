@@ -25,7 +25,6 @@ export class DisplayViewsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('chargé')
         this._editReportService.displayedChart.subscribe({
             next: (chart) => {
                 this.displayedChart = chart;

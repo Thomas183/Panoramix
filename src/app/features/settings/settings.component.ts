@@ -12,4 +12,7 @@ export class SettingsComponent {
 
   constructor(private _authService: AuthService) { }
 
+    logout(){
+      this._authService.logout();
+    }
 }

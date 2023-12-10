@@ -18,6 +18,7 @@ import {Chart as ChartJs, ChartItem} from "chart.js"
 import {PaginatorState} from "primeng/paginator";
 import {Chart} from '@models/api/view'
 import {UIChart} from "primeng/chart";
+import {Router} from "@angular/router";
 
 interface FieldInfo {
     factTableId: string;
@@ -69,7 +70,8 @@ export class EditViewsComponent implements OnInit {
         private _tableService: TableService,
         private _reportService: ReportService,
         private _editReportService: EditReportService,
-        private _viewService: ViewService,) {
+        private _viewService: ViewService,
+        private _router: Router) {
     }
 
 
@@ -142,7 +144,7 @@ export class EditViewsComponent implements OnInit {
         }
     }
 
-    createChart(pkValue: string | null = null) {
+    createChart(value: string | null = null) {
         const view: ViewForm = {
             chart: this.selectedChartType.type,
             label: {
@@ -157,8 +159,8 @@ export class EditViewsComponent implements OnInit {
         this._viewService.createView(this.reportId, view).subscribe({
             next: (viewId) => {
                 this._viewService.getChartFromView(this.reportId, viewId.id).subscribe({
-                    next: (chart: Chart) => {
-                        this.chartList.push({...chart, type: this.selectedChartType.type, viewId: viewId.id})
+                    complete: () => {
+                        location.reload();
                     }
                 })
             }
@@ -175,6 +177,6 @@ export class EditViewsComponent implements OnInit {
         if (!this._editReportService.displayNextChart(this._editReportService.displayedChartIndex)) {
             this._editReportService.displayPreviousChart(this._editReportService.displayedChartIndex)
         }
+        location.reload();
     }
-
 }
