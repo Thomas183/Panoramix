@@ -112,6 +112,7 @@ import { ExploreDataComponent } from './features/data/explore-data/explore-data.
 import { SettingsComponent } from './features/settings/settings.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
     imports: [
@@ -199,6 +200,7 @@ import { AuthTokenInterceptor } from './core/interceptors/auth-token.interceptor
         TreeModule,
         TreeTableModule,
         VirtualScrollerModule,
+        SharedModule,
     ],
     declarations: [
         AppComponent,

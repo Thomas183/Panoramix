@@ -341,8 +341,6 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
                 header.fk = null
             }
         }
-
-
     }
 
 }

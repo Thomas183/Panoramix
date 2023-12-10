@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
-import {User} from "@models/api/users";
+
 import {TableService} from "@services/api/table.service";
 import {ListboxChangeEvent} from "primeng/listbox";
 import {ReportService} from "@services/api/report.service";
-import {DataTable, Table} from '@models/api/table';
+import {DataTable} from '@models/api/table';
 import {Router} from '@angular/router';
-import {environment} from 'src/environments/environment';
 
 
 @Component({
@@ -17,12 +16,8 @@ import {environment} from 'src/environments/environment';
 })
 export class CreateReportComponent {
 
-    baseUrl = environment.baseUrl;
-    connectedUser: User | undefined;
-
     value: string;
     report: Report[] = [];
-    listTables: Array<DataTable>
 
     ngOnInit(): void {
         //Récupération des tables
@@ -31,7 +26,6 @@ export class CreateReportComponent {
                 this.items = value.data
             }
         });
-        const credentials = {login: 'Devs.PanoraMix@hotmail.com', password: 'admin'}
     }
 
     // Formulaire
@@ -57,13 +51,16 @@ export class CreateReportComponent {
             this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
                 next: (Response) => {
                     //rajout de chaque tables ds le projet avec idproject + idtable
-                    for (let table of this.items) {
-                        this._reportService.addTableToReport(Response.id, table.id).subscribe()
+                    for (let table of this.selectedItems) {
+                        this._reportService.addTableToReport(Response.id, table.id).subscribe({
+                            complete: () => {
+                                //Redirection vers "mes rapports"
+                                this._routeur.navigate(['/report/myReports']);
+                            }
+                        })
                     }
                 },
             })
-            //Redirection vers "mes rapports"
-            this._routeur.navigate(['/report/myReports']);
         } else {
             this.registerForm.markAllAsTouched();
             console.log("form invalide")

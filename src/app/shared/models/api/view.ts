@@ -19,16 +19,20 @@ export interface Chart {
     labels: Array<string>,
     datasets: Array<{
         label: string,
-        data: string,
+        data: number[],
     }>
 }
 
 export interface FullChart {
+    viewId: string
     type: 'BAR' | 'RADAR' | 'PIE'
     labels: Array<string>,
     datasets: Array<{
         label: string,
-        data: string,
+        data: number[],
+        backgroundColor? : string[],
+        borderColor?: string[],
+        borderWidth?: number,
     }>
 }
 

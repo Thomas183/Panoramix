@@ -20,6 +20,9 @@ import {MessagesModule} from "primeng/messages";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {RippleModule} from "primeng/ripple";
 import {ObserversModule} from "@angular/cdk/observers";
+import {PaginatorModule} from "primeng/paginator";
+import {SharedModule} from "../../../shared/shared.module";
+import {ReportModule} from "../report.module";
 
 
 @NgModule({
@@ -45,7 +48,10 @@ import {ObserversModule} from "@angular/cdk/observers";
         MessagesModule,
         InputTextareaModule,
         RippleModule,
-        ObserversModule
+        ObserversModule,
+        PaginatorModule,
+        SharedModule,
+        ReportModule
     ]
 })
 export class EditReportModule { }

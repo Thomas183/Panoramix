@@ -3,6 +3,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {EditReportService} from "@services/edit-report.service";
 import {HttpClient} from "@angular/common/http";
 import {ReportService} from "@services/api/report.service";
+import {first} from "rxjs";
 
 @Component({
     selector: 'app-edit-report',
@@ -26,7 +27,10 @@ export class EditReportComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this._route.params.subscribe(params => {
             this.reportId = params['id'];
-            this._editReportService.reportId = params['id'];
+            if (this.reportId){
+                this._editReportService.reportId = params['id'];
+                this._editReportService.getCharts();
+            }
         })
     }
 

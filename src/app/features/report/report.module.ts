@@ -11,26 +11,32 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-
-
+import { ViewReportComponent } from './view-report/view-report.component';
+import {PaginatorModule} from "primeng/paginator";
+import {ChartModule} from "primeng/chart";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
-  declarations: [
-      CreateReportComponent,
-      ExploreReportsComponent,
-      MyReportsComponent,
-  ],
-  imports: [
-    DragDropModule,
-    CommonModule,
-    ReportRoutingModule,
-    ReactiveFormsModule,
-    InputTextareaModule,
-    InputTextModule,
-    ListboxModule,
-    TableModule,
-    ButtonModule
-  ]
+    declarations: [
+        CreateReportComponent,
+        ExploreReportsComponent,
+        MyReportsComponent,
+        ViewReportComponent,
+    ],
+    imports: [
+        DragDropModule,
+        CommonModule,
+        ReportRoutingModule,
+        ReactiveFormsModule,
+        InputTextareaModule,
+        InputTextModule,
+        ListboxModule,
+        TableModule,
+        ButtonModule,
+        PaginatorModule,
+        ChartModule,
+        SharedModule
+    ]
 })
 export class ReportModule { }

@@ -1,13 +1,23 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Chart, FullChart} from "@models/api/view";
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+    ViewChildren
+} from '@angular/core';
+import {FullChart, ViewForm} from "@models/api/view";
 import {ReportService} from "@services/api/report.service";
-import {SchemaTable, SchemaTableHeader} from "@models/api/schematic";
+import {SchemaTable} from "@models/api/schematic";
 import {EditReportService} from "@services/edit-report.service";
 import {ViewService} from "@services/api/view.service";
-import {catchError, forkJoin, map, Observable, of} from "rxjs";
+import {catchError, forkJoin, map, of} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {DropdownChangeEvent} from "primeng/dropdown";
-import {ViewForm} from "@models/api/view";
+import {Chart as ChartJs, ChartItem} from "chart.js"
+import {PaginatorState} from "primeng/paginator";
+import {Chart} from '@models/api/view'
+import {UIChart} from "primeng/chart";
 
 interface FieldInfo {
     factTableId: string;
@@ -23,7 +33,8 @@ interface FieldInfo {
     styleUrls: ['./edit-views.component.scss']
 })
 export class EditViewsComponent implements OnInit {
-
+    @ViewChild('chart') chartObject: UIChart
+    @ViewChild('paginator') paginator: PaginatorState
     reportId: string;
     fields: Array<FieldInfo>
     selectedData: FieldInfo;
@@ -34,7 +45,12 @@ export class EditViewsComponent implements OnInit {
         nom: 'Batons', type: 'BAR',
     };
 
-
+    chartColors = [
+        '#FF6384', '#36A2EB', '#FFCE56',
+        '#4BC0C0', '#F77825', '#9966FF',
+        '#ADFF2F', '#FF4500', '#1E90FF',
+        '#FFD700', '#8B008B', '#00FA9A'
+    ];
 
     // Types de chart disponible au dropdown, nom correspond au nom d'affichage et type au type de chartJS
     chartTypes: Array<{ nom: string, type: 'BAR' | 'RADAR' | 'PIE' }> = [
@@ -45,6 +61,7 @@ export class EditViewsComponent implements OnInit {
 
     // Liste des charts générés
     chartList: Array<FullChart> = [];
+    displayedChart: FullChart;
 
     schematics: Array<SchemaTable>;
 
@@ -52,44 +69,29 @@ export class EditViewsComponent implements OnInit {
         private _tableService: TableService,
         private _reportService: ReportService,
         private _editReportService: EditReportService,
-        private _viewService: ViewService) {
+        private _viewService: ViewService,) {
     }
 
 
     ngOnInit() {
         this.reportId = this._editReportService.reportId
         this._reportService.getReportSchematics(this.reportId).subscribe({
-                next: (schematics) => {
-                    this.schematics = schematics;
-                },
-                complete: () => {
-                    this.getFields();
-                    this.getCharts();
-                }
+            next: (schematics) => {
+                this.schematics = schematics;
+            },
+            complete: () => {
+                this.getFields();
             }
-        )
-
+        })
+        this._editReportService.displayedChart.subscribe({
+            next: (chart) => {
+                this.displayedChart = chart;
+            }
+        })
     }
 
-    getFields() {
-        // Me demandez pas, ça me trouve ce que je veux et j'ai pas le temps, j'ai mis des anges pour être sur que ça fonctionne
-        /*
-               -=====-                         -=====-
-                _..._                           _..._
-              .~     `~.                     .~`     ~.
-      ,_     /          }                   {          \     _,
-     ,_\'--, \   _.'`~~/                     \~~`'._   / ,--'/_,
-      \'--,_`{_,}    -(                       )-    {,_}`_,--'/
-       '.`-.`\;--,___.'_                     _'.___,--;/`.-`.'
-         '._`/    |_ _{@}                   {@}_ _|    \`_.'
-            /     ` |-';/           _       \;'-| `     \
-           /   \    /  |       _   {@}_      |  \    /   \
-          /     '--;_       _ {@}  _Y{@}        _;--'     \
-         _\          `\    {@}\Y/_{@} Y/      /`          /_
-        / |`-.___.    /    \Y/\|{@}Y/\|//     \    .___,-'| \
-       --`------'`--`^^^^^^^^^^^^^^^^^^^^^^^^^`--`'------`--`^^^^^^^
-        * */
-        const foreignKeys = this.schematics
+    getForeignKeys() {
+        return this.schematics
             .filter(schematic => schematic.fact)
             .flatMap(schematic =>
                 schematic.headers
@@ -102,25 +104,32 @@ export class EditViewsComponent implements OnInit {
                         dimFieldName: null,
                     }))
             );
+    }
+
+    getFieldsFromTable(table, foreignKey) {
+        return table ? table.headers
+            .filter(header => header.id !== foreignKey.dimFieldId)
+            .map(header => ({
+                factTableId: foreignKey.facTabletId,
+                factHeaderId: foreignKey.factHeaderId,
+                dimTableId: foreignKey.dimTableId,
+                dimFieldId: header.id,
+                dimFieldName: header.name,
+            })) : [];
+    }
+
+    getFields() {
+        const foreignKeys = this.getForeignKeys();
 
         forkJoin(
             foreignKeys.map(foreignKey =>
                 this._tableService.getTable(foreignKey.dimTableId).pipe(
                     catchError(() => of(null)), // Handle errors if needed
-                    map(table => table ? table.headers
-                        .filter(header => header.id !== foreignKey.dimFieldId) // Exclude the field matching dimFieldId
-                        .map(header => ({
-                            factTableId: foreignKey.facTabletId,
-                            factHeaderId: foreignKey.factHeaderId,
-                            dimTableId: foreignKey.dimTableId,
-                            dimFieldId: header.id,
-                            dimFieldName: header.name,
-                        })) : [])
+                    map(table => this.getFieldsFromTable(table, foreignKey))
                 )
             )
         ).subscribe(resultArray => {
-            const fieldData = resultArray.flat(); // Flatten the array of arrays
-            this.fields = fieldData;
+            this.fields = resultArray.flat();
         });
     }
 
@@ -148,25 +157,24 @@ export class EditViewsComponent implements OnInit {
         this._viewService.createView(this.reportId, view).subscribe({
             next: (viewId) => {
                 this._viewService.getChartFromView(this.reportId, viewId.id).subscribe({
-                    next: (chart) => {
-                        this.chartList.push({...chart, type: this.selectedChartType.type})
+                    next: (chart: Chart) => {
+                        this.chartList.push({...chart, type: this.selectedChartType.type, viewId: viewId.id})
                     }
                 })
             }
         })
     }
 
-    getCharts(): void {
-        this._viewService.getViews(0, 10, this.reportId).subscribe({
-            next: (views) => {
-                for (let view of views.data) {
-                    this._viewService.getChartFromView(this.reportId, view.id).subscribe({
-                        next: (chart) => {
-                            this.chartList.push({...chart, type: view.chart})
-                        }
-                    })
-                }
-            }
-        })
+    deleteChart(viewId: string): void {
+        this._viewService.deleteView(this.reportId, viewId).subscribe()
+
+        this.chartList = this.chartList.filter(chart =>
+            chart.viewId !== viewId
+        );
+
+        if (!this._editReportService.displayNextChart(this._editReportService.displayedChartIndex)) {
+            this._editReportService.displayPreviousChart(this._editReportService.displayedChartIndex)
+        }
     }
+
 }

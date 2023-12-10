@@ -24,14 +24,6 @@ export class MyReportsComponent {
     }
 
     ngOnInit(): void {
-        const storedUser = localStorage.getItem('connectedUser');
-        this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-        this._authService.$connectedUser.subscribe({
-            next: (value) => {
-                this.connectedUser = value;
-                console.log(this.connectedUser)
-            },
-        })
 
         //obj : afficher les rapports et récupérer l'id qd on clique dessus
         //rajouter des pages et updater le numéro de la page pr afficher les autres dossiers
@@ -53,9 +45,8 @@ export class MyReportsComponent {
     }
 
     quoicoubeh(id: string) {
-        console.log("les cramptés")
-        //quelle est la route pr renvoyer vers l'édition de ce rapport en particulier
-        console.log(id);
         this._routeur.navigate(['/report/editReport', id]);
     }
+
+    protected readonly scroll = scroll;
 }

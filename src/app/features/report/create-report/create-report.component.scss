@@ -1,11 +1,29 @@
 .container {
     width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
 }
-  
-.column {
-    width: 48%;
-    box-sizing: border-box;
-    float: left;
+
+.form {
+    align-self: center;
+}
+
+#buttons{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+p-listbox{
+    width: 50%
+}
+
+h1{
+    text-align: center;
 }
 
 .flex-container {

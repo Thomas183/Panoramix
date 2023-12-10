@@ -58,14 +58,12 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-chart-bar',
                         routerLink: ['report/exploreReports']
                     },
-                    { label: 'EditReport (Testing)', icon: 'pi pi-fw pi-ban', routerLink: ['report/editReport'] },
                 ]
             },
             {
                 label: 'Données', icon: 'pi pi-fw pi-compass', routerLink: ['/data'], visible: this._isUserConnected,
                 items: [
                     { label: 'Importer des données', icon: 'pi pi-fw pi-file-import', routerLink: ['data/importData'] },
-                    { label: 'Mes données', icon: 'pi pi-fw pi-eye', routerLink: ['data/myData'] },
                     { label: 'Explorer les données', icon: 'pi pi-fw pi-list', routerLink: ['data/exploreData'] },
                 ]
             },

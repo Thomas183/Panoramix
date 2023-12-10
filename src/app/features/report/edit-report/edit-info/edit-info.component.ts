@@ -15,12 +15,10 @@ export class EditInfoComponent implements OnInit {
     reportTitle: string = '';
     reportDescription: string = '';
     isPublic: boolean = false;
-    fakeTitle: string = 'Titre chargé'
-    fakeDescription: string = 'Lorem ipsum dolor sit amet'
     messages: Array<Message> = []
 
 
-    constructor(private _reportService: ReportService, private _messageService: MessageService, private _editReportService : EditReportService) {
+    constructor(private _reportService: ReportService, private _messageService: MessageService, private _editReportService: EditReportService) {
 
     }
 
@@ -54,26 +52,4 @@ export class EditInfoComponent implements OnInit {
             }
         })
     }
-
-    createReport(): void {
-        this._reportService.createReport(this.fakeTitle, this.fakeDescription).subscribe({
-            next: (projectId) => {
-                console.log(projectId)
-            }
-        })
-    }
-
-    addTables() {
-        const ids = [
-            'AYxDcJEOvHOufPPFhI8jbg',
-            'AYxDcJEOvHOufPPFhI8jcQ',
-            'AYxDcJEOvHOufPPFhI8jcA',
-            'AYxDcJEOvHOufPPFhI8jcg',
-            'AYxDcJEOvHOufPPFhI8jbw',
-        ]
-        for (let id of ids){
-            this._reportService.addTableToReport(this._editReportService.reportId, id).subscribe()
-        }
-    }
-
 }

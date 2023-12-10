@@ -1,48 +1,38 @@
-import { Component } from '@angular/core';
-import { User } from '@models/api/users';
-import { AuthService } from '@services/api/auth.service';
-import { ReportService } from '@services/api/report.service';
-import { Report } from '@models/api/report';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {ReportService} from '@services/api/report.service';
+import {Report} from '@models/api/report';
+import {Router} from '@angular/router';
+import {log10} from "chart.js/helpers";
 
 @Component({
-  selector: 'app-explore-reports',
-  templateUrl: './explore-reports.component.html',
-  styleUrls: ['./explore-reports.component.scss']
+    selector: 'app-explore-reports',
+    templateUrl: './explore-reports.component.html',
+    styleUrls: ['./explore-reports.component.scss']
 })
 export class ExploreReportsComponent {
-  connectedUser : User | undefined;
-  listReports: Report[] =[];
+    reportList: Report[] = [];
 
-  constructor(private _authService: AuthService,
-              private _reportService : ReportService,
-              private _routeur : Router,
-    ) { }
-
-  ngOnInit() :void {
-      const storedUser = localStorage.getItem('connectedUser');
-      this.connectedUser = storedUser ? JSON.parse(storedUser) : null;
-      this._authService.$connectedUser.subscribe({
-        next : (value) => {
-          this.connectedUser = value;
-          console.log(this.connectedUser)
-        },
-      })
-
-      let page : number = 0;
-      let size : number = 30;
-
-      this._reportService.getReports(page, size).subscribe({
-        next:(johnCena) => {
-          this.listReports=johnCena.data
-        }
-      })
+    constructor(
+        private _reportService: ReportService,
+        private _router: Router,
+    ) {
     }
 
-    quoicoubeh(id:string) {
-      console.log("les cramptés")
-      //quelle est la route pr renvoyer vers l'édition de ce rapport en particulier
-      this._routeur.navigate(['/report/editReport']);
-      //TODO TOHMAS CHIEN RUE FAIS TON TRAVAIL
+    ngOnInit(): void {
+        this._reportService.getReports(0, 30).subscribe({
+            next: (reports) => {
+                for (let report of reports.data){
+                    if (report.isPublic){
+                        this.reportList.push(report)
+                    }
+                }
+            }
+        })
+    }
+
+
+    viewReport(reportId: string){
+        console.log('je pars')
+        this._router.navigate(['/report/viewReport', reportId])
     }
 }

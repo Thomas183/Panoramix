@@ -1,6 +1,4 @@
 <div id="chartForm">
-    <input type="text" pInputText>
-    <p-dropdown [options]="chartTypes" optionLabel="nom" [(ngModel)]="selectedChartType"></p-dropdown>
     <p-dropdown
         placeholder="Données"
         [options]="fields"
@@ -12,16 +10,12 @@
         placeholder="Champs"
         [options]="fields"
         optionLabel="dimFieldName"
-
         (onChange)="handleDropDownChangeEvent(true, $event)"
     >
     </p-dropdown>
-
-    <p-button (onClick)="createChart()">Créer</p-button>
-
+    <p-dropdown [options]="chartTypes" optionLabel="nom" [(ngModel)]="selectedChartType"></p-dropdown>
+    <p-button (onClick)="createChart()" label="Créer"></p-button>
+    <button pButton (click)="deleteChart(displayedChart.viewId)" *ngIf="displayedChart" label="Supprimer cette vue" class="p-button-danger"></button>
 </div>
-<div *ngFor="let chart of chartList">
-    <div class="w-10 h-10 m-auto">
-        <p-chart [responsive]="true" [type]="chart.type.toLowerCase()" [data]="chart"></p-chart>
-    </div>
-</div>
+
+<app-display-views></app-display-views>
