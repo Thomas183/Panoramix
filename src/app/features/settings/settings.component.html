@@ -2,7 +2,7 @@
     <h1>Paramètres :</h1>
     <p class="text-2xl">Compte :</p>
     <div class="flex flex-column w-2">
-        <button [routerLink]="['/auth/changePassword']" pButton label="Changer son mot de passe"></button>
+        <button [routerLink]="['/auth/changePassword', localStorage.getItem('apiToken').split(' ')[1]]" pButton label="Changer son mot de passe"></button>
         <button (click)="logout()" class="p-button-danger mt-3" pButton label="Se déconnecter"></button>
     </div>
 </div>

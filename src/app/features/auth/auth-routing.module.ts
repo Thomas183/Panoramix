@@ -21,15 +21,15 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent,
+        component: LoginComponent
+    },
+    {
+        path: 'changePassword/:token',
+        component: ChangePasswordComponent
     },
     {
         path: 'recoverPassword',
-        component: RecoverPasswordComponent,
-    },
-    {
-        path: 'changePassword',
-        component: ChangePasswordComponent, canActivate: [connectedGuard]
+        component: RecoverPasswordComponent
     },
     {
         path: 'updateUser/:id',
@@ -38,7 +38,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    imports: [
+        RouterModule.forChild(routes)
+    ],
     exports: [RouterModule]
 })
 export class AuthRoutingModule {

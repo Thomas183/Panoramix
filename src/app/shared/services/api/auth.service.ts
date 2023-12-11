@@ -84,8 +84,8 @@ export class AuthService {
         return this._http.delete<User>(`${this._baseUrl}/users/` + id);
     }
 
-    changePassword(password: string): Observable<null> {
-        return this._http.post<null>(`${this._baseUrl}/auth/change-password/${localStorage.getItem('apiToken').split(' ')[1]}`, {password: password})
+    changePassword(password: string, token: string): Observable<null> {
+        return this._http.post<null>(`${this._baseUrl}/auth/change-password/${token}`, {password: password})
     }
 
     recoverPassword(email: string): Observable<null> {

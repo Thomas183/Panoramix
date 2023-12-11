@@ -217,7 +217,6 @@ import {SharedModule} from "./shared/shared.module";
         DashboardComponent,
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
         { provide : HTTP_INTERCEPTORS, useClass : AuthTokenInterceptor, multi : true},
         MenuService, BreadcrumbService
     ],

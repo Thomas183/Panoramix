@@ -15,7 +15,7 @@ import { AppMainComponent } from './app.main.component';
             <div *ngIf="root && item.visible !== false">
                 <span class="layout-menuitem-text">{{item.label}}</span>
             </div>
-            <a [attr.href]="item.url" (click)="itemClick($event)" *ngIf="(!item.routerLink || item.items) && item.visible !== false"
+            <a [routerLink]="[item.url]" (click)="itemClick($event)" *ngIf="(!item.routerLink || item.items) && item.visible !== false"
                (mouseenter)="onMouseEnter()" (keydown.enter)="itemClick($event)" [ngClass]="item.class" pRipple
                [attr.target]="item.target" [attr.tabindex]="!visible ? '-1' : 0">
                 <i class="layout-menuitem-icon" [ngClass]="item.icon"></i>

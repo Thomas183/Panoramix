@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
                     this.getViewCount(report.id).pipe(
                         map(viewCount => ({
                             ...report,
-                            viewCount: viewCount.toString()
+                            viewCount: viewCount
                         }))
                     )
                 );

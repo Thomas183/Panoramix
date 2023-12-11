@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "@services/api/auth.service";
 import {Message, MessageService} from "primeng/api";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-change-password',
@@ -9,7 +10,8 @@ import {Message, MessageService} from "primeng/api";
     styleUrls: ['./change-password.component.scss'],
     providers: [MessageService],
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnInit {
+    token: string;
 
     changePasswordForm: FormGroup
 
@@ -19,11 +21,23 @@ export class ChangePasswordComponent {
         {severity: 'warn', summary: 'Attention', detail: "Les mots de passes ne sont pas identiques"}, // 2
     ];
 
-    constructor(private _fb: FormBuilder, private _authService: AuthService, private _messageService: MessageService) {
+    constructor(
+        private _fb: FormBuilder,
+        private _authService: AuthService,
+        private _messageService: MessageService,
+        private _activatedRoute: ActivatedRoute,
+        private _router: Router,
+    ) {
         this.changePasswordForm = this._fb.group({
             password: [null, Validators.required],
             confirmPassword: [null, Validators.required]
         });
+    }
+
+    ngOnInit() {
+        this._activatedRoute.params.subscribe(params => {
+            this.token = params['token'];
+        })
     }
 
     changePassword(): void {
@@ -39,9 +53,12 @@ export class ChangePasswordComponent {
             return;
         }
 
-        this._authService.changePassword(confirmPassword).subscribe({
+        this._authService.changePassword(confirmPassword, this.token).subscribe({
             next: () => {
                 this.displayMessage(1)
+                setTimeout(() => {
+                    this._router.navigate(['auth/login']);
+                }, 2000)
             },
             error: () => {
                 this.displayMessage(0);

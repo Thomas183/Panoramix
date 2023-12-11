@@ -15,4 +15,6 @@ export class SettingsComponent {
     logout(){
       this._authService.logout();
     }
+
+    protected readonly localStorage = localStorage;
 }
