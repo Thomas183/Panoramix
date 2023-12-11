@@ -29,6 +29,7 @@ export class DisplayViewService {
     }
 
     getCharts(): void {
+        this.chartList = [];
         this._viewService.getViews(0, 100, this.reportId).subscribe({
             next: (views) => {
                 for (let view of views.data) {

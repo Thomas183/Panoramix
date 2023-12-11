@@ -7,6 +7,7 @@
     >
     </p-dropdown>
     <p-dropdown
+        *ngIf="selectedChartType.type !== 'PIE'"
         placeholder="Champs"
         [options]="fields"
         optionLabel="dimFieldName"

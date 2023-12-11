@@ -33,7 +33,6 @@ export class DisplayViewsComponent implements OnInit {
         })
     }
 
-
     onPageChange(event: PaginatorState): void {
         this.displayedChartIndex = event.page
         this.displayedChart = null

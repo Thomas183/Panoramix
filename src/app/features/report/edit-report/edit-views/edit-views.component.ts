@@ -1,11 +1,4 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    OnInit,
-    ViewChild,
-    ViewChildren
-} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FullChart, ViewForm} from "@models/api/view";
 import {ReportService} from "@services/api/report.service";
 import {SchemaTable} from "@models/api/schematic";
@@ -14,11 +7,8 @@ import {ViewService} from "@services/api/view.service";
 import {catchError, forkJoin, map, of} from "rxjs";
 import {TableService} from "@services/api/table.service";
 import {DropdownChangeEvent} from "primeng/dropdown";
-import {Chart as ChartJs, ChartItem} from "chart.js"
 import {PaginatorState} from "primeng/paginator";
-import {Chart} from '@models/api/view'
 import {UIChart} from "primeng/chart";
-import {Router} from "@angular/router";
 
 interface FieldInfo {
     factTableId: string;
@@ -45,13 +35,6 @@ export class EditViewsComponent implements OnInit {
     selectedChartType: { nom: string, type: 'BAR' | 'RADAR' | 'PIE' } = {
         nom: 'Batons', type: 'BAR',
     };
-
-    chartColors = [
-        '#FF6384', '#36A2EB', '#FFCE56',
-        '#4BC0C0', '#F77825', '#9966FF',
-        '#ADFF2F', '#FF4500', '#1E90FF',
-        '#FFD700', '#8B008B', '#00FA9A'
-    ];
 
     // Types de chart disponible au dropdown, nom correspond au nom d'affichage et type au type de chartJS
     chartTypes: Array<{ nom: string, type: 'BAR' | 'RADAR' | 'PIE' }> = [
@@ -144,16 +127,30 @@ export class EditViewsComponent implements OnInit {
     }
 
     createChart(value: string | null = null) {
-        const view: ViewForm = {
-            chart: this.selectedChartType.type,
-            label: {
-                table: this.selectedLabel.dimTableId,
-                field: this.selectedLabel.dimFieldId
-            },
-            data: {
+        let data: { table: string, field: string } = null
+        let label: {table: string, field: string} = null
+
+        if (this.selectedChartType.type === 'PIE') {
+            data = null
+            label = {
+                field: this.selectedData.dimFieldId,
+                table: this.selectedData.dimTableId
+            }
+        } else {
+            data = {
                 table: this.selectedData.dimTableId,
                 field: this.selectedData.dimFieldId,
+            };
+            label = {
+                field : this.selectedLabel.dimFieldId,
+                table: this.selectedLabel.dimTableId,
             }
+        }
+
+        const view: ViewForm = {
+            chart: this.selectedChartType.type,
+            label: label,
+            data: data
         }
         this._viewService.createView(this.reportId, view).subscribe({
             next: (viewId) => {
