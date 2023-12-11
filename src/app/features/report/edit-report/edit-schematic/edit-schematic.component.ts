@@ -1,5 +1,5 @@
 import {
-    AfterViewInit, ChangeDetectorRef,
+    ChangeDetectorRef,
     Component,
     OnDestroy, OnInit,
     QueryList,
@@ -9,15 +9,13 @@ import {Table as pTable} from "primeng/table";
 import {Message, MessageService} from "primeng/api";
 import {forkJoin, map, Observable, of, Subscription} from "rxjs";
 import {DropdownChangeEvent} from "primeng/dropdown";
-import {SchemaTable, SchemaTableForm, SchemaTableHeader} from "@models/api/schematic";
-import {ReportService} from "@services/api/report.service";
-import {DisplayViewService} from "@services/displayView.service";
+import {SchemaTable, SchemaTableHeader} from "@models/api/schematic";
 import {DataRow} from "@models/api/data";
 import {DataService} from "@services/api/data.service";
 import {ErrorForm} from "@models/api/error";
 import {CheckboxChangeEvent} from "primeng/checkbox";
-import {ActivatedRoute} from "@angular/router";
 import {DisplaySchematicService} from "@services/display-schematic.service";
+import {DataTable} from "@models/api/table";
 
 
 declare var LeaderLine: any;
@@ -65,7 +63,6 @@ export class EditSchematicComponent implements OnDestroy, OnInit {
 
 
     constructor(
-        private _reportService: ReportService,
         private _messageService: MessageService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dataService: DataService,
@@ -321,5 +318,4 @@ export class EditSchematicComponent implements OnDestroy, OnInit {
             }
         }
     }
-
 }

@@ -3,6 +3,8 @@ import {SchemaTable, SchemaTableForm} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {ErrorForm} from "@models/api/error";
+import {TableService} from "@services/api/table.service";
+import {DataTable} from "@models/api/table";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +16,7 @@ export class DisplaySchematicService {
     private _schematics: BehaviorSubject<SchemaTable[]> = new BehaviorSubject([]);
     public schematics: Observable<SchemaTable[]> = this._schematics.asObservable();
 
-    constructor(private _reportService: ReportService) {
+    constructor(private _reportService: ReportService, private _tableService: TableService) {
     }
 
     initializeSchematics(): void {

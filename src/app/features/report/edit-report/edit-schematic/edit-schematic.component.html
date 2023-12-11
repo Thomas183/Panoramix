@@ -4,7 +4,7 @@
     Liens :
     <tr *ngFor="let link of tableLinks">
         <td>
-            <button (click)="deleteLine(link)">{{link.dimensionTableId}} > {{link.factTableId}}</button>
+            <button (click)="deleteLine(link)">{{getSchematicByTableId(link.dimensionTableId).table}} > {{getSchematicByTableId(link.factTableId).table}}</button>
         </td>
     </tr>
 </div>
@@ -31,7 +31,6 @@
             [columns]="schematic.headers"
             class="p-datatable-sm p-4"
         >
-
             <ng-template pTemplate="header">
                 <tr class="tableHeader">
                     <th *ngFor="let header of schematic.headers">
@@ -59,7 +58,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div>Id : {{schematic.id}}</div>
+                <div>Nom : {{schematic.table}}</div>
                 <p-checkbox
                     [binary]="true"
                     [(ngModel)]="schematic.fact"

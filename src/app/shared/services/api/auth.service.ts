@@ -32,6 +32,10 @@ export class AuthService {
         return this.user
     }
 
+    getLoggedUser(): Observable<User>{
+        return this._http.get<User>(`${this._baseUrl}/auth/profile`)
+    }
+
     create(register: Register): void {
         this._http.post(`${this._baseUrl}/users`, register)
             .subscribe({

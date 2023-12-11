@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/api/auth.service';
@@ -14,11 +14,7 @@ import {Message, MessageService} from "primeng/api";
     styleUrls: ['./login.component.scss'],
     providers: [MessageService]
 })
-export class LoginComponent {
-    dropdownItems: Array<string> = [
-        'Utilisateur',
-        'Admin'
-    ]
+export class LoginComponent implements OnInit{
 
     loginForm: FormGroup;
     messages: Array<Message> = [
@@ -37,6 +33,17 @@ export class LoginComponent {
             email: [null, Validators.required],
             password: [null, Validators.required]
         });
+    }
+
+    ngOnInit() {
+        this._authService.getLoggedUser().subscribe({
+            next: () => {
+                this._router.navigate(['/dashboard']);
+            },
+            error: (err) => {
+
+            }
+        })
     }
 
     connect(): void {

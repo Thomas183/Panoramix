@@ -33,11 +33,17 @@ const routes: Routes = [
                 component: DashboardComponent, canActivate : [connectedGuard]
             },
             {
-                path : "notfound",
-                component : AppNotfoundComponent },
-            {
                 path: 'denied',
                 component: AppAccessdeniedComponent
+            },
+            {
+                path: '',
+                redirectTo:'/auth/login',
+                pathMatch: "full",
+            },
+            {
+                path : "**",
+                component : AppNotfoundComponent
             },
         ]
     },
