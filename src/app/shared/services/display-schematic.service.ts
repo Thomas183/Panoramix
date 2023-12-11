@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {SchemaTable} from "@models/api/schematic";
+import {SchemaTable, SchemaTableForm} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
 import {BehaviorSubject, Observable} from "rxjs";
+import {ErrorForm} from "@models/api/error";
 
 @Injectable({
     providedIn: 'root'
@@ -21,13 +22,24 @@ export class DisplaySchematicService {
         this._reportService.getReportSchematics(this.reportId).subscribe({
             next: (schematics) => {
                 this._schematics.next(schematics)
-                //TODO this._changeDetectorRef.detectChanges();
-                // this.tableElementArray = this.tableRefArray.toArray();
-                // this.populateDataMap().subscribe();
-            },
-            complete: () => {
-                //this.getLinks();
             }
         })
+    }
+
+    saveSchematics(schematics: SchemaTable[]): Observable<null> {
+        const schematicForm: Array<SchemaTableForm> = [];
+
+        for (let schematic of schematics) {
+            schematicForm.push({
+                id: schematic.id,
+                fact: schematic.fact,
+                headers: schematic.headers,
+                coord: {
+                    x: 0,
+                    y: 0,
+                }
+            })
+        }
+        return this._reportService.editSchematic(this.reportId, schematicForm)
     }
 }

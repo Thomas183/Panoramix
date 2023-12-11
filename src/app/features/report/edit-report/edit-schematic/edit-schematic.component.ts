@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Table as pTable} from "primeng/table";
 import {Message, MessageService} from "primeng/api";
-import {forkJoin, map, Observable, of} from "rxjs";
+import {forkJoin, map, Observable, of, Subscription} from "rxjs";
 import {DropdownChangeEvent} from "primeng/dropdown";
 import {SchemaTable, SchemaTableForm, SchemaTableHeader} from "@models/api/schematic";
 import {ReportService} from "@services/api/report.service";
@@ -17,6 +17,7 @@ import {DataService} from "@services/api/data.service";
 import {ErrorForm} from "@models/api/error";
 import {CheckboxChangeEvent} from "primeng/checkbox";
 import {ActivatedRoute} from "@angular/router";
+import {DisplaySchematicService} from "@services/display-schematic.service";
 
 
 declare var LeaderLine: any;
@@ -34,13 +35,14 @@ interface TableLink {
     providers: [MessageService],
 })
 
-export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit {
+export class EditSchematicComponent implements OnDestroy, OnInit {
 
     // Récupération des références des tableaux
     @ViewChildren('tableRef') tableRefArray: QueryList<pTable>;
     tableElementArray: Array<pTable> = [];
-    rowsToDisplays: number = 4;
+    rowsToDisplay: number = 4;
     // Data for the primeNg Table to display
+    dataMapSubscription : Subscription;
     dataMap: { [schematicId: string]: DataRow[] } = {};
     // ID of the report
     reportId: string;
@@ -62,29 +64,28 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     ];
 
 
-
     constructor(
         private _reportService: ReportService,
         private _messageService: MessageService,
-        private _displayViewService: DisplayViewService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dataService: DataService,
-        ) {
+        private _displaySchematicService: DisplaySchematicService,
+    ) {
     }
 
 
     ngOnInit() {
-        this.reportId = this._displayViewService.reportId
-        this._reportService.getReportSchematics(this.reportId).subscribe({
-            next: (data) => {
-
+        this.reportId = this._displaySchematicService.reportId
+        this._displaySchematicService.schematics.subscribe({
+            next: (schematics) => {
+                this.schematics = schematics;
+                this.recalculateLines();
+                this._changeDetectorRef.detectChanges();
+                this.tableElementArray = this.tableRefArray.toArray();
+                this.dataMapSubscription = this.populateDataMap().subscribe();
+                this.getLinks();
             }
         })
-        this.initializeSchematics();
-        this.recalculateLines();
-    }
-
-    ngAfterViewInit() {
 
     }
 
@@ -93,7 +94,7 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
     }
 
     getSchematicCellData(tableId: string): Observable<DataRow[]> {
-        return this._dataService.getTableData(tableId, 0, this.rowsToDisplays).pipe(
+        return this._dataService.getTableData(tableId, 0, this.rowsToDisplay).pipe(
             map(response => response.data.map(item => item.values)));
     }
 
@@ -114,6 +115,14 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         );
     }
 
+    refreshDataMap(){
+        if (this.rowsToDisplay < 0 || this.rowsToDisplay === null || this.rowsToDisplay === undefined){
+            this.rowsToDisplay = 1;
+        }
+        this.dataMapSubscription.unsubscribe();
+        this.dataMapSubscription = this.populateDataMap().subscribe();
+    }
+
 
 // Fonction pour afficher un popup à l'écran
     displayMessage(id: number): void {
@@ -121,22 +130,6 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         setTimeout(() => {
             this._messageService.clear();
         }, 3500);
-    }
-
-    initializeSchematics(): void {
-        this._reportService.getReportSchematics(this.reportId).subscribe({
-            next: (schematics) => {
-                for (let schematic of schematics) {
-                    this.schematics.push(schematic);
-                    this._changeDetectorRef.detectChanges();
-                    this.tableElementArray = this.tableRefArray.toArray();
-                    this.populateDataMap().subscribe();
-                }
-            },
-            complete: () => {
-                this.getLinks();
-            }
-        })
     }
 
     getTableElementIndexById(id: string): number {
@@ -229,19 +222,20 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
         headerId: string,
         headerName: string
     }>> {
-        const headersInfo: Array<{ tableId: string, headerId: string, headerName: string }> = [];
-        headersInfo.push({tableId: '0', headerId: '0', headerName: 'Vide'})
-        this.tableLinks.forEach(link => {
-            if (link.factTableId === factTableId) {
+        const headersInfo = this.tableLinks
+            .filter(link => link.factTableId === factTableId)
+            .flatMap(link => {
                 const headers = this.getSchematicByTableId(link.dimensionTableId).headers;
-                for (let header of headers) {
-                    if (header.pk) {
-                        headersInfo.push({tableId: link.dimensionTableId, headerId: header.id, headerName: header.name})
-                    }
-                }
-            }
-        })
-        return of(headersInfo);
+                return headers
+                    .filter(header => header.pk)
+                    .map(header => ({
+                        tableId: link.dimensionTableId,
+                        headerId: header.id,
+                        headerName: header.name
+                    }));
+            });
+
+        return of([{tableId: '0', headerId: '0', headerName: 'Vide'}, ...headersInfo]);
     }
 
     deleteLine(tableLink: TableLink) {
@@ -303,31 +297,17 @@ export class EditSchematicComponent implements AfterViewInit, OnDestroy, OnInit 
 
 // Enregistre les modifications apportées au schémas
     saveSchematics() {
-        const schematicForm: Array<SchemaTableForm> = [];
-
-        for (let schematic of this.schematics) {
-            schematicForm.push({
-                id: schematic.id,
-                fact: schematic.fact,
-                headers: schematic.headers,
-                coord: {
-                    x: 0,
-                    y: 0,
-                }
-            })
-        }
-        this._reportService.editSchematic(this.reportId, schematicForm).subscribe({
+        this._displaySchematicService.saveSchematics(this.schematics).subscribe({
             next: () => {
                 this.displayMessage(4);
             },
-            error: (error) => {
-                console.log(error as ErrorForm)
+            error: (error: ErrorForm) => {
+                console.log(error)
                 this.displayMessage(5);
             }
         })
     }
 
-// Set all headers to not be a primary key
     removePrimaryKeysFromSchematic(id: string, event: CheckboxChangeEvent) {
         const schematic: SchemaTable = this.getSchematicByTableId(id)
         if (!event.checked) {

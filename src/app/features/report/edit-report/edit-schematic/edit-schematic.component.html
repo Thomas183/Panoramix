@@ -8,6 +8,10 @@
         </td>
     </tr>
 </div>
+<label class="pr-1" for="rows">Lignes de données à afficher :</label>
+<p-inputNumber id="rows" placeholder="Lignes de données" [(ngModel)]="rowsToDisplay"></p-inputNumber>
+<p-button (onClick)="refreshDataMap()" label="Actualiser"></p-button>
+
 
 <div class="draggableArea" (scroll)="recalculateLines()">
     <div
