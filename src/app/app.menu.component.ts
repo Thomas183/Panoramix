@@ -32,6 +32,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Utilisateurs',
                 icon: 'pi pi-fw pi-star-fill',
                 routerLink: ['/auth'],
+                // visible: this._isAdminConnected,
                 visible: this._isAdminConnected,
                 items: [
                     { label: 'Créer un utilisateur', icon: 'pi pi-fw pi-id-card', routerLink: ['auth/createUser'] },

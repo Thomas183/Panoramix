@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Type} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
 
@@ -7,12 +7,17 @@ import {ListboxChangeEvent} from "primeng/listbox";
 import {ReportService} from "@services/api/report.service";
 import {DataTable} from '@models/api/table';
 import {Router} from '@angular/router';
+import {environment} from 'src/environments/environment';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 
 
 @Component({
     selector: 'app-create-report',
     templateUrl: './create-report.component.html',
-    styleUrls: ['./create-report.component.scss']
+    styleUrls: ['./create-report.component.scss'],
+    providers: [MessageService]
 })
 export class CreateReportComponent {
 
@@ -35,7 +40,10 @@ export class CreateReportComponent {
         private _fb: FormBuilder,
         private _tableService: TableService,
         private _reportService: ReportService,
-        private _routeur: Router) {
+        private _routeur: Router,
+        private _messager : MessageService,
+        )
+         {
         this.registerForm = this._fb.group({
             name: [null, Validators.required,],
             description: [null, Validators.required],
@@ -54,7 +62,10 @@ export class CreateReportComponent {
                         this._reportService.addTableToReport(Response.id, table.id).subscribe({
                             complete: () => {
                                 //Redirection vers "mes rapports"
-                                this._routeur.navigate(['/report/myReports']);
+                                this._messager.add({severity: 'success', summary: 'Success', detail: 'Rapport créé !, redirection' });
+                                setTimeout(() => {
+                                    this._routeur.navigate(['/report/myReports']);
+                                }, 2000)
                             }
                         })
                     }
