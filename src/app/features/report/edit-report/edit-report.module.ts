@@ -23,6 +23,7 @@ import {ObserversModule} from "@angular/cdk/observers";
 import {PaginatorModule} from "primeng/paginator";
 import {SharedModule} from "../../../shared/shared.module";
 import {ReportModule} from "../report.module";
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {ReportModule} from "../report.module";
         ObserversModule,
         PaginatorModule,
         SharedModule,
-        ReportModule
+        ReportModule,
+        ToastModule
     ]
 })
 export class EditReportModule { }

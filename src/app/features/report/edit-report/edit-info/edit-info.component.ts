@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ReportService} from "@services/api/report.service";
 import {Message, MessageService} from "primeng/api";
 import {DisplayViewService} from "@services/displayView.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-edit-info',
@@ -11,14 +12,23 @@ import {DisplayViewService} from "@services/displayView.service";
 })
 export class EditInfoComponent implements OnInit {
 
+    confirmVisible: boolean;
+
     reportId: string;
     reportTitle: string = '';
     reportDescription: string = '';
     isPublic: boolean = false;
-    messages: Array<Message> = []
+    messages: Array<Message> = [
+        {summary: 'Rapport modifié avec succès', severity: 'success'},
+        {summary: 'Rapport supprimé avec succès', severity: 'success'}
+    ]
 
 
-    constructor(private _displayViewService: ReportService, private _messageService: MessageService, private _editViewService: DisplayViewService) {
+    constructor(
+        private _reportService: ReportService,
+        private _messageService: MessageService,
+        private _editViewService: DisplayViewService,
+        private _router: Router) {
 
     }
 
@@ -28,23 +38,53 @@ export class EditInfoComponent implements OnInit {
     }
 
     updateReport(): void {
-        this._displayViewService.updateReport(this.reportId, this.reportTitle, this.reportDescription, this.isPublic).subscribe({
+        this._reportService.updateReport(this.reportId, this.reportTitle, this.reportDescription, this.isPublic).subscribe({
             next: () => {
-                this.displayMessage('Rapport modifié avec succès')
+                this.displayMessage(0)
             }
         })
     }
 
-    displayMessage(message: string) {
-        this._messageService.add({summary: message, severity: 'success'})
+    showConfirm() {
+        if (!this.confirmVisible) {
+            this._messageService.add({ key: 'confirm', sticky: true, severity: 'warn', summary: 'Supprimer le projet ?'});
+            this.confirmVisible = true;
+        }
+    }
 
+    onConfirm() {
+        this._messageService.clear('confirm');
+        this.confirmVisible = false;
+        this.deleteReport();
+    }
+
+    onReject() {
+        this._messageService.clear('confirm');
+        this.confirmVisible = false;
+    }
+
+    deleteReport() {
+        this._reportService.deleteReport(this.reportId).subscribe({
+            next: () => {
+              this.displayMessage(1)
+            },
+            complete: () => {
+                setTimeout(() => {
+                    this._router.navigate(['dashboard'])
+                }, 2000)
+            }
+        })
+    }
+
+    displayMessage(message: number) {
+        this._messageService.add(this.messages[message])
         setTimeout(() => {
             this._messageService.clear()
         }, 3500)
     }
 
     getReport(): void {
-        this._displayViewService.getReport(this.reportId).subscribe({
+        this._reportService.getReport(this.reportId).subscribe({
             next: (report) => {
                 this.reportTitle = report.name;
                 this.reportDescription = report.description;

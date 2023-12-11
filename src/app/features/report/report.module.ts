@@ -15,6 +15,7 @@ import { ViewReportComponent } from './view-report/view-report.component';
 import {PaginatorModule} from "primeng/paginator";
 import {ChartModule} from "primeng/chart";
 import {SharedModule} from "../../shared/shared.module";
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {SharedModule} from "../../shared/shared.module";
         ButtonModule,
         PaginatorModule,
         ChartModule,
-        SharedModule
+        SharedModule,
+        ToastModule
     ]
 })
 export class ReportModule { }
