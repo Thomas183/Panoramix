@@ -1,47 +1,33 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { User } from '@models/api/users';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AuthService } from '@services/api/auth.service';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {User} from '@models/api/users';
+import {AuthService} from '@services/api/auth.service';
+import {Implement} from "@angular/cli/lib/config/workspace-schema";
 
 @Component({
-  selector: 'app-manage-users',
-  templateUrl: './manage-users.component.html',
-  styleUrls: ['./manage-users.component.scss']
+    selector: 'app-manage-users',
+    templateUrl: './manage-users.component.html',
+    styleUrls: ['./manage-users.component.scss']
 })
 
-export class ManageUsersComponent {
+export class ManageUsersComponent implements OnInit  {
 
+    connectedUser: User
+    users: Array<User>
 
-  $users: Observable<User[]>;
-  connectedUser: User | undefined;
-  loaded: boolean;
+    constructor(private _httpClient: HttpClient,
+                private _authService: AuthService) {
+    }
 
-  constructor(private _httpClient: HttpClient,
-    private _auth: AuthService) { }
+    ngOnInit(): void {
+        this._authService.getConnectedUser().subscribe({
+            next: (user) => {
+                this.connectedUser = user
+            }
+        })
+    }
 
-  ngOnInit(): void {
-    const storedUser: string | null = localStorage.getItem('apiToken');
-    this.loaded = false;
-    this._auth.$connectedUser.subscribe({
-      next: (value) => {
-        this.connectedUser = value;
-        this.$users = this._auth.$users
-        this._auth.getAll();
-      },
-    })
-    this.loaded = true;
-  }
-
-  delete(id: string) {
-    this._auth.delete(id).subscribe({
-      complete: () => {
-        this.$users = this._auth.$users
-        this._auth.getAll();
-      },
-    });
-  }
+    delete(id: string) {
+        this._authService.delete(id).subscribe();
+    }
 }

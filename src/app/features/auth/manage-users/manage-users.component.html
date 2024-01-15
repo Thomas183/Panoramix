@@ -1,8 +1,8 @@
-<div *ngIf="loaded" class="w-1-2">
+<div class="w-1-2">
     <h3>Liste des utilisateurs</h3>
-    <p *ngIf="connectedUser">hello {{connectedUser.firstname}}</p>
+    <p *ngIf="connectedUser">hello {{connectedUser.firstName}}</p>
 
-    <p-table [value]="$users|async" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Nom</th>

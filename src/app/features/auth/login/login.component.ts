@@ -1,10 +1,7 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/api/auth.service';
-import {DialogModule} from 'primeng/dialog';
-import {Password} from 'primeng/password';
 import {Message, MessageService} from "primeng/api";
 
 
@@ -14,7 +11,7 @@ import {Message, MessageService} from "primeng/api";
     styleUrls: ['./login.component.scss'],
     providers: [MessageService]
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
     messages: Array<Message> = [
@@ -36,42 +33,34 @@ export class LoginComponent implements OnInit{
     }
 
     ngOnInit() {
-        this._authService.getLoggedUser().subscribe({
+        this._authService.getConnectedUser().subscribe({
             next: () => {
                 this._router.navigate(['/dashboard']);
-            },
-            error: (err) => {
-
             }
         })
     }
 
-    connect(): void {
+    login(): void {
         if (!this.loginForm.valid) {
             this.displayMessage(0)
             return
         }
-        const email = this.loginForm.get('email')?.value;
-        const password = this.loginForm.get('password')?.value;
+        const email = this.loginForm.get('email').value;
+        const password = this.loginForm.get('password').value;
 
-        if (email && password) {
-            this._authService.login(email, password).subscribe({
-                next: response => {
-                    localStorage.setItem('apiToken', response.token);
-                    return
-                },
-                error: error => {
-                    this.displayMessage(0)
-                    return
-                },
-                complete: () => {
-                    this._router.navigate(['/dashboard'])
-                    setTimeout(() => {
-                        location.reload()
-                    }, 10);
-                }
-            });
-        }
+        this._authService.login(email, password).subscribe({
+            next: response => {
+                localStorage.setItem('apiToken', response.token);
+                return
+            },
+            error: error => {
+                this.displayMessage(0)
+                return
+            },
+            complete: () => {
+                this._router.navigate(['/dashboard'])
+            }
+        });
     }
 
     displayMessage(message: number) {

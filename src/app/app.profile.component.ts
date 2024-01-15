@@ -33,10 +33,10 @@ export class AppProfileComponent {
 
     active: boolean;
     connectedUser : User | undefined
-    
+
 
     constructor(public appMain: AppMainComponent,
-        private _auth : AuthService) { }
+        private _authService : AuthService) { }
 
     onClick(event) {
         this.appMain.onInlineMenuClick(event);
@@ -46,13 +46,18 @@ export class AppProfileComponent {
 
 
     ngOnInit(): void {
-        
-        this._auth.$connectedUser.subscribe({
-          next : (value) => {
-            this.connectedUser = value;
-            this._auth.getById(value.id);
-            
-          },
+        this._authService.getConnectedUser().subscribe({
+            next: (user) => {
+                this.connectedUser = user
+            }
         })
+
+        // this.authService.$connectedUser.subscribe({
+        //   next : (value) => {
+        //     this.connectedUser = value;
+        //     this._authService.getById(value.id);
+        //
+        //   },
+        // })
       }
 }

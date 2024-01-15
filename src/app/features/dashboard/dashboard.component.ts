@@ -64,9 +64,9 @@ export class DashboardComponent implements OnInit {
             }
         })
 
-        this._authService.$users.subscribe({
+        this._authService.getUsers(0, 1000).subscribe({
             next: (users) => {
-                this.userCount = users.length
+                this.userCount = users.data.length
             }
         })
     }

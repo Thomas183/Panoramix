@@ -20,12 +20,12 @@ export class UpdateUserComponent {
 
   userForm: FormGroup;
   userId: string;
-  
+
   constructor(private _fb: FormBuilder,
     private _authService: AuthService,
     private _router: Router,
     private _ActiveRoute: ActivatedRoute) {
-      
+
     this.userForm = this._fb.group({
       firstName: [null, [Validators.required],],
       lastName: [null, [Validators.required],],
@@ -53,9 +53,9 @@ export class UpdateUserComponent {
   }
 
   updateUser(): void {
-    this._authService.update(this.userId, this.userForm.value).subscribe({
+    this._authService.updateUser(this.userId, this.userForm.value).subscribe({
       complete: () => {
-        
+
       }
     });
   }
