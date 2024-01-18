@@ -40,8 +40,18 @@ export class CreateUserComponent {
             return
         }
 
-        this._authService.createUser(this.registerForm.value);
-        this._router.navigate(['/auth/manageUsers']);
+        this._authService.createUser(this.registerForm.value).subscribe({
+            next: () => {
+
+            },
+            error: () => {
+                console.log('Erreur création user')
+            },
+            complete: () => {
+                this._router.navigate(['/auth/manageUsers']);
+            }
+        });
+
 
 
 

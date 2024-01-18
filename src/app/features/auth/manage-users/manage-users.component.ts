@@ -15,14 +15,19 @@ export class ManageUsersComponent implements OnInit  {
     connectedUser: User
     users: Array<User>
 
-    constructor(private _httpClient: HttpClient,
-                private _authService: AuthService) {
+    constructor(private _authService: AuthService) {
     }
 
     ngOnInit(): void {
         this._authService.getConnectedUser().subscribe({
             next: (user) => {
                 this.connectedUser = user
+            }
+        })
+
+        this._authService.getUsers(0, 1000).subscribe({
+            next : (users) => {
+                this.users = users.data
             }
         })
     }

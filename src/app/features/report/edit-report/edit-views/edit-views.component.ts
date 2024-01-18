@@ -108,7 +108,7 @@ export class EditViewsComponent implements OnInit {
         forkJoin(
             foreignKeys.map(foreignKey =>
                 this._tableService.getTable(foreignKey.dimTableId).pipe(
-                    catchError(() => of(null)), // Handle errors if needed
+                    catchError(() => of(null)),
                     map(table => this.getFieldsFromTable(table, foreignKey))
                 )
             )

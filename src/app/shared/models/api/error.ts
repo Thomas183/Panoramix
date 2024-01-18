@@ -1,5 +1,3 @@
-import {n} from "@fullcalendar/core/internal-common";
-
 export interface ErrorForm {
     status: number,
     path: string,

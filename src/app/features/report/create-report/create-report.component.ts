@@ -1,4 +1,4 @@
-import {Component, Type} from '@angular/core';
+import {Component, OnInit, Type} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Report} from '@models/api/report';
 
@@ -9,7 +9,7 @@ import {DataTable} from '@models/api/table';
 import {Router} from '@angular/router';
 import {environment} from 'src/environments/environment';
 import {ToastModule} from 'primeng/toast';
-import {MessageService} from 'primeng/api';
+import {Message, MessageService} from 'primeng/api';
 
 
 @Component({
@@ -18,16 +18,21 @@ import {MessageService} from 'primeng/api';
     styleUrls: ['./create-report.component.scss'],
     providers: [MessageService]
 })
-export class CreateReportComponent {
+export class CreateReportComponent implements OnInit {
 
-    value: string;
-    report: Report[] = [];
+    selectedTables: Array<DataTable> = [];
+    tableList: Array<DataTable>;
+
+    messages: Array<Message> = [
+        {severity: 'success', summary: 'Succès', detail: 'Rapport créé !, redirection'}, // 0
+        {severity: 'warning', summary: 'Attention', detail: 'Formulaire invalide'} // 1
+    ]
 
     ngOnInit(): void {
         //Récupération des tables
-        this._tableService.getTables(0, 100).subscribe({
+        this._tableService.getTables(0, 1000).subscribe({
             next: (value) => {
-                this.items = value.data
+                this.tableList = value.data
             }
         });
     }
@@ -39,8 +44,8 @@ export class CreateReportComponent {
         private _fb: FormBuilder,
         private _tableService: TableService,
         private _reportService: ReportService,
-        private _routeur: Router,
-        private _messager: MessageService,
+        private _router: Router,
+        private _messageService: MessageService,
     ) {
         this.registerForm = this._fb.group({
             name: [null, Validators.required,],
@@ -51,44 +56,50 @@ export class CreateReportComponent {
 
     //Création du report
     createReport() {
-        if (this.registerForm.valid) {
-            //envoie du report en db avec réception de l'id
-            this._reportService.createReport(this.registerForm.get('name')?.value, this.registerForm.get('description')?.value).subscribe({
-                next: (Response) => {
-                    let messageDisplayed: boolean = false;
-                    //rajout de chaque tables ds le projet avec idproject + idtable
-                    for (let table of this.selectedItems) {
-                        if (!messageDisplayed) {
-                            this._messager.add({
-                                severity: 'success',
-                                summary: 'Success',
-                                detail: 'Rapport créé !, redirection'
-                            });
-                        }
-                        messageDisplayed = true
-                        this._reportService.addTableToReport(Response.id, table.id).subscribe({
-                            complete: () => {
-                                //Redirection vers "mes rapports"
-                                setTimeout(() => {
-                                    this._routeur.navigate(['/report/myReports']);
-                                }, 2000)
-                            }
-                        })
-                    }
-                },
-            })
-        } else {
+        if (!this.registerForm.valid) {
+            this.displayMessage(1)
             this.registerForm.markAllAsTouched();
+            return
         }
+
+        //Récupération des données du formulaire
+        const ReportName: string = this.registerForm.get('name').value
+        const ReportDescription: string = this.registerForm.get('description').value
+
+        //Envoi du rapport
+        this._reportService.createReport(ReportName, ReportDescription).subscribe({
+            next: (report) => {
+                this.addSelectedTablesToReport(report.id)
+            },
+        })
     }
 
-    // Tableau fichiers
-    //items un array de table{}
-    items: Array<DataTable>;
-    selectedItems!: any[];
-
     onChange(event: ListboxChangeEvent) {
-        this.selectedItems = []
-        this.selectedItems = event.value
+        this.selectedTables = []
+        this.selectedTables = event.value
+    }
+
+    addSelectedTablesToReport(reportId: string) {
+        this.selectedTables.forEach((table, index) => {
+            this._reportService.addTableToReport(reportId, table.id).subscribe({
+                complete: () => {
+                    if (index === this.selectedTables.length-1) {
+                        //Redirection vers "mes rapports"
+                        this.displayMessage(0);
+                        setTimeout(() => {
+                            this._router.navigate(['/report/myReports']);
+                        }, 2000)
+                    }
+                }
+            })
+        })
+    }
+
+    displayMessage(message: number) {
+        this._messageService.add(this.messages[message])
+
+        setTimeout(() => {
+            this._messageService.clear()
+        }, 2000)
     }
 }
