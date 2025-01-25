@@ -1,3 +1,7 @@
+# Context
+
+Project realized as part of the "Playzone" at Technobel, with the help of two colleagues on this front end of the project.
+
 # PrimeNG Babylon
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
